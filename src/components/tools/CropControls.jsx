@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 const PRESETS = [
   { label: 'Free', ratio: null },
@@ -9,21 +9,20 @@ const PRESETS = [
   { label: '9:16', ratio: 9 / 16 }
 ];
 
-export default function CropControls({ originalWidth, originalHeight, onChange }) {
-  const [activePreset, setActivePreset] = useState('Free');
-  const [cropBox, setCropBox] = useState({
-    x: 0,
-    y: 0,
-    width: originalWidth,
-    height: originalHeight
-  });
-
+export default function CropControls({
+  originalWidth,
+  originalHeight,
+  cropBox = { x: 0, y: 0, width: originalWidth, height: originalHeight },
+  activePreset = 'Free',
+  onChange
+}) {
   const applyPreset = (preset) => {
-    setActivePreset(preset.label);
     if (!preset.ratio) {
-      const full = { x: 0, y: 0, width: originalWidth, height: originalHeight };
-      setCropBox(full);
-      onChange(full);
+      onChange({
+        ...cropBox,
+        aspectRatio: null,
+        activePreset: 'Free'
+      });
       return;
     }
 
@@ -41,16 +40,45 @@ export default function CropControls({ originalWidth, originalHeight, onChange }
     const newX = Math.round((originalWidth - newW) / 2);
     const newY = Math.round((originalHeight - newH) / 2);
 
-    const updated = { x: newX, y: newY, width: newW, height: newH };
-    setCropBox(updated);
-    onChange(updated);
+    onChange({
+      x: newX,
+      y: newY,
+      width: newW,
+      height: newH,
+      aspectRatio: preset.ratio,
+      activePreset: preset.label
+    });
   };
 
   const handleBoxChange = (key, val) => {
     const num = Math.max(0, parseInt(val, 10) || 0);
     const updated = { ...cropBox, [key]: num };
-    setCropBox(updated);
-    onChange(updated);
+    if (key === 'width') {
+      updated.width = Math.min(originalWidth - cropBox.x, Math.max(20, num));
+    } else if (key === 'height') {
+      updated.height = Math.min(originalHeight - cropBox.y, Math.max(20, num));
+    } else if (key === 'x') {
+      updated.x = Math.min(originalWidth - cropBox.width, num);
+    } else if (key === 'y') {
+      updated.y = Math.min(originalHeight - cropBox.height, num);
+    }
+
+    onChange({
+      ...updated,
+      aspectRatio: null,
+      activePreset: 'Free'
+    });
+  };
+
+  const handleReset = () => {
+    onChange({
+      x: 0,
+      y: 0,
+      width: originalWidth,
+      height: originalHeight,
+      aspectRatio: null,
+      activePreset: 'Free'
+    });
   };
 
   return (
@@ -77,7 +105,7 @@ export default function CropControls({ originalWidth, originalHeight, onChange }
           <input
             type="number"
             className="control-input mono"
-            value={cropBox.width}
+            value={Math.round(cropBox.width)}
             max={originalWidth}
             onChange={(e) => handleBoxChange('width', e.target.value)}
           />
@@ -87,7 +115,7 @@ export default function CropControls({ originalWidth, originalHeight, onChange }
           <input
             type="number"
             className="control-input mono"
-            value={cropBox.height}
+            value={Math.round(cropBox.height)}
             max={originalHeight}
             onChange={(e) => handleBoxChange('height', e.target.value)}
           />
@@ -100,7 +128,7 @@ export default function CropControls({ originalWidth, originalHeight, onChange }
           <input
             type="number"
             className="control-input mono"
-            value={cropBox.x}
+            value={Math.round(cropBox.x)}
             max={originalWidth - cropBox.width}
             onChange={(e) => handleBoxChange('x', e.target.value)}
           />
@@ -110,7 +138,7 @@ export default function CropControls({ originalWidth, originalHeight, onChange }
           <input
             type="number"
             className="control-input mono"
-            value={cropBox.y}
+            value={Math.round(cropBox.y)}
             max={originalHeight - cropBox.height}
             onChange={(e) => handleBoxChange('y', e.target.value)}
           />
@@ -120,7 +148,7 @@ export default function CropControls({ originalWidth, originalHeight, onChange }
       <button
         type="button"
         className="button-secondary"
-        onClick={() => applyPreset(PRESETS[0])}
+        onClick={handleReset}
       >
         Reset crop
       </button>

@@ -47,6 +47,8 @@ import MetadataControls from './tools/MetadataControls';
 import WatermarkControls from './tools/WatermarkControls';
 import AdjustControls from './tools/AdjustControls';
 import BottomDropzone from './BottomDropzone';
+import InteractiveCircleCrop from './InteractiveCircleCrop';
+import InteractiveRectCrop from './InteractiveRectCrop';
 
 const WORKSPACE_TOOLS = [
   { id: 'resize', name: 'Resize', desc: 'Change image dimensions', icon: Maximize2 },
@@ -325,15 +327,47 @@ export default function Workspace({ imageData, initialTool = 'resize', onBack, o
               </div>
             )}
             <div className="preview-canvas-viewport">
-              <img
-                src={previewSrc}
-                alt="Preview"
-                className={`main-preview-img ${viewMode === 'fill' ? 'is-fill' : ''}`}
-                style={{
-                  transform: `scale(${zoomLevel})`,
-                  transformOrigin: 'center center'
-                }}
-              />
+              {activeTool === 'circle' && !showOriginal ? (
+                <InteractiveCircleCrop
+                  imageSrc={imageData.dataUrl}
+                  naturalWidth={imageData.width}
+                  naturalHeight={imageData.height}
+                  cropState={{
+                    centerX: toolParams.centerX ?? Math.round(imageData.width / 2),
+                    centerY: toolParams.centerY ?? Math.round(imageData.height / 2),
+                    radius: toolParams.radius ?? Math.round(Math.min(imageData.width, imageData.height) / 2)
+                  }}
+                  onChange={(newCrop) => setToolParams((prev) => ({ ...prev, ...newCrop }))}
+                  zoomLevel={zoomLevel}
+                  showOriginal={showOriginal}
+                />
+              ) : activeTool === 'crop' && !showOriginal ? (
+                <InteractiveRectCrop
+                  imageSrc={imageData.dataUrl}
+                  naturalWidth={imageData.width}
+                  naturalHeight={imageData.height}
+                  cropBox={{
+                    x: toolParams.x ?? 0,
+                    y: toolParams.y ?? 0,
+                    width: toolParams.width ?? imageData.width,
+                    height: toolParams.height ?? imageData.height
+                  }}
+                  aspectRatio={toolParams.aspectRatio ?? null}
+                  onChange={(newBox) => setToolParams((prev) => ({ ...prev, ...newBox }))}
+                  zoomLevel={zoomLevel}
+                  showOriginal={showOriginal}
+                />
+              ) : (
+                <img
+                  src={previewSrc}
+                  alt="Preview"
+                  className={`main-preview-img ${viewMode === 'fill' ? 'is-fill' : ''}`}
+                  style={{
+                    transform: `scale(${zoomLevel})`,
+                    transformOrigin: 'center center'
+                  }}
+                />
+              )}
             </div>
           </div>
 
@@ -430,7 +464,14 @@ export default function Workspace({ imageData, initialTool = 'resize', onBack, o
               <CropControls
                 originalWidth={imageData.width}
                 originalHeight={imageData.height}
-                onChange={setToolParams}
+                cropBox={{
+                  x: toolParams.x ?? 0,
+                  y: toolParams.y ?? 0,
+                  width: toolParams.width ?? imageData.width,
+                  height: toolParams.height ?? imageData.height
+                }}
+                activePreset={toolParams.activePreset ?? 'Free'}
+                onChange={(newBox) => setToolParams((prev) => ({ ...prev, ...newBox }))}
               />
             )}
 
@@ -450,7 +491,13 @@ export default function Workspace({ imageData, initialTool = 'resize', onBack, o
               <CircleCropControls
                 originalWidth={imageData.width}
                 originalHeight={imageData.height}
-                onChange={setToolParams}
+                cropState={{
+                  centerX: toolParams.centerX ?? Math.round(imageData.width / 2),
+                  centerY: toolParams.centerY ?? Math.round(imageData.height / 2),
+                  radius: toolParams.radius ?? Math.round(Math.min(imageData.width, imageData.height) / 2),
+                  zoom: toolParams.zoom ?? 1
+                }}
+                onChange={(newCrop) => setToolParams((prev) => ({ ...prev, ...newCrop }))}
               />
             )}
 
