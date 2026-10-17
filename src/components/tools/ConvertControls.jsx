@@ -14,10 +14,10 @@ export default function ConvertControls({ onChange }) {
   }, [format, quality, bgColor]);
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
+    <div className="tool-controls-flow">
       <div className="control-group">
-        <label className="control-label">Target format</label>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 'var(--space-2)' }}>
+        <label className="input-header-label">Target format</label>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px' }}>
           {[
             { id: 'image/png', label: 'PNG' },
             { id: 'image/jpeg', label: 'JPEG' },
@@ -27,6 +27,7 @@ export default function ConvertControls({ onChange }) {
               key={fmt.id}
               type="button"
               className={`pill-btn ${format === fmt.id ? 'is-active' : ''}`}
+              style={{ height: '38px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
               onClick={() => setFormat(fmt.id)}
             >
               {fmt.label}
@@ -37,7 +38,7 @@ export default function ConvertControls({ onChange }) {
 
       {format !== 'image/png' && (
         <div className="control-group">
-          <label className="control-label">
+          <label className="input-header-label">
             <span>Encoding quality</span>
             <span className="mono" style={{ color: 'var(--color-accent)', fontWeight: 600 }}>
               {quality}%
@@ -55,28 +56,28 @@ export default function ConvertControls({ onChange }) {
 
       {format === 'image/jpeg' && (
         <div className="control-group">
-          <label className="control-label">
+          <label className="input-header-label">
             <span>Background fill (for transparent PNG)</span>
           </label>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             <input
               type="color"
               value={bgColor}
               onChange={(e) => setBgColor(e.target.value)}
               style={{
-                width: '32px',
-                height: '32px',
+                width: '36px',
+                height: '36px',
                 border: '1px solid var(--color-border)',
                 borderRadius: 'var(--radius-sm)',
                 cursor: 'pointer',
                 background: 'transparent'
               }}
             />
-            <span className="mono" style={{ fontSize: '0.8125rem', color: 'var(--color-text)' }}>
+            <span className="mono" style={{ fontSize: '0.8125rem', color: 'var(--color-text)', fontWeight: 500 }}>
               {bgColor.toUpperCase()}
             </span>
           </div>
-          <span style={{ fontSize: '0.75rem', color: 'var(--color-text-secondary)' }}>
+          <span style={{ fontSize: '0.75rem', color: 'var(--color-text-secondary)', marginTop: '2px' }}>
             JPEG does not support transparency; transparent areas are filled with this color.
           </span>
         </div>

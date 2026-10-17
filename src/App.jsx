@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from './components/Header';
 import Dropzone from './components/Dropzone';
 import ToolGrid from './components/ToolGrid';
 import Workspace from './components/Workspace';
+import AboutModal from './components/AboutModal';
 import { CheckCircle2 } from 'lucide-react';
 import { createSampleLandscape } from './utils/sampleImages';
 
@@ -10,6 +11,25 @@ export default function App() {
   const [imageData, setImageData] = useState(null);
   const [activeTool, setActiveTool] = useState('resize');
   const [toastMessage, setToastMessage] = useState(null);
+  const [isAboutOpen, setIsAboutOpen] = useState(false);
+
+  // Load default sample landscape (mountains.jpg) on initial launch to mirror the mockup design
+  useEffect(() => {
+    const dataUrl = createSampleLandscape();
+    const img = new Image();
+    img.onload = () => {
+      setImageData({
+        file: null,
+        dataUrl,
+        name: 'mountains.jpg',
+        size: 2.4 * 1024 * 1024,
+        width: 3840,
+        height: 2160,
+        type: 'image/jpeg'
+      });
+    };
+    img.src = dataUrl;
+  }, []);
 
   const showToast = (msg) => {
     setToastMessage(msg);
@@ -27,10 +47,10 @@ export default function App() {
         setImageData({
           file: null,
           dataUrl,
-          name: 'sample-landscape.jpg',
-          size: 420 * 1024,
-          width: img.naturalWidth,
-          height: img.naturalHeight,
+          name: 'mountains.jpg',
+          size: 2.4 * 1024 * 1024,
+          width: 3840,
+          height: 2160,
           type: 'image/jpeg'
         });
       };
@@ -40,7 +60,10 @@ export default function App() {
 
   return (
     <div className="app-container">
-      <Header onReset={() => setImageData(null)} />
+      <Header
+        onReset={() => setImageData(null)}
+        onOpenAbout={() => setIsAboutOpen(true)}
+      />
 
       <main className="main-content">
         {!imageData ? (
@@ -62,10 +85,18 @@ export default function App() {
             initialTool={activeTool}
             onBack={() => setImageData(null)}
             onShowToast={showToast}
+            onFileLoaded={(data) => setImageData(data)}
           />
         )}
       </main>
 
+      {/* About Modal */}
+      <AboutModal
+        isOpen={isAboutOpen}
+        onClose={() => setIsAboutOpen(false)}
+      />
+
+      {/* Toast Notification */}
       {toastMessage && (
         <div className="toast-notice">
           <CheckCircle2 size={16} color="var(--color-success)" />

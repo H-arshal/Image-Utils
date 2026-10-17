@@ -68,7 +68,6 @@ export async function resizeImage(img, targetWidth, targetHeight, mimeType = 'im
 
 /**
  * 2. COMPRESS IMAGE
- * Supports manual quality and iterative target file size binary search
  */
 export async function compressImage(img, mimeType = 'image/jpeg', quality = 0.8) {
   const canvas = document.createElement('canvas');
@@ -77,8 +76,6 @@ export async function compressImage(img, mimeType = 'image/jpeg', quality = 0.8)
   const ctx = canvas.getContext('2d');
   ctx.drawImage(img, 0, 0);
 
-  // If mimeType is PNG, PNG is lossless so canvas.toBlob quality is ignored.
-  // We can convert to WebP or JPEG for actual lossy compression if desired.
   return new Promise((resolve) => {
     canvas.toBlob((blob) => {
       resolve({
@@ -93,7 +90,7 @@ export async function compressImage(img, mimeType = 'image/jpeg', quality = 0.8)
   });
 }
 
-export async function compressToTargetSize(img, mimeType = 'image/jpeg', targetBytes = 500 * 1024) {
+export async function compressToTargetSize(img, mimeType = 'image/jpeg', targetBytes = 380 * 1024) {
   const canvas = document.createElement('canvas');
   canvas.width = img.naturalWidth || img.width;
   canvas.height = img.naturalHeight || img.height;
@@ -105,7 +102,6 @@ export async function compressToTargetSize(img, mimeType = 'image/jpeg', targetB
   let bestBlob = null;
   let bestQuality = 0.8;
 
-  // Run binary search up to 6 iterations
   for (let i = 0; i < 6; i++) {
     const mid = (low + high) / 2;
     const blob = await new Promise((r) => canvas.toBlob(r, mimeType, mid));
@@ -113,15 +109,9 @@ export async function compressToTargetSize(img, mimeType = 'image/jpeg', targetB
     bestBlob = blob;
     bestQuality = mid;
 
-    // Within 5% threshold
-    if (Math.abs(blob.size - targetBytes) < targetBytes * 0.05) {
-      break;
-    }
-    if (blob.size > targetBytes) {
-      high = mid;
-    } else {
-      low = mid;
-    }
+    if (Math.abs(blob.size - targetBytes) < targetBytes * 0.05) break;
+    if (blob.size > targetBytes) high = mid;
+    else low = mid;
   }
 
   return {
@@ -172,8 +162,71 @@ export async function cropImage(img, cropBox, mimeType = 'image/png', quality = 
 }
 
 /**
- * 4. CIRCLE CROP
- * Clips circular region with alpha transparency in PNG/WebP
+ * 4. ROTATE & FLIP
+ */
+export async function rotateFlipImage(img, rotationDeg = 0, flipH = false, flipV = false, mimeType = 'image/png') {
+  const normalizedDeg = ((rotationDeg % 360) + 360) % 360;
+  const isPerpendicular = normalizedDeg === 90 || normalizedDeg === 270;
+  const originalW = img.naturalWidth || img.width;
+  const originalH = img.naturalHeight || img.height;
+
+  const canvas = document.createElement('canvas');
+  canvas.width = isPerpendicular ? originalH : originalW;
+  canvas.height = isPerpendicular ? originalW : originalH;
+  const ctx = canvas.getContext('2d');
+
+  ctx.translate(canvas.width / 2, canvas.height / 2);
+  ctx.rotate((normalizedDeg * Math.PI) / 180);
+  ctx.scale(flipH ? -1 : 1, flipV ? -1 : 1);
+  ctx.drawImage(img, -originalW / 2, -originalH / 2);
+
+  return new Promise((resolve) => {
+    canvas.toBlob((blob) => {
+      resolve({
+        blob,
+        url: URL.createObjectURL(blob),
+        width: canvas.width,
+        height: canvas.height,
+        size: blob ? blob.size : 0
+      });
+    }, mimeType, 0.95);
+  });
+}
+
+/**
+ * 5. FORMAT CONVERSION
+ */
+export async function convertFormat(img, targetFormat = 'image/png', quality = 0.92, bgColor = '#ffffff') {
+  const width = img.naturalWidth || img.width;
+  const height = img.naturalHeight || img.height;
+  const canvas = document.createElement('canvas');
+  canvas.width = width;
+  canvas.height = height;
+  const ctx = canvas.getContext('2d');
+
+  if (targetFormat === 'image/jpeg') {
+    ctx.fillStyle = bgColor;
+    ctx.fillRect(0, 0, width, height);
+  }
+
+  ctx.drawImage(img, 0, 0);
+
+  return new Promise((resolve) => {
+    canvas.toBlob((blob) => {
+      resolve({
+        blob,
+        url: URL.createObjectURL(blob),
+        width,
+        height,
+        size: blob ? blob.size : 0,
+        format: targetFormat
+      });
+    }, targetFormat, quality);
+  });
+}
+
+/**
+ * 6. CIRCLE CROP
  */
 export async function circleCropImage(img, centerX, centerY, radius, zoom = 1) {
   const diameter = Math.max(1, Math.round(radius * 2));
@@ -208,105 +261,38 @@ export async function circleCropImage(img, centerX, centerY, radius, zoom = 1) {
 }
 
 /**
- * 5. CORNER RADIUS
- * Applies smooth rounded corners with transparent outer areas
+ * 7. ADD BORDER & CORNER RADIUS
  */
-export async function cornerRadiusImage(img, radiusInPx) {
-  const width = img.naturalWidth || img.width;
-  const height = img.naturalHeight || img.height;
+export async function addBorderImage(img, { borderWidth = 16, borderColor = '#c65d21', radius = 12 }) {
+  const origW = img.naturalWidth || img.width;
+  const origH = img.naturalHeight || img.height;
+  const b = Math.max(0, parseInt(borderWidth, 10) || 0);
+
   const canvas = document.createElement('canvas');
-  canvas.width = width;
-  canvas.height = height;
+  canvas.width = origW + b * 2;
+  canvas.height = origH + b * 2;
   const ctx = canvas.getContext('2d');
 
-  const maxRadius = Math.min(width, height) / 2;
-  const clampedRadius = Math.min(maxRadius, Math.max(0, radiusInPx));
-
-  ctx.beginPath();
-  if (ctx.roundRect) {
-    ctx.roundRect(0, 0, width, height, clampedRadius);
-  } else {
-    // Fallback if roundRect is not supported
-    ctx.moveTo(clampedRadius, 0);
-    ctx.lineTo(width - clampedRadius, 0);
-    ctx.quadraticCurveTo(width, 0, width, clampedRadius);
-    ctx.lineTo(width, height - clampedRadius);
-    ctx.quadraticCurveTo(width, height, width - clampedRadius, height);
-    ctx.lineTo(clampedRadius, height);
-    ctx.quadraticCurveTo(0, height, 0, height - clampedRadius);
-    ctx.lineTo(0, clampedRadius);
-    ctx.quadraticCurveTo(0, 0, clampedRadius, 0);
-  }
-  ctx.closePath();
-  ctx.clip();
-
-  ctx.drawImage(img, 0, 0);
-
-  return new Promise((resolve) => {
-    canvas.toBlob((blob) => {
-      resolve({
-        blob,
-        url: URL.createObjectURL(blob),
-        width,
-        height,
-        size: blob ? blob.size : 0
-      });
-    }, 'image/png');
-  });
-}
-
-/**
- * 6. FORMAT CONVERSION
- * Converts between JPG, PNG, WebP with custom background fill for transparent images to JPEG
- */
-export async function convertFormat(img, targetFormat = 'image/png', quality = 0.92, bgColor = '#ffffff') {
-  const width = img.naturalWidth || img.width;
-  const height = img.naturalHeight || img.height;
-  const canvas = document.createElement('canvas');
-  canvas.width = width;
-  canvas.height = height;
-  const ctx = canvas.getContext('2d');
-
-  if (targetFormat === 'image/jpeg') {
-    // JPEG has no alpha channel, fill background
-    ctx.fillStyle = bgColor;
-    ctx.fillRect(0, 0, width, height);
+  if (b > 0) {
+    ctx.fillStyle = borderColor;
+    if (ctx.roundRect && radius > 0) {
+      ctx.beginPath();
+      ctx.roundRect(0, 0, canvas.width, canvas.height, radius + b);
+      ctx.fill();
+    } else {
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
   }
 
-  ctx.drawImage(img, 0, 0);
-
-  return new Promise((resolve) => {
-    canvas.toBlob((blob) => {
-      resolve({
-        blob,
-        url: URL.createObjectURL(blob),
-        width,
-        height,
-        size: blob ? blob.size : 0,
-        format: targetFormat
-      });
-    }, targetFormat, quality);
-  });
-}
-
-/**
- * 7. ROTATE & FLIP
- */
-export async function rotateFlipImage(img, rotationDeg = 0, flipH = false, flipV = false, mimeType = 'image/png') {
-  const normalizedDeg = ((rotationDeg % 360) + 360) % 360;
-  const isPerpendicular = normalizedDeg === 90 || normalizedDeg === 270;
-  const originalW = img.naturalWidth || img.width;
-  const originalH = img.naturalHeight || img.height;
-
-  const canvas = document.createElement('canvas');
-  canvas.width = isPerpendicular ? originalH : originalW;
-  canvas.height = isPerpendicular ? originalW : originalH;
-  const ctx = canvas.getContext('2d');
-
-  ctx.translate(canvas.width / 2, canvas.height / 2);
-  ctx.rotate((normalizedDeg * Math.PI) / 180);
-  ctx.scale(flipH ? -1 : 1, flipV ? -1 : 1);
-  ctx.drawImage(img, -originalW / 2, -originalH / 2);
+  // Draw image inside border with inner radius
+  ctx.save();
+  if (ctx.roundRect && radius > 0) {
+    ctx.beginPath();
+    ctx.roundRect(b, b, origW, origH, radius);
+    ctx.clip();
+  }
+  ctx.drawImage(img, b, b);
+  ctx.restore();
 
   return new Promise((resolve) => {
     canvas.toBlob((blob) => {
@@ -317,13 +303,104 @@ export async function rotateFlipImage(img, rotationDeg = 0, flipH = false, flipV
         height: canvas.height,
         size: blob ? blob.size : 0
       });
-    }, mimeType, 0.95);
+    }, 'image/png');
+  });
+}
+
+export async function cornerRadiusImage(img, radiusInPx) {
+  return addBorderImage(img, { borderWidth: 0, radius: radiusInPx });
+}
+
+/**
+ * 8. WATERMARK
+ */
+export async function watermarkImage(img, { text = '© Image Utility', opacity = 0.7, position = 'bottom-right', color = '#ffffff', fontSize = 28 }) {
+  const origW = img.naturalWidth || img.width;
+  const origH = img.naturalHeight || img.height;
+  const canvas = document.createElement('canvas');
+  canvas.width = origW;
+  canvas.height = origH;
+  const ctx = canvas.getContext('2d');
+
+  ctx.drawImage(img, 0, 0);
+
+  ctx.save();
+  ctx.globalAlpha = Math.max(0.05, Math.min(1, opacity));
+  ctx.fillStyle = color;
+  ctx.font = `600 ${fontSize}px Inter, sans-serif`;
+  ctx.textBaseline = 'middle';
+
+  const metrics = ctx.measureText(text);
+  const textW = metrics.width;
+  const padding = 30;
+
+  let x = origW - textW - padding;
+  let y = origH - padding - fontSize / 2;
+
+  if (position === 'center') {
+    x = (origW - textW) / 2;
+    y = origH / 2;
+  } else if (position === 'top-left') {
+    x = padding;
+    y = padding + fontSize / 2;
+  } else if (position === 'top-right') {
+    x = origW - textW - padding;
+    y = padding + fontSize / 2;
+  } else if (position === 'bottom-left') {
+    x = padding;
+    y = origH - padding - fontSize / 2;
+  }
+
+  // Drop shadow for legibility
+  ctx.shadowColor = 'rgba(0, 0, 0, 0.6)';
+  ctx.shadowBlur = 6;
+  ctx.shadowOffsetX = 2;
+  ctx.shadowOffsetY = 2;
+  ctx.fillText(text, x, y);
+  ctx.restore();
+
+  return new Promise((resolve) => {
+    canvas.toBlob((blob) => {
+      resolve({
+        blob,
+        url: URL.createObjectURL(blob),
+        width: canvas.width,
+        height: canvas.height,
+        size: blob ? blob.size : 0
+      });
+    }, 'image/png');
   });
 }
 
 /**
- * 8. IMAGE TO PDF
- * Generates single-page PDF with A4, Letter, or Fit-to-image dimensions
+ * 9. ADJUST (Brightness, Contrast, Saturation)
+ */
+export async function adjustImage(img, { brightness = 100, contrast = 100, saturation = 100, blur = 0 }) {
+  const origW = img.naturalWidth || img.width;
+  const origH = img.naturalHeight || img.height;
+  const canvas = document.createElement('canvas');
+  canvas.width = origW;
+  canvas.height = origH;
+  const ctx = canvas.getContext('2d');
+
+  ctx.filter = `brightness(${brightness}%) contrast(${contrast}%) saturate(${saturation}%) ${blur > 0 ? `blur(${blur}px)` : ''}`.trim();
+  ctx.drawImage(img, 0, 0);
+
+  return new Promise((resolve) => {
+    canvas.toBlob((blob) => {
+      resolve({
+        blob,
+        url: URL.createObjectURL(blob),
+        width: canvas.width,
+        height: canvas.height,
+        size: blob ? blob.size : 0
+      });
+    }, 'image/jpeg', 0.95);
+  });
+}
+
+/**
+ * 10. IMAGE TO PDF
  */
 export async function generatePdf(img, { pageSize = 'a4', orientation = 'auto', margin = 'normal', fitMode = 'contain' }) {
   const imgW = img.naturalWidth || img.width;
@@ -335,17 +412,11 @@ export async function generatePdf(img, { pageSize = 'a4', orientation = 'auto', 
     chosenOrientation = imgAspect > 1 ? 'landscape' : 'portrait';
   }
 
-  // Margin definitions in mm
-  const margins = {
-    none: 0,
-    small: 8,
-    normal: 16
-  };
+  const margins = { none: 0, small: 8, normal: 16 };
   const m = margins[margin] ?? 16;
 
   let doc;
   if (pageSize === 'fit') {
-    // Custom page size that exactly fits image aspect at 150 DPI
     const dpi = 150;
     const mmPerInch = 25.4;
     const pW = (imgW / dpi) * mmPerInch;
@@ -355,7 +426,6 @@ export async function generatePdf(img, { pageSize = 'a4', orientation = 'auto', 
       unit: 'mm',
       format: [pW, pH]
     });
-    // Convert image to JPEG data url
     const tempCanvas = document.createElement('canvas');
     tempCanvas.width = imgW;
     tempCanvas.height = imgH;
@@ -369,7 +439,7 @@ export async function generatePdf(img, { pageSize = 'a4', orientation = 'auto', 
     doc = new jsPDF({
       orientation: chosenOrientation,
       unit: 'mm',
-      format: pageSize // 'a4' or 'letter'
+      format: pageSize
     });
 
     const pageWidth = doc.internal.pageSize.getWidth();
@@ -388,7 +458,6 @@ export async function generatePdf(img, { pageSize = 'a4', orientation = 'auto', 
         targetW = targetH * imgAspect;
       }
     } else {
-      // Fit to width
       targetW = availW;
       targetH = targetW / imgAspect;
     }
@@ -417,8 +486,7 @@ export async function generatePdf(img, { pageSize = 'a4', orientation = 'auto', 
 }
 
 /**
- * 9. REMOVE METADATA (EXIF Scrubber)
- * Reading raw pixels into canvas and re-encoding cleanly removes all EXIF/GPS tags
+ * 11. REMOVE METADATA
  */
 export async function stripMetadata(img, mimeType = 'image/jpeg', quality = 0.95) {
   const width = img.naturalWidth || img.width;
@@ -449,7 +517,7 @@ export async function stripMetadata(img, mimeType = 'image/jpeg', quality = 0.95
 }
 
 /**
- * Inspect client file for basic EXIF / header tags
+ * Inspect file headers for basic EXIF
  */
 export async function inspectFileMetadata(file) {
   return new Promise((resolve) => {
@@ -466,16 +534,13 @@ export async function inspectFileMetadata(file) {
         fileSize: file.size
       };
 
-      // Check for JPEG EXIF (0xFFD8 followed by APP1 0xFFE1)
       if (view.byteLength > 4 && view.getUint16(0, false) === 0xffd8) {
         let offset = 2;
         while (offset < view.byteLength) {
           if (view.getUint8(offset) !== 0xff) break;
           const marker = view.getUint8(offset + 1);
           if (marker === 0xe1) {
-            // Found APP1 EXIF segment!
             metadata.hasExif = true;
-            // Quick scan for common strings
             const strSlice = new TextDecoder('latin1').decode(new Uint8Array(buffer, offset, Math.min(2048, view.byteLength - offset)));
             if (strSlice.includes('GPS')) metadata.hasGps = true;
             break;
@@ -487,6 +552,6 @@ export async function inspectFileMetadata(file) {
       resolve(metadata);
     };
     reader.onerror = () => resolve({ hasExif: false });
-    reader.readAsArrayBuffer(file.slice(0, 65536)); // Read first 64KB
+    reader.readAsArrayBuffer(file.slice(0, 65536));
   });
 }

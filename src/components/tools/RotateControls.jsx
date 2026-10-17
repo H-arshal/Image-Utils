@@ -27,19 +27,19 @@ export default function RotateControls({ onChange }) {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
+    <div className="tool-controls-flow">
       <div className="control-group">
-        <label className="control-label">
+        <label className="input-header-label">
           <span>Rotation angle</span>
           <span className="mono" style={{ color: 'var(--color-accent)', fontWeight: 600 }}>
             {rotation}°
           </span>
         </label>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 'var(--space-2)' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px' }}>
           <button
             type="button"
             className="pill-btn"
-            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px' }}
+            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', height: '38px' }}
             onClick={rotateLeft}
           >
             <RotateCcw size={14} />
@@ -48,7 +48,7 @@ export default function RotateControls({ onChange }) {
           <button
             type="button"
             className="pill-btn"
-            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px' }}
+            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', height: '38px' }}
             onClick={rotateRight}
           >
             <RotateCw size={14} />
@@ -57,7 +57,7 @@ export default function RotateControls({ onChange }) {
           <button
             type="button"
             className="pill-btn"
-            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px' }}
+            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', height: '38px' }}
             onClick={rotate180}
           >
             <RefreshCw size={14} />
@@ -67,24 +67,24 @@ export default function RotateControls({ onChange }) {
       </div>
 
       <div className="control-group">
-        <label className="control-label">Flip</label>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-2)' }}>
+        <label className="input-header-label">Flip</label>
+        <div className="inputs-2col-grid">
           <button
             type="button"
             className={`pill-btn ${flipH ? 'is-active' : ''}`}
-            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px' }}
+            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', height: '38px' }}
             onClick={toggleFlipH}
           >
-            <FlipHorizontal size={14} />
+            <FlipHorizontal size={15} />
             <span>Horizontal</span>
           </button>
           <button
             type="button"
             className={`pill-btn ${flipV ? 'is-active' : ''}`}
-            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px' }}
+            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', height: '38px' }}
             onClick={toggleFlipV}
           >
-            <FlipVertical size={14} />
+            <FlipVertical size={15} />
             <span>Vertical</span>
           </button>
         </div>
@@ -93,6 +93,7 @@ export default function RotateControls({ onChange }) {
       <button
         type="button"
         className="button-secondary"
+        style={{ height: '38px' }}
         onClick={resetAll}
       >
         Reset orientation

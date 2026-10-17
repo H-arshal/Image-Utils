@@ -16,10 +16,10 @@ export default function PdfControls({ onChange }) {
   }, [pageSize, orientation, margin, fitMode]);
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
+    <div className="tool-controls-flow">
       <div className="control-group">
-        <label className="control-label">Page size</label>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 'var(--space-2)' }}>
+        <label className="input-header-label">Page size</label>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px' }}>
           {[
             { id: 'a4', label: 'A4' },
             { id: 'letter', label: 'Letter' },
@@ -29,6 +29,7 @@ export default function PdfControls({ onChange }) {
               key={fmt.id}
               type="button"
               className={`pill-btn ${pageSize === fmt.id ? 'is-active' : ''}`}
+              style={{ height: '38px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
               onClick={() => setPageSize(fmt.id)}
             >
               {fmt.label}
@@ -39,8 +40,8 @@ export default function PdfControls({ onChange }) {
 
       {pageSize !== 'fit' && (
         <div className="control-group">
-          <label className="control-label">Orientation</label>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 'var(--space-2)' }}>
+          <label className="input-header-label">Orientation</label>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px' }}>
             {[
               { id: 'auto', label: 'Auto' },
               { id: 'portrait', label: 'Portrait' },
@@ -50,6 +51,7 @@ export default function PdfControls({ onChange }) {
                 key={o.id}
                 type="button"
                 className={`pill-btn ${orientation === o.id ? 'is-active' : ''}`}
+                style={{ height: '38px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
                 onClick={() => setOrientation(o.id)}
               >
                 {o.label}
@@ -61,8 +63,8 @@ export default function PdfControls({ onChange }) {
 
       {pageSize !== 'fit' && (
         <div className="control-group">
-          <label className="control-label">Margins</label>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 'var(--space-2)' }}>
+          <label className="input-header-label">Margins</label>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px' }}>
             {[
               { id: 'none', label: '0 mm' },
               { id: 'small', label: '8 mm' },
@@ -72,6 +74,7 @@ export default function PdfControls({ onChange }) {
                 key={m.id}
                 type="button"
                 className={`pill-btn ${margin === m.id ? 'is-active' : ''}`}
+                style={{ height: '38px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
                 onClick={() => setMargin(m.id)}
               >
                 {m.label}

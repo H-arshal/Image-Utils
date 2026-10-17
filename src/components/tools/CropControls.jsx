@@ -54,9 +54,9 @@ export default function CropControls({ originalWidth, originalHeight, onChange }
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
+    <div className="tool-controls-flow">
       <div className="control-group">
-        <label className="control-label">Aspect ratio presets</label>
+        <label className="input-header-label">Aspect ratio presets</label>
         <div className="preset-pills">
           {PRESETS.map((p) => (
             <button
@@ -71,9 +71,9 @@ export default function CropControls({ originalWidth, originalHeight, onChange }
         </div>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-2)' }}>
+      <div className="inputs-2col-grid">
         <div className="control-group">
-          <label className="control-label">Width (px)</label>
+          <label className="input-header-label">Width (px)</label>
           <input
             type="number"
             className="control-input mono"
@@ -83,7 +83,7 @@ export default function CropControls({ originalWidth, originalHeight, onChange }
           />
         </div>
         <div className="control-group">
-          <label className="control-label">Height (px)</label>
+          <label className="input-header-label">Height (px)</label>
           <input
             type="number"
             className="control-input mono"
@@ -94,9 +94,9 @@ export default function CropControls({ originalWidth, originalHeight, onChange }
         </div>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-2)' }}>
+      <div className="inputs-2col-grid">
         <div className="control-group">
-          <label className="control-label">Offset X</label>
+          <label className="input-header-label">Offset X</label>
           <input
             type="number"
             className="control-input mono"
@@ -106,7 +106,7 @@ export default function CropControls({ originalWidth, originalHeight, onChange }
           />
         </div>
         <div className="control-group">
-          <label className="control-label">Offset Y</label>
+          <label className="input-header-label">Offset Y</label>
           <input
             type="number"
             className="control-input mono"

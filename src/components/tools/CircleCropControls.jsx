@@ -24,9 +24,9 @@ export default function CircleCropControls({ originalWidth, originalHeight, onCh
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
+    <div className="tool-controls-flow">
       <div className="control-group">
-        <label className="control-label">
+        <label className="input-header-label">
           <span>Diameter (px)</span>
           <span className="mono" style={{ color: 'var(--color-accent)', fontWeight: 600 }}>
             {radius * 2} px
@@ -42,7 +42,7 @@ export default function CircleCropControls({ originalWidth, originalHeight, onCh
       </div>
 
       <div className="control-group">
-        <label className="control-label">
+        <label className="input-header-label">
           <span>Zoom</span>
           <span className="mono" style={{ color: 'var(--color-accent)', fontWeight: 600 }}>
             {zoom.toFixed(1)}x
@@ -58,9 +58,9 @@ export default function CircleCropControls({ originalWidth, originalHeight, onCh
         />
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-2)' }}>
+      <div className="inputs-2col-grid">
         <div className="control-group">
-          <label className="control-label">Center X</label>
+          <label className="input-header-label">Center X</label>
           <input
             type="number"
             className="control-input mono"
@@ -69,7 +69,7 @@ export default function CircleCropControls({ originalWidth, originalHeight, onCh
           />
         </div>
         <div className="control-group">
-          <label className="control-label">Center Y</label>
+          <label className="input-header-label">Center Y</label>
           <input
             type="number"
             className="control-input mono"
