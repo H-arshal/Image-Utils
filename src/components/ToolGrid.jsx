@@ -9,7 +9,9 @@ import {
   RotateCw,
   FileText,
   ShieldAlert,
-  Wrench
+  Wrench,
+  Sliders,
+  Type
 } from 'lucide-react';
 
 export const TOOLS = [
@@ -42,6 +44,24 @@ export const TOOLS = [
     name: 'Corner Radius',
     desc: 'Add clean rounded corners with transparent outer clipping.',
     icon: Square
+  },
+  {
+    id: 'border',
+    name: 'Add Border',
+    desc: 'Add stylish border frames with customizable colors and widths.',
+    icon: Square
+  },
+  {
+    id: 'adjust',
+    name: 'Adjust & Filters',
+    desc: 'Fine-tune exposure, contrast, warmth, vignette, and 9 quick filters.',
+    icon: Sliders
+  },
+  {
+    id: 'watermark',
+    name: 'Watermark',
+    desc: 'Protect photos with custom copyright text, logos, and opacity.',
+    icon: Type
   },
   {
     id: 'convert',

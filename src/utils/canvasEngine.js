@@ -307,8 +307,61 @@ export async function addBorderImage(img, { borderWidth = 16, borderColor = '#c6
   });
 }
 
-export async function cornerRadiusImage(img, radiusInPx) {
-  return addBorderImage(img, { borderWidth: 0, radius: radiusInPx });
+export async function cornerRadiusImage(img, options = 24) {
+  const radius = typeof options === 'object' ? (options.radius ?? 24) : options;
+  const bgColor = typeof options === 'object' ? (options.bgColor || 'transparent') : 'transparent';
+
+  const origW = img.naturalWidth || img.width;
+  const origH = img.naturalHeight || img.height;
+  const maxR = Math.round(Math.min(origW, origH) / 2);
+  const r = Math.max(0, Math.min(maxR, parseInt(radius, 10) || 0));
+
+  const canvas = document.createElement('canvas');
+  canvas.width = origW;
+  canvas.height = origH;
+  const ctx = canvas.getContext('2d');
+
+  if (bgColor && bgColor !== 'transparent') {
+    ctx.fillStyle = bgColor;
+    ctx.fillRect(0, 0, origW, origH);
+  }
+
+  ctx.save();
+  if (ctx.roundRect && r > 0) {
+    ctx.beginPath();
+    ctx.roundRect(0, 0, origW, origH, r);
+    ctx.clip();
+  } else if (r > 0) {
+    ctx.beginPath();
+    ctx.moveTo(r, 0);
+    ctx.lineTo(origW - r, 0);
+    ctx.quadraticCurveTo(origW, 0, origW, r);
+    ctx.lineTo(origW, origH - r);
+    ctx.quadraticCurveTo(origW, origH, origW - r, origH);
+    ctx.lineTo(r, origH);
+    ctx.quadraticCurveTo(0, origH, 0, origH - r);
+    ctx.lineTo(0, r);
+    ctx.quadraticCurveTo(0, 0, r, 0);
+    ctx.closePath();
+    ctx.clip();
+  }
+  ctx.drawImage(img, 0, 0);
+  ctx.restore();
+
+  const isTransparent = !bgColor || bgColor === 'transparent';
+  const mimeType = isTransparent ? 'image/png' : 'image/jpeg';
+
+  return new Promise((resolve) => {
+    canvas.toBlob((blob) => {
+      resolve({
+        blob,
+        url: URL.createObjectURL(blob),
+        width: canvas.width,
+        height: canvas.height,
+        size: blob ? blob.size : 0
+      });
+    }, mimeType, 0.95);
+  });
 }
 
 /**

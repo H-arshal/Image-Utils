@@ -28,6 +28,7 @@ import {
   cropImage,
   circleCropImage,
   addBorderImage,
+  cornerRadiusImage,
   convertFormat,
   rotateFlipImage,
   generatePdf,
@@ -49,15 +50,16 @@ import AdjustControls from './tools/AdjustControls';
 import BottomDropzone from './BottomDropzone';
 import InteractiveCircleCrop from './InteractiveCircleCrop';
 import InteractiveRectCrop from './InteractiveRectCrop';
+import CornerRadiusControls from './tools/CornerRadiusControls';
 
 const WORKSPACE_TOOLS = [
   { id: 'resize', name: 'Resize', desc: 'Change image dimensions', icon: Maximize2 },
   { id: 'compress', name: 'Compress', desc: 'Reduce file size', icon: FileDown },
   { id: 'crop', name: 'Crop', desc: 'Trim to your perfect frame', icon: Crop },
-  { id: 'rotate', name: 'Rotate', desc: 'Rotate and flip images', icon: RotateCw },
-  { id: 'convert', name: 'Convert', desc: 'JPG, PNG, WEBP and more', icon: Repeat },
   { id: 'circle', name: 'Circle Crop', desc: 'Create perfect circle images', icon: Circle },
+  { id: 'radius', name: 'Corner Radius', desc: 'Round corners with transparent PNG', icon: Square },
   { id: 'border', name: 'Add Border', desc: 'Add custom borders', icon: Square },
+  { id: 'rotate', name: 'Rotate', desc: 'Rotate and flip images', icon: RotateCw },
   { id: 'watermark', name: 'Watermark', desc: 'Add text or logo', icon: Type },
   { id: 'adjust', name: 'Adjust', desc: 'Brightness, contrast and more', icon: Sliders },
   { id: 'pdf', name: 'Image to PDF', desc: 'Convert image to single-page PDF', icon: FileText },
@@ -152,6 +154,12 @@ export default function Workspace({ imageData, initialTool = 'resize', onBack, o
             res = await circleCropImage(imgElement, cX, cY, radius, zoom);
             break;
           }
+          case 'radius': {
+            const r = toolParams.radius ?? 24;
+            const bg = toolParams.bgColor || 'transparent';
+            res = await cornerRadiusImage(imgElement, { radius: r, bgColor: bg });
+            break;
+          }
           case 'border': {
             res = await addBorderImage(imgElement, {
               borderWidth: toolParams.borderWidth ?? 16,
@@ -239,7 +247,7 @@ export default function Workspace({ imageData, initialTool = 'resize', onBack, o
       downloadBlob(processedResult.pdfBlob, filename);
     } else {
       let ext = 'jpg';
-      if (activeTool === 'circle' || activeTool === 'border' || activeTool === 'watermark') ext = 'png';
+      if (activeTool === 'circle' || activeTool === 'radius' || activeTool === 'border' || activeTool === 'watermark') ext = 'png';
       else if (activeTool === 'convert') {
         ext = toolParams.targetFormat === 'image/webp' ? 'webp' : toolParams.targetFormat === 'image/png' ? 'png' : 'jpg';
       } else if (imageData.type?.includes('png')) ext = 'png';
@@ -505,6 +513,14 @@ export default function Workspace({ imageData, initialTool = 'resize', onBack, o
                   zoom: toolParams.zoom ?? 1
                 }}
                 onChange={(newCrop) => setToolParams((prev) => ({ ...prev, ...newCrop }))}
+              />
+            )}
+
+            {activeTool === 'radius' && (
+              <CornerRadiusControls
+                originalWidth={imageData.width}
+                originalHeight={imageData.height}
+                onChange={setToolParams}
               />
             )}
 
