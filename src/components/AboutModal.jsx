@@ -1,5 +1,6 @@
 import React from 'react';
 import { X, ShieldCheck, Zap, Lock } from 'lucide-react';
+import logoIcon from '../assets/Orange Pixel Landscape Icon.png';
 
 export default function AboutModal({ isOpen, onClose }) {
   if (!isOpen) return null;
@@ -10,10 +11,7 @@ export default function AboutModal({ isOpen, onClose }) {
         <div className="modal-header">
           <div className="modal-title-group">
             <div className="logo-icon-box" style={{ width: '28px', height: '28px' }}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="m8 3 4 8 5-5 5 15H2L8 3z" />
-                <circle cx="17.5" cy="6.5" r="2.5" fill="currentColor" stroke="none" />
-              </svg>
+              <img src={logoIcon} alt="Image Utility Logo" className="logo-icon-img" />
             </div>
             <h3 style={{ fontSize: '1.125rem', fontWeight: 700 }}>About Image Utility</h3>
           </div>

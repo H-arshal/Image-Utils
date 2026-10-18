@@ -6,6 +6,7 @@ import Workspace from './components/Workspace';
 import AboutModal from './components/AboutModal';
 import { CheckCircle2 } from 'lucide-react';
 import { createSampleLandscape } from './utils/sampleImages';
+import logoIcon from './assets/Orange Pixel Landscape Icon.png';
 
 export default function App() {
   const [imageData, setImageData] = useState(null);
@@ -69,6 +70,9 @@ export default function App() {
         {!imageData ? (
           <div>
             <div className="hero-section">
+              <div className="hero-badge-wrap">
+                <img src={logoIcon} alt="Image Utility" className="hero-badge-icon" />
+              </div>
               <h1 className="hero-title">Everyday image tools. Simple, private, in-browser.</h1>
               <p className="hero-subtitle">
                 Make quick adjustments, resize, compress, and convert formats directly inside your browser.

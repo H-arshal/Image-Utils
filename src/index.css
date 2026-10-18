@@ -97,11 +97,20 @@ body {
   width: 32px;
   height: 32px;
   border-radius: var(--radius-md);
-  background: var(--color-accent);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #ffffff;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.logo-icon-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
 }
 
 .logo-text {
@@ -206,6 +215,33 @@ body {
 .hero-section {
   text-align: center;
   margin: 1.5rem 0 2rem;
+}
+
+.hero-badge-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 72px;
+  height: 72px;
+  border-radius: var(--radius-xl);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 4px 16px rgba(198, 93, 33, 0.12);
+  margin-bottom: 1.25rem;
+  overflow: hidden;
+  padding: 8px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.hero-badge-wrap:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(198, 93, 33, 0.18);
+}
+
+.hero-badge-icon {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .hero-title {
