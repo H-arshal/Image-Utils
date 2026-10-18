@@ -95,33 +95,84 @@ export default function InteractiveCircleCrop({
           centerY: Math.round(newCenterY)
         });
       } else {
-        // Handle resizing based on handle dragged
-        let radiusDelta = 0;
-        if (dragMode === 'r') radiusDelta = deltaNaturalX;
-        else if (dragMode === 'l') radiusDelta = -deltaNaturalX;
-        else if (dragMode === 'b') radiusDelta = deltaNaturalY;
-        else if (dragMode === 't') radiusDelta = -deltaNaturalY;
-        else if (dragMode === 'br') radiusDelta = (deltaNaturalX + deltaNaturalY) / 2;
-        else if (dragMode === 'tl') radiusDelta = (-deltaNaturalX - deltaNaturalY) / 2;
-        else if (dragMode === 'tr') radiusDelta = (deltaNaturalX - deltaNaturalY) / 2;
-        else if (dragMode === 'bl') radiusDelta = (-deltaNaturalX + deltaNaturalY) / 2;
+        let newCenterX = initialCenterX;
+        let newCenterY = initialCenterY;
+        let newRadius = initialRadius;
 
-        const newRadius = Math.max(
-          minRadius,
-          Math.min(
-            maxRadius,
-            Math.min(
-              initialCenterX,
-              naturalWidth - initialCenterX,
-              initialCenterY,
-              naturalHeight - initialCenterY,
-              initialRadius + radiusDelta
-            )
-          )
-        );
+        if (dragMode === 'r') {
+          const fixedLeft = initialCenterX - initialRadius;
+          const maxDiameter = Math.min(naturalWidth - fixedLeft, minDim);
+          const targetDiameter = initialRadius * 2 + deltaNaturalX;
+          const newDiameter = Math.max(minRadius * 2, Math.min(maxDiameter, targetDiameter));
+          newRadius = newDiameter / 2;
+          newCenterX = fixedLeft + newRadius;
+          newCenterY = Math.max(newRadius, Math.min(naturalHeight - newRadius, initialCenterY));
+        } else if (dragMode === 'l') {
+          const fixedRight = initialCenterX + initialRadius;
+          const maxDiameter = Math.min(fixedRight, minDim);
+          const targetDiameter = initialRadius * 2 - deltaNaturalX;
+          const newDiameter = Math.max(minRadius * 2, Math.min(maxDiameter, targetDiameter));
+          newRadius = newDiameter / 2;
+          newCenterX = fixedRight - newRadius;
+          newCenterY = Math.max(newRadius, Math.min(naturalHeight - newRadius, initialCenterY));
+        } else if (dragMode === 'b') {
+          const fixedTop = initialCenterY - initialRadius;
+          const maxDiameter = Math.min(naturalHeight - fixedTop, minDim);
+          const targetDiameter = initialRadius * 2 + deltaNaturalY;
+          const newDiameter = Math.max(minRadius * 2, Math.min(maxDiameter, targetDiameter));
+          newRadius = newDiameter / 2;
+          newCenterY = fixedTop + newRadius;
+          newCenterX = Math.max(newRadius, Math.min(naturalWidth - newRadius, initialCenterX));
+        } else if (dragMode === 't') {
+          const fixedBottom = initialCenterY + initialRadius;
+          const maxDiameter = Math.min(fixedBottom, minDim);
+          const targetDiameter = initialRadius * 2 - deltaNaturalY;
+          const newDiameter = Math.max(minRadius * 2, Math.min(maxDiameter, targetDiameter));
+          newRadius = newDiameter / 2;
+          newCenterY = fixedBottom - newRadius;
+          newCenterX = Math.max(newRadius, Math.min(naturalWidth - newRadius, initialCenterX));
+        } else if (dragMode === 'br') {
+          const fixedLeft = initialCenterX - initialRadius;
+          const fixedTop = initialCenterY - initialRadius;
+          const maxDiameter = Math.min(naturalWidth - fixedLeft, naturalHeight - fixedTop, minDim);
+          const delta = (deltaNaturalX + deltaNaturalY) / 2;
+          const newDiameter = Math.max(minRadius * 2, Math.min(maxDiameter, initialRadius * 2 + delta));
+          newRadius = newDiameter / 2;
+          newCenterX = fixedLeft + newRadius;
+          newCenterY = fixedTop + newRadius;
+        } else if (dragMode === 'tl') {
+          const fixedRight = initialCenterX + initialRadius;
+          const fixedBottom = initialCenterY + initialRadius;
+          const maxDiameter = Math.min(fixedRight, fixedBottom, minDim);
+          const delta = (-deltaNaturalX - deltaNaturalY) / 2;
+          const newDiameter = Math.max(minRadius * 2, Math.min(maxDiameter, initialRadius * 2 + delta));
+          newRadius = newDiameter / 2;
+          newCenterX = fixedRight - newRadius;
+          newCenterY = fixedBottom - newRadius;
+        } else if (dragMode === 'tr') {
+          const fixedLeft = initialCenterX - initialRadius;
+          const fixedBottom = initialCenterY + initialRadius;
+          const maxDiameter = Math.min(naturalWidth - fixedLeft, fixedBottom, minDim);
+          const delta = (deltaNaturalX - deltaNaturalY) / 2;
+          const newDiameter = Math.max(minRadius * 2, Math.min(maxDiameter, initialRadius * 2 + delta));
+          newRadius = newDiameter / 2;
+          newCenterX = fixedLeft + newRadius;
+          newCenterY = fixedBottom - newRadius;
+        } else if (dragMode === 'bl') {
+          const fixedRight = initialCenterX + initialRadius;
+          const fixedTop = initialCenterY - initialRadius;
+          const maxDiameter = Math.min(fixedRight, naturalHeight - fixedTop, minDim);
+          const delta = (-deltaNaturalX + deltaNaturalY) / 2;
+          const newDiameter = Math.max(minRadius * 2, Math.min(maxDiameter, initialRadius * 2 + delta));
+          newRadius = newDiameter / 2;
+          newCenterX = fixedRight - newRadius;
+          newCenterY = fixedTop + newRadius;
+        }
 
         onChange({
           ...cropState,
+          centerX: Math.round(newCenterX),
+          centerY: Math.round(newCenterY),
           radius: Math.round(newRadius)
         });
       }

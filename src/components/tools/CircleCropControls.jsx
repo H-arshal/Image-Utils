@@ -8,12 +8,19 @@ export default function CircleCropControls({ originalWidth, originalHeight, crop
   const zoom = cropState?.zoom ?? 1;
 
   const updateParam = (partial) => {
+    const nextRadius = partial.radius !== undefined ? partial.radius : radius;
+    let nextCenterX = partial.centerX !== undefined ? partial.centerX : centerX;
+    let nextCenterY = partial.centerY !== undefined ? partial.centerY : centerY;
+    const nextZoom = partial.zoom !== undefined ? partial.zoom : zoom;
+
+    nextCenterX = Math.max(nextRadius, Math.min(originalWidth - nextRadius, nextCenterX));
+    nextCenterY = Math.max(nextRadius, Math.min(originalHeight - nextRadius, nextCenterY));
+
     onChange({
-      centerX,
-      centerY,
-      radius,
-      zoom,
-      ...partial
+      centerX: Math.round(nextCenterX),
+      centerY: Math.round(nextCenterY),
+      radius: Math.round(nextRadius),
+      zoom: nextZoom
     });
   };
 
