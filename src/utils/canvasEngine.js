@@ -373,9 +373,20 @@ export async function watermarkImage(img, { text = '© Image Utility', opacity =
 }
 
 /**
- * 9. ADJUST (Brightness, Contrast, Saturation)
+ * 9. ADJUST (Full Mobile-Grade Filter Suite)
  */
-export async function adjustImage(img, { brightness = 100, contrast = 100, saturation = 100, blur = 0 }) {
+export async function adjustImage(img, {
+  brightness = 100,
+  contrast = 100,
+  saturation = 100,
+  warmth = 0,
+  blur = 0,
+  sepia = 0,
+  grayscale = 0,
+  hueRotate = 0,
+  invert = 0,
+  vignette = 0
+} = {}) {
   const origW = img.naturalWidth || img.width;
   const origH = img.naturalHeight || img.height;
   const canvas = document.createElement('canvas');
@@ -383,8 +394,52 @@ export async function adjustImage(img, { brightness = 100, contrast = 100, satur
   canvas.height = origH;
   const ctx = canvas.getContext('2d');
 
-  ctx.filter = `brightness(${brightness}%) contrast(${contrast}%) saturate(${saturation}%) ${blur > 0 ? `blur(${blur}px)` : ''}`.trim();
+  // Build composite CSS filter string
+  const filters = [];
+  if (brightness !== 100) filters.push(`brightness(${brightness}%)`);
+  if (contrast !== 100) filters.push(`contrast(${contrast}%)`);
+  if (saturation !== 100) filters.push(`saturate(${saturation}%)`);
+  if (blur > 0) filters.push(`blur(${blur}px)`);
+  if (sepia > 0) filters.push(`sepia(${sepia}%)`);
+  if (grayscale > 0) filters.push(`grayscale(${grayscale}%)`);
+  if (hueRotate !== 0) filters.push(`hue-rotate(${hueRotate}deg)`);
+  if (invert > 0) filters.push(`invert(${invert}%)`);
+
+  ctx.filter = filters.length > 0 ? filters.join(' ') : 'none';
   ctx.drawImage(img, 0, 0);
+
+  // Apply Warmth / Temperature overlay if non-zero (-50 cool blue to +50 warm amber)
+  if (warmth !== 0) {
+    ctx.save();
+    if (warmth > 0) {
+      const alpha = Math.min(0.35, (warmth / 100) * 0.45);
+      ctx.fillStyle = `rgba(245, 140, 30, ${alpha})`;
+      ctx.globalCompositeOperation = 'color';
+    } else {
+      const alpha = Math.min(0.35, (Math.abs(warmth) / 100) * 0.45);
+      ctx.fillStyle = `rgba(30, 144, 255, ${alpha})`;
+      ctx.globalCompositeOperation = 'color';
+    }
+    ctx.fillRect(0, 0, origW, origH);
+    ctx.restore();
+  }
+
+  // Apply Vignette if > 0 (radial dark gradient towards borders)
+  if (vignette > 0) {
+    ctx.save();
+    const radius = Math.sqrt(Math.pow(origW / 2, 2) + Math.pow(origH / 2, 2));
+    const gradient = ctx.createRadialGradient(
+      origW / 2, origH / 2, radius * 0.4,
+      origW / 2, origH / 2, radius
+    );
+    const intensity = Math.min(0.9, (vignette / 100) * 0.85);
+    gradient.addColorStop(0, 'rgba(0, 0, 0, 0)');
+    gradient.addColorStop(1, `rgba(0, 0, 0, ${intensity})`);
+    ctx.fillStyle = gradient;
+    ctx.globalCompositeOperation = 'source-over';
+    ctx.fillRect(0, 0, origW, origH);
+    ctx.restore();
+  }
 
   return new Promise((resolve) => {
     canvas.toBlob((blob) => {

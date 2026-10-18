@@ -174,7 +174,14 @@ export default function Workspace({ imageData, initialTool = 'resize', onBack, o
             res = await adjustImage(imgElement, {
               brightness: toolParams.brightness ?? 100,
               contrast: toolParams.contrast ?? 100,
-              saturation: toolParams.saturation ?? 100
+              saturation: toolParams.saturation ?? 100,
+              warmth: toolParams.warmth ?? 0,
+              blur: toolParams.blur ?? 0,
+              sepia: toolParams.sepia ?? 0,
+              grayscale: toolParams.grayscale ?? 0,
+              hueRotate: toolParams.hueRotate ?? 0,
+              invert: toolParams.invert ?? 0,
+              vignette: toolParams.vignette ?? 0
             });
             break;
           }
