@@ -175,7 +175,8 @@ export default function InteractiveCircleCrop({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        userSelect: 'none'
+        userSelect: 'none',
+        touchAction: 'none'
       }}
     >
       {/* Base Image */}
@@ -187,7 +188,8 @@ export default function InteractiveCircleCrop({
         onLoad={updateLayout}
         style={{
           transform: `scale(${zoomLevel})`,
-          transformOrigin: 'center center'
+          transformOrigin: 'center center',
+          touchAction: 'none'
         }}
       />
 
@@ -200,7 +202,8 @@ export default function InteractiveCircleCrop({
             width: '100%',
             height: '100%',
             pointerEvents: 'none',
-            overflow: 'visible'
+            overflow: 'visible',
+            touchAction: 'none'
           }}
         >
           <defs>
@@ -262,28 +265,38 @@ export default function InteractiveCircleCrop({
             strokeWidth="2.2"
             style={{
               pointerEvents: 'all',
-              cursor: 'move'
+              cursor: 'move',
+              touchAction: 'none'
             }}
             onPointerDown={(e) => handlePointerDown(e, 'move')}
           />
 
-          {/* 5. 8 Green resize handles (matching user screenshot) */}
+          {/* 5. 8 Green resize handles with mobile touch expanders */}
           {handles.map((h) => (
-            <rect
+            <g
               key={h.id}
-              x={h.x - handleSize / 2}
-              y={h.y - handleSize / 2}
-              width={handleSize}
-              height={handleSize}
-              fill="#22c55e"
-              stroke="#ffffff"
-              strokeWidth="1"
-              style={{
-                pointerEvents: 'all',
-                cursor: h.cursor
-              }}
+              style={{ pointerEvents: 'all', cursor: h.cursor, touchAction: 'none' }}
               onPointerDown={(e) => handlePointerDown(e, h.id)}
-            />
+            >
+              {/* Invisible touch expander for mobile screens */}
+              <rect
+                x={h.x - 14}
+                y={h.y - 14}
+                width={28}
+                height={28}
+                fill="transparent"
+              />
+              {/* Visible handle */}
+              <rect
+                x={h.x - handleSize / 2}
+                y={h.y - handleSize / 2}
+                width={handleSize}
+                height={handleSize}
+                fill="#22c55e"
+                stroke="#ffffff"
+                strokeWidth="1"
+              />
+            </g>
           ))}
         </svg>
       )}

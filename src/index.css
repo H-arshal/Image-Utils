@@ -134,6 +134,10 @@ body {
   font-weight: 500;
 }
 
+.privacy-pill-text-mobile {
+  display: none;
+}
+
 .status-dot-green {
   width: 6px;
   height: 6px;
@@ -404,24 +408,6 @@ body {
   grid-template-columns: 200px 1fr 340px;
   gap: 1.25rem;
   align-items: start;
-}
-
-@media (max-width: 1120px) {
-  .workspace-desktop-grid {
-    grid-template-columns: 1fr 320px;
-  }
-  .workspace-sidebar {
-    grid-column: 1 / -1;
-    display: flex !important;
-    flex-direction: row !important;
-    overflow-x: auto;
-  }
-}
-
-@media (max-width: 800px) {
-  .workspace-desktop-grid {
-    grid-template-columns: 1fr;
-  }
 }
 
 /* Column 1: Left Navigation Sidebar */
@@ -1273,4 +1259,345 @@ input[type="range"] {
   background: var(--color-surface-subtle);
   display: flex;
   justify-content: flex-end;
+}
+
+/* ==========================================================================
+   RESPONSIVE & MOBILE DESIGN SYSTEM
+   ========================================================================== */
+
+/* 1. Large Tablet / Small Laptop Breakpoint (max-width: 1120px) */
+@media (max-width: 1120px) {
+  .workspace-desktop-grid {
+    grid-template-columns: 1fr 320px;
+    gap: 1.25rem;
+  }
+
+  .workspace-sidebar {
+    grid-column: 1 / -1;
+    display: flex !important;
+    flex-direction: row !important;
+    overflow-x: auto;
+    gap: 8px;
+    padding: 2px 2px 8px;
+    margin-bottom: 2px;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .workspace-sidebar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .sidebar-tool-card {
+    flex: 0 0 auto;
+    padding: 8px 14px;
+    border-radius: 9999px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    gap: 8px;
+  }
+
+  .sidebar-tool-card.is-active {
+    background: var(--color-accent-tint);
+    border-color: var(--color-accent);
+  }
+
+  .sidebar-tool-card.is-active::before {
+    display: none;
+  }
+
+  .sidebar-tool-desc {
+    display: none;
+  }
+}
+
+/* 2. Tablet Portrait / Large Foldable Breakpoint (max-width: 860px) */
+@media (max-width: 860px) {
+  .workspace-desktop-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .main-content {
+    padding: 1rem 1.25rem 2.5rem;
+  }
+
+  .preview-canvas-card {
+    height: 400px;
+    max-height: 400px;
+  }
+
+  .workspace-controls-panel {
+    padding: 18px;
+  }
+}
+
+/* 3. Mobile Devices Breakpoint (max-width: 640px) */
+@media (max-width: 640px) {
+  /* Header */
+  .app-header {
+    height: 54px;
+    padding: 0 12px;
+  }
+
+  .logo-text {
+    font-size: 1.125rem;
+  }
+
+  .logo-icon-box {
+    width: 28px;
+    height: 28px;
+  }
+
+  .header-right-actions {
+    gap: 8px;
+  }
+
+  .privacy-status-pill {
+    padding: 4px 8px;
+    font-size: 0.75rem;
+  }
+
+  .privacy-pill-text-desktop {
+    display: none;
+  }
+
+  .privacy-pill-text-mobile {
+    display: inline;
+  }
+
+  .header-nav-link,
+  .header-nav-link-btn {
+    font-size: 0.8125rem;
+  }
+
+  /* Main Container */
+  .main-content {
+    padding: 0.75rem 0.75rem 2rem;
+  }
+
+  /* Landing Page */
+  .hero-section {
+    margin: 1rem 0 1.5rem;
+  }
+
+  .hero-title {
+    font-size: 1.45rem;
+    line-height: 1.25;
+  }
+
+  .hero-subtitle {
+    font-size: 0.875rem;
+  }
+
+  .dropzone-container {
+    padding: 1.75rem 1rem;
+    margin-bottom: 1.75rem;
+  }
+
+  .dropzone-actions {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .tools-grid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  /* Workspace Layout on Mobile */
+  .workspace-main-wrapper {
+    gap: 1rem;
+  }
+
+  .workspace-desktop-grid {
+    gap: 1rem;
+  }
+
+  /* Horizontal Tool Selector */
+  .workspace-sidebar {
+    padding: 2px 2px 6px;
+    gap: 6px;
+  }
+
+  .sidebar-tool-card {
+    padding: 7px 12px;
+  }
+
+  .sidebar-tool-title {
+    font-size: 0.8125rem;
+  }
+
+  .sidebar-tool-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  /* File Info Header */
+  .file-info-header-card {
+    padding: 8px 12px;
+  }
+
+  .file-info-left {
+    min-width: 0;
+    flex: 1;
+    gap: 10px;
+  }
+
+  .file-info-details {
+    min-width: 0;
+  }
+
+  .file-info-thumb {
+    width: 32px;
+    height: 32px;
+  }
+
+  .file-info-title {
+    font-size: 0.8125rem;
+    max-width: 140px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .file-info-specs {
+    font-size: 0.6875rem;
+  }
+
+  .btn-change-image {
+    padding: 5px 10px;
+    font-size: 0.75rem;
+    flex-shrink: 0;
+  }
+
+  /* Canvas Preview Card on Mobile */
+  .preview-canvas-card {
+    height: 340px;
+    max-height: 340px;
+    padding: 8px;
+  }
+
+  /* Canvas Bottom Toolbar */
+  .canvas-bottom-toolbar {
+    height: 40px;
+    padding: 0 10px;
+    gap: 4px;
+  }
+
+  .btn-tool-icon {
+    width: 26px;
+    height: 26px;
+  }
+
+  .zoom-value-label {
+    min-width: 36px;
+    font-size: 0.75rem;
+  }
+
+  .btn-fit-toggle {
+    padding: 3px 8px;
+    font-size: 0.6875rem;
+  }
+
+  .compare-label {
+    font-size: 0.75rem;
+  }
+
+  .switch-toggle {
+    width: 32px;
+    height: 18px;
+  }
+
+  .switch-thumb {
+    width: 14px;
+    height: 14px;
+  }
+
+  .switch-toggle.is-checked .switch-thumb {
+    transform: translateX(14px);
+  }
+
+  /* Controls Panel on Mobile */
+  .workspace-controls-panel {
+    padding: 16px;
+    gap: 16px;
+  }
+
+  .panel-header-block {
+    gap: 10px;
+  }
+
+  .panel-header-icon-box {
+    width: 34px;
+    height: 34px;
+  }
+
+  .panel-header-title {
+    font-size: 1rem;
+  }
+
+  .panel-header-desc {
+    font-size: 0.75rem;
+  }
+
+  .btn-download-primary {
+    width: 100%;
+    padding: 12px;
+    font-size: 0.9375rem;
+  }
+
+  .bottom-dropzone-card {
+    padding: 20px 14px;
+  }
+
+  .bottom-dropzone-title {
+    font-size: 0.9375rem;
+  }
+
+  .bottom-dropzone-desc {
+    font-size: 0.75rem;
+  }
+
+  /* Modal */
+  .modal-card {
+    max-width: 92vw;
+    margin: 0 auto;
+  }
+}
+
+/* 4. Compact Mobile Devices (max-width: 420px) */
+@media (max-width: 420px) {
+  .header-nav-link-text {
+    display: none;
+  }
+
+  .privacy-pill-text-mobile {
+    display: none;
+  }
+
+  .privacy-status-pill {
+    padding: 4px 6px;
+  }
+
+  .file-info-title {
+    max-width: 105px;
+  }
+
+  .compare-label {
+    display: none;
+  }
+
+  .preview-canvas-card {
+    height: 290px;
+    max-height: 290px;
+  }
+
+  .inputs-2col-grid {
+    gap: 8px;
+  }
+
+  .control-input {
+    font-size: 0.8125rem;
+  }
 }
