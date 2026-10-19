@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   ArrowLeft,
   Download,
@@ -9,7 +9,6 @@ import {
   Crop,
   Circle,
   Square,
-  Repeat,
   RotateCw,
   FileText,
   ShieldAlert,
@@ -66,14 +65,43 @@ const WORKSPACE_TOOLS = [
   { id: 'metadata', name: 'Metadata', desc: 'Inspect and remove EXIF tags', icon: ShieldAlert }
 ];
 
-export default function Workspace({ imageData, initialTool = 'resize', onBack, onShowToast, onFileLoaded }) {
-  const [activeTool, setActiveTool] = useState(initialTool);
+export default function Workspace({
+  imageData,
+  initialTool = 'resize',
+  currentTool,
+  onToolChange,
+  onBack,
+  onShowToast,
+  onFileLoaded
+}) {
+  const [internalTool, setInternalTool] = useState(initialTool);
+  const activeTool = currentTool || internalTool;
   const [zoomLevel, setZoomLevel] = useState(1);
   const [viewMode, setViewMode] = useState('fit'); // 'fit' or 'fill'
   const [showOriginal, setShowOriginal] = useState(false);
   const [processing, setProcessing] = useState(false);
   const [processedResult, setProcessedResult] = useState(null);
   const [imgElement, setImgElement] = useState(null);
+  const prevUrlRef = useRef(null);
+
+  // Free previous object URLs from browser memory to prevent memory exhaustion
+  useEffect(() => {
+    if (processedResult?.url && processedResult.url !== prevUrlRef.current) {
+      if (prevUrlRef.current && prevUrlRef.current.startsWith('blob:')) {
+        URL.revokeObjectURL(prevUrlRef.current);
+      }
+      prevUrlRef.current = processedResult.url;
+    }
+  }, [processedResult]);
+
+  // Clean up remaining object URL on unmount
+  useEffect(() => {
+    return () => {
+      if (prevUrlRef.current && prevUrlRef.current.startsWith('blob:')) {
+        URL.revokeObjectURL(prevUrlRef.current);
+      }
+    };
+  }, []);
 
   // Tool parameter states
   const [toolParams, setToolParams] = useState({});
@@ -239,7 +267,9 @@ export default function Workspace({ imageData, initialTool = 'resize', onBack, o
   const handleDownload = () => {
     if (!processedResult) return;
 
-    const baseName = imageData.name ? imageData.name.replace(/\.[^/.]+$/, '') : 'image';
+    // Sanitize filename against path traversal, control chars, and reserved characters
+    const rawName = imageData.name ? imageData.name.replace(/\.[^/.]+$/, '') : 'image';
+    const baseName = rawName.replace(/[^a-zA-Z0-9_\-\s]/g, '_').trim().slice(0, 100) || 'image';
     let filename = '';
 
     if (activeTool === 'pdf') {
@@ -290,7 +320,11 @@ export default function Workspace({ imageData, initialTool = 'resize', onBack, o
                 type="button"
                 className={`sidebar-tool-card ${isActive ? 'is-active' : ''}`}
                 onClick={() => {
-                  setActiveTool(tool.id);
+                  if (onToolChange) {
+                    onToolChange(tool.id);
+                  } else {
+                    setInternalTool(tool.id);
+                  }
                   setToolParams({});
                 }}
               >

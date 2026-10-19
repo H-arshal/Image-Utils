@@ -23,15 +23,37 @@ export default function Dropzone({ onFileLoaded }) {
     return () => window.removeEventListener('paste', handlePaste);
   }, []);
 
+  const ALLOWED_MIME_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/bmp'];
+  const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50 MB
+  const MAX_PIXEL_DIMENSION = 12000; // 12,000 px max safe dimension
+
   const handleFile = (file) => {
-    if (!file || !file.type.startsWith('image/')) {
-      alert('Please select a supported image file (JPG, PNG, WebP, BMP, GIF).');
+    if (!file) return;
+
+    if (!ALLOWED_MIME_TYPES.includes(file.type)) {
+      alert('Unsupported file format. Please select a JPG, PNG, WebP, BMP, or GIF image (SVGs and vector formats are not supported).');
       return;
     }
+
+    if (file.size > MAX_FILE_SIZE) {
+      alert('File is too large. Maximum supported file size is 50 MB.');
+      return;
+    }
+
     const reader = new FileReader();
+    reader.onerror = () => {
+      alert('Failed to read image file. Please try another image.');
+    };
     reader.onload = (e) => {
       const img = new Image();
+      img.onerror = () => {
+        alert('Invalid or corrupted image data.');
+      };
       img.onload = () => {
+        if (img.naturalWidth > MAX_PIXEL_DIMENSION || img.naturalHeight > MAX_PIXEL_DIMENSION) {
+          alert(`Image dimensions (${img.naturalWidth}×${img.naturalHeight}px) exceed the safe browser limit of ${MAX_PIXEL_DIMENSION}px.`);
+          return;
+        }
         onFileLoaded({
           file,
           dataUrl: e.target.result,

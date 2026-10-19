@@ -24,6 +24,7 @@ export default function WatermarkControls({ onChange }) {
           type="text"
           className="control-input"
           value={text}
+          maxLength={200}
           onChange={(e) => setText(e.target.value)}
         />
       </div>

@@ -625,41 +625,66 @@ export async function stripMetadata(img, mimeType = 'image/jpeg', quality = 0.95
 }
 
 /**
- * Inspect file headers for basic EXIF
+ * Inspect file headers for basic EXIF safely
  */
 export async function inspectFileMetadata(file) {
   return new Promise((resolve) => {
+    if (!file) {
+      resolve({ hasExif: false, hasGps: false, fileType: 'image/jpeg', fileSize: 0 });
+      return;
+    }
+
     const reader = new FileReader();
     reader.onload = (e) => {
-      const buffer = e.target.result;
-      const view = new DataView(buffer);
-      const metadata = {
-        hasExif: false,
-        cameraModel: null,
-        dateTime: null,
-        hasGps: false,
-        fileType: file.type || 'image/jpeg',
-        fileSize: file.size
-      };
+      try {
+        const buffer = e.target.result;
+        const view = new DataView(buffer);
+        const metadata = {
+          hasExif: false,
+          cameraModel: null,
+          dateTime: null,
+          hasGps: false,
+          fileType: file.type || 'image/jpeg',
+          fileSize: file.size
+        };
 
-      if (view.byteLength > 4 && view.getUint16(0, false) === 0xffd8) {
-        let offset = 2;
-        while (offset < view.byteLength) {
-          if (view.getUint8(offset) !== 0xff) break;
-          const marker = view.getUint8(offset + 1);
-          if (marker === 0xe1) {
-            metadata.hasExif = true;
-            const strSlice = new TextDecoder('latin1').decode(new Uint8Array(buffer, offset, Math.min(2048, view.byteLength - offset)));
-            if (strSlice.includes('GPS')) metadata.hasGps = true;
-            break;
+        // Check JPEG SOI marker (0xFFD8)
+        if (view.byteLength > 4 && view.getUint16(0, false) === 0xffd8) {
+          let offset = 2;
+          while (offset + 4 <= view.byteLength) {
+            if (view.getUint8(offset) !== 0xff) break;
+            const marker = view.getUint8(offset + 1);
+
+            // Stop at Start of Scan (0xDA) or End of Image (0xD9)
+            if (marker === 0xda || marker === 0xd9) break;
+
+            if (marker === 0xe1) {
+              metadata.hasExif = true;
+              const strSlice = new TextDecoder('latin1').decode(
+                new Uint8Array(buffer, offset, Math.min(2048, view.byteLength - offset))
+              );
+              if (strSlice.includes('GPS')) metadata.hasGps = true;
+              break;
+            }
+
+            const segLength = view.getUint16(offset + 2, false);
+            if (segLength < 2) break; // Corrupt length field protection
+            offset += 2 + segLength;
           }
-          offset += 2 + view.getUint16(offset + 2, false);
         }
-      }
 
-      resolve(metadata);
+        resolve(metadata);
+      } catch (err) {
+        console.warn('Metadata parser handled invalid header safely:', err);
+        resolve({
+          hasExif: false,
+          hasGps: false,
+          fileType: file.type || 'image/jpeg',
+          fileSize: file.size
+        });
+      }
     };
-    reader.onerror = () => resolve({ hasExif: false });
+    reader.onerror = () => resolve({ hasExif: false, hasGps: false, fileType: file.type || 'image/jpeg', fileSize: file.size });
     reader.readAsArrayBuffer(file.slice(0, 65536));
   });
 }

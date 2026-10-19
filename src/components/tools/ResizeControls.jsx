@@ -18,21 +18,23 @@ export default function ResizeControls({ originalWidth, originalHeight, onChange
     onChange({ width: Math.round(width), height: Math.round(height) });
   }, [width, height]);
 
+  const MAX_SAFE_DIM = 10000;
+
   const handleWidthChange = (val) => {
     setActivePreset(null);
-    const num = Math.max(1, parseInt(val, 10) || 1);
+    const num = Math.max(1, Math.min(MAX_SAFE_DIM, parseInt(val, 10) || 1));
     setWidth(num);
     if (lockAspect) {
-      setHeight(Math.round(num / aspectRatio));
+      setHeight(Math.max(1, Math.min(MAX_SAFE_DIM, Math.round(num / aspectRatio))));
     }
   };
 
   const handleHeightChange = (val) => {
     setActivePreset(null);
-    const num = Math.max(1, parseInt(val, 10) || 1);
+    const num = Math.max(1, Math.min(MAX_SAFE_DIM, parseInt(val, 10) || 1));
     setHeight(num);
     if (lockAspect) {
-      setWidth(Math.round(num * aspectRatio));
+      setWidth(Math.max(1, Math.min(MAX_SAFE_DIM, Math.round(num * aspectRatio))));
     }
   };
 
