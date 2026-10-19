@@ -16,7 +16,14 @@ export default function Header({ onReset, onOpenAbout }) {
 
       <div className="header-right-actions">
         {/* Privacy Status Pill */}
-        <div className="privacy-status-pill">
+        <div
+          className="privacy-status-pill"
+          onClick={onOpenAbout}
+          role="button"
+          tabIndex={0}
+          title="Click to view our 100% Client-Side Privacy Policy"
+          style={{ cursor: 'pointer' }}
+        >
           <span className="status-dot-green" />
           <Lock size={13} color="#065f46" />
           <span className="privacy-pill-text-desktop">100% Client-Side • Zero Data Uploaded</span>
@@ -25,7 +32,7 @@ export default function Header({ onReset, onOpenAbout }) {
 
         {/* GitHub Link */}
         <a
-          href="https://github.com/h-arshal"
+          href="https://github.com/H-arshal/Image-Utils"
           target="_blank"
           rel="noopener noreferrer"
           className="header-nav-link"
@@ -37,13 +44,13 @@ export default function Header({ onReset, onOpenAbout }) {
           <span className="header-nav-link-text">GitHub</span>
         </a>
 
-        {/* About Link */}
+        {/* About & Privacy Link */}
         <button
           type="button"
           className="header-nav-link-btn"
           onClick={onOpenAbout}
         >
-          About
+          About & Privacy
         </button>
 
         {/* Theme Toggle Button */}

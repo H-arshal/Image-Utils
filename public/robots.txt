@@ -1,0 +1,8 @@
+# Robots.txt for Image Utility
+# https://github.com/H-arshal/Image-Utils
+
+User-agent: *
+Allow: /
+
+# Canonical Sitemap (Update with your custom production domain if applicable)
+Sitemap: https://image-utils.vercel.app/sitemap.xml

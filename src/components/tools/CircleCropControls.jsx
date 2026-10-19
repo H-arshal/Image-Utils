@@ -5,13 +5,11 @@ export default function CircleCropControls({ originalWidth, originalHeight, crop
   const radius = cropState?.radius ?? Math.round(minDim / 2);
   const centerX = cropState?.centerX ?? Math.round(originalWidth / 2);
   const centerY = cropState?.centerY ?? Math.round(originalHeight / 2);
-  const zoom = cropState?.zoom ?? 1;
 
   const updateParam = (partial) => {
     const nextRadius = partial.radius !== undefined ? partial.radius : radius;
     let nextCenterX = partial.centerX !== undefined ? partial.centerX : centerX;
     let nextCenterY = partial.centerY !== undefined ? partial.centerY : centerY;
-    const nextZoom = partial.zoom !== undefined ? partial.zoom : zoom;
 
     nextCenterX = Math.max(nextRadius, Math.min(originalWidth - nextRadius, nextCenterX));
     nextCenterY = Math.max(nextRadius, Math.min(originalHeight - nextRadius, nextCenterY));
@@ -19,8 +17,7 @@ export default function CircleCropControls({ originalWidth, originalHeight, crop
     onChange({
       centerX: Math.round(nextCenterX),
       centerY: Math.round(nextCenterY),
-      radius: Math.round(nextRadius),
-      zoom: nextZoom
+      radius: Math.round(nextRadius)
     });
   };
 
@@ -28,8 +25,7 @@ export default function CircleCropControls({ originalWidth, originalHeight, crop
     onChange({
       centerX: Math.round(originalWidth / 2),
       centerY: Math.round(originalHeight / 2),
-      radius: Math.round(minDim / 2),
-      zoom: 1
+      radius: Math.round(minDim / 2)
     });
   };
 
@@ -53,23 +49,6 @@ export default function CircleCropControls({ originalWidth, originalHeight, crop
           max={minDim / 2}
           value={radius}
           onChange={(e) => updateParam({ radius: parseInt(e.target.value, 10) })}
-        />
-      </div>
-
-      <div className="control-group">
-        <label className="input-header-label">
-          <span>Zoom</span>
-          <span className="mono" style={{ color: 'var(--color-accent)', fontWeight: 600 }}>
-            {zoom.toFixed(1)}x
-          </span>
-        </label>
-        <input
-          type="range"
-          min={1}
-          max={3}
-          step={0.1}
-          value={zoom}
-          onChange={(e) => updateParam({ zoom: parseFloat(e.target.value) })}
         />
       </div>
 

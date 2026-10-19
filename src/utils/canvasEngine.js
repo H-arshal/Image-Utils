@@ -240,8 +240,9 @@ export async function circleCropImage(img, centerX, centerY, radius, zoom = 1) {
   ctx.closePath();
   ctx.clip();
 
-  const sourceW = (radius * 2) / zoom;
-  const sourceH = (radius * 2) / zoom;
+  const effectiveZoom = Math.max(0.1, zoom || 1);
+  const sourceW = (radius * 2) / effectiveZoom;
+  const sourceH = (radius * 2) / effectiveZoom;
   const sourceX = centerX - sourceW / 2;
   const sourceY = centerY - sourceH / 2;
 

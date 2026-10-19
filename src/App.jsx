@@ -5,23 +5,64 @@ import Dropzone from './components/Dropzone';
 import ToolGrid from './components/ToolGrid';
 import Workspace from './components/Workspace';
 import AboutModal from './components/AboutModal';
+import NotFound from './components/NotFound';
 import { CheckCircle2 } from 'lucide-react';
 import { createSampleLandscape } from './utils/sampleImages';
 import logoIcon from './assets/Orange Pixel Landscape Icon.png';
 
-const TOOL_TITLES = {
-  resize: 'Resize Image',
-  compress: 'Compress Image',
-  crop: 'Crop Image',
-  circle: 'Circle Crop',
-  radius: 'Corner Radius',
-  border: 'Add Border',
-  adjust: 'Adjust & Filters',
-  rotate: 'Rotate & Flip',
-  convert: 'Convert Format',
-  watermark: 'Add Watermark',
-  pdf: 'Image to PDF',
-  metadata: 'Metadata Stripper'
+const ROUTE_SEO = {
+  home: {
+    title: 'Image Utility | Client-Side Image Tools (Private & Fast)',
+    desc: 'Free, private, in-browser image tools. Resize, compress, crop, circle crop, round corners, adjust filters, watermark, convert to PNG/JPG/WebP, and generate PDFs without uploading files.',
+  },
+  resize: {
+    title: 'Resize Image Online | Image Utility',
+    desc: 'Resize image dimensions with aspect ratio lock or custom width and height. 100% private in-browser.',
+  },
+  compress: {
+    title: 'Compress Image Online (Reduce KB) | Image Utility',
+    desc: 'Compress images to a target file size or custom quality slider directly in your browser without quality loss.',
+  },
+  crop: {
+    title: 'Crop Image Online (Freeform & Presets) | Image Utility',
+    desc: 'Crop rectangular regions with 1:1, 16:9, 4:3, or custom freeform crop boxes with interactive handles.',
+  },
+  circle: {
+    title: 'Circle Crop Image (Round Avatar Maker) | Image Utility',
+    desc: 'Create circular profile pictures and avatars with transparent PNG output and interactive drag handles.',
+  },
+  radius: {
+    title: 'Round Image Corners (Corner Radius) | Image Utility',
+    desc: 'Add clean rounded corners to photos with transparent PNG or custom background fill.',
+  },
+  border: {
+    title: 'Add Border to Image Online | Image Utility',
+    desc: 'Add custom border frames with adjustable widths, colors, and corner radius directly in your browser.',
+  },
+  adjust: {
+    title: 'Photo Adjustments & Filters Online | Image Utility',
+    desc: 'Fine-tune exposure, contrast, saturation, warmth, vignette, blur, and 9 Instagram-style one-click photo filters.',
+  },
+  rotate: {
+    title: 'Rotate & Flip Image Online | Image Utility',
+    desc: 'Rotate photos 90°, 180°, 270° or mirror flip horizontally and vertically in-browser.',
+  },
+  convert: {
+    title: 'Convert Image Format (PNG, JPEG, WebP) | Image Utility',
+    desc: 'Convert seamlessly between PNG, JPEG, and WebP formats with custom quality and background fill.',
+  },
+  watermark: {
+    title: 'Add Watermark to Photo Online | Image Utility',
+    desc: 'Protect photos with customizable text watermarks, opacity, positions, and styling client-side.',
+  },
+  pdf: {
+    title: 'Convert Image to PDF Online | Image Utility',
+    desc: 'Convert images to single-page A4, Letter, or fit-to-image printable PDF documents locally.',
+  },
+  metadata: {
+    title: 'EXIF Metadata Stripper (Scrub GPS) | Image Utility',
+    desc: 'Inspect and remove EXIF tags, GPS location coordinates, and camera device serial numbers for privacy.',
+  }
 };
 
 /**
@@ -31,8 +72,11 @@ function ToolRouteWrapper({ imageData, setImageData, onShowToast }) {
   const { toolId } = useParams();
   const navigate = useNavigate();
 
+  const isValidTool = Boolean(toolId && ROUTE_SEO[toolId] && toolId !== 'home');
+
   // If user lands directly on a tool URL without an image in state, load default sample
   useEffect(() => {
+    if (!isValidTool) return;
     if (!imageData) {
       const dataUrl = createSampleLandscape();
       const img = new Image();
@@ -49,19 +93,21 @@ function ToolRouteWrapper({ imageData, setImageData, onShowToast }) {
       };
       img.src = dataUrl;
     }
-  }, [imageData, setImageData]);
+  }, [imageData, setImageData, isValidTool]);
+
+  if (!isValidTool) {
+    return <NotFound />;
+  }
 
   if (!imageData) {
     return null;
   }
 
-  const activeTool = toolId && TOOL_TITLES[toolId] ? toolId : 'resize';
-
   return (
     <Workspace
       imageData={imageData}
-      initialTool={activeTool}
-      currentTool={activeTool}
+      initialTool={toolId}
+      currentTool={toolId}
       onToolChange={(newTool) => navigate(`/${newTool}`)}
       onBack={() => {
         setImageData(null);
@@ -132,14 +178,38 @@ export default function App() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Update dynamic document title based on active route for SEO
+  // Update dynamic document title, meta description, and canonical link based on active route for SEO
   useEffect(() => {
     const path = location.pathname.replace(/^\//, '');
-    if (path && TOOL_TITLES[path]) {
-      document.title = `${TOOL_TITLES[path]} | Image Utility`;
-    } else {
-      document.title = 'Image Utility | Client-Side Image Tools';
+    const isKnownTool = path === '' || (ROUTE_SEO[path] && path !== 'home');
+    const meta = isKnownTool
+      ? (ROUTE_SEO[path] || ROUTE_SEO.home)
+      : {
+          title: '404 - Page Not Found | Image Utility',
+          desc: 'The requested image tool or page could not be found. Explore our 12 client-side image editing tools.'
+        };
+
+    document.title = meta.title;
+
+    // Update Meta Description
+    const descMeta = document.querySelector('meta[name="description"]');
+    if (descMeta) {
+      descMeta.setAttribute('content', meta.desc);
     }
+
+    // Update Open Graph tags
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    if (ogTitle) ogTitle.setAttribute('content', meta.title);
+
+    const ogDesc = document.querySelector('meta[property="og:description"]');
+    if (ogDesc) ogDesc.setAttribute('content', meta.desc);
+
+    const ogUrl = document.querySelector('meta[property="og:url"]');
+    if (ogUrl) ogUrl.setAttribute('content', window.location.href);
+
+    // Update Canonical URL link
+    const canonical = document.querySelector('link[rel="canonical"]');
+    if (canonical) canonical.setAttribute('href', window.location.href);
   }, [location.pathname]);
 
   const showToast = (msg) => {
@@ -183,7 +253,7 @@ export default function App() {
               />
             }
           />
-          <Route path="*" element={<Navigate to="/" replace />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
 

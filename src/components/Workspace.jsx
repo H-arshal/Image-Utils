@@ -9,13 +9,15 @@ import {
   Crop,
   Circle,
   Square,
+  Repeat,
   RotateCw,
   FileText,
   ShieldAlert,
   Type,
   Sliders,
   Info,
-  Columns
+  Columns,
+  UploadCloud
 } from 'lucide-react';
 import {
   formatBytes,
@@ -46,7 +48,6 @@ import PdfControls from './tools/PdfControls';
 import MetadataControls from './tools/MetadataControls';
 import WatermarkControls from './tools/WatermarkControls';
 import AdjustControls from './tools/AdjustControls';
-import BottomDropzone from './BottomDropzone';
 import InteractiveCircleCrop from './InteractiveCircleCrop';
 import InteractiveRectCrop from './InteractiveRectCrop';
 import CornerRadiusControls from './tools/CornerRadiusControls';
@@ -54,6 +55,7 @@ import CornerRadiusControls from './tools/CornerRadiusControls';
 const WORKSPACE_TOOLS = [
   { id: 'resize', name: 'Resize', desc: 'Change image dimensions', icon: Maximize2 },
   { id: 'compress', name: 'Compress', desc: 'Reduce file size', icon: FileDown },
+  { id: 'convert', name: 'Convert', desc: 'Convert seamlessly between PNG, JPEG, and WebP', icon: Repeat },
   { id: 'crop', name: 'Crop', desc: 'Trim to your perfect frame', icon: Crop },
   { id: 'circle', name: 'Circle Crop', desc: 'Create perfect circle images', icon: Circle },
   { id: 'radius', name: 'Corner Radius', desc: 'Round corners with transparent PNG', icon: Square },
@@ -105,6 +107,118 @@ export default function Workspace({
 
   // Tool parameter states
   const [toolParams, setToolParams] = useState({});
+
+  // Direct Canvas Drag & Drop and File Replace Handlers
+  const [isCanvasDragOver, setIsCanvasDragOver] = useState(false);
+  const dragCounterRef = useRef(0);
+  const canvasFileInputRef = useRef(null);
+
+  const ALLOWED_MIME_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/bmp'];
+  const MAX_FILE_SIZE = 50 * 1024 * 1024;
+  const MAX_PIXEL_DIMENSION = 12000;
+
+  const handleIncomingFile = (file) => {
+    if (!file) return;
+
+    if (!ALLOWED_MIME_TYPES.includes(file.type)) {
+      if (onShowToast) onShowToast('Unsupported format. Please drop JPG, PNG, WebP, BMP, or GIF.');
+      else alert('Unsupported file format.');
+      return;
+    }
+
+    if (file.size > MAX_FILE_SIZE) {
+      if (onShowToast) onShowToast('File exceeds 50MB maximum size limit.');
+      else alert('File is too large.');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onerror = () => {
+      if (onShowToast) onShowToast('Failed to read image file.');
+    };
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onerror = () => {
+        if (onShowToast) onShowToast('Corrupted or invalid image data.');
+      };
+      img.onload = () => {
+        if (img.naturalWidth > MAX_PIXEL_DIMENSION || img.naturalHeight > MAX_PIXEL_DIMENSION) {
+          if (onShowToast) onShowToast(`Dimensions exceed safe limit (${MAX_PIXEL_DIMENSION}px).`);
+          return;
+        }
+        if (onFileLoaded) {
+          onFileLoaded({
+            file,
+            dataUrl: e.target.result,
+            name: file.name,
+            size: file.size,
+            width: img.naturalWidth,
+            height: img.naturalHeight,
+            type: file.type
+          });
+        }
+        setToolParams({});
+        if (onShowToast) onShowToast(`Loaded ${file.name}`);
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleCanvasDragEnter = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    dragCounterRef.current += 1;
+    if (e.dataTransfer.items && e.dataTransfer.items.length > 0) {
+      setIsCanvasDragOver(true);
+    }
+  };
+
+  const handleCanvasDragOver = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    e.dataTransfer.dropEffect = 'copy';
+  };
+
+  const handleCanvasDragLeave = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    dragCounterRef.current -= 1;
+    if (dragCounterRef.current <= 0) {
+      dragCounterRef.current = 0;
+      setIsCanvasDragOver(false);
+    }
+  };
+
+  const handleCanvasDrop = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    dragCounterRef.current = 0;
+    setIsCanvasDragOver(false);
+
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      handleIncomingFile(e.dataTransfer.files[0]);
+    }
+  };
+
+  // Clipboard paste directly into workspace (Ctrl+V / Cmd+V)
+  useEffect(() => {
+    const handlePaste = (e) => {
+      const items = e.clipboardData?.items;
+      if (!items) return;
+      for (let i = 0; i < items.length; i++) {
+        if (items[i].type && items[i].type.startsWith('image/')) {
+          const file = items[i].getAsFile();
+          if (file) {
+            handleIncomingFile(file);
+            break;
+          }
+        }
+      }
+    };
+    window.addEventListener('paste', handlePaste);
+    return () => window.removeEventListener('paste', handlePaste);
+  }, []);
 
   // Load source Image DOM element
   useEffect(() => {
@@ -178,8 +292,7 @@ export default function Workspace({
             const radius = toolParams.radius ?? Math.round(minDim / 2);
             const cX = toolParams.centerX ?? Math.round(imageData.width / 2);
             const cY = toolParams.centerY ?? Math.round(imageData.height / 2);
-            const zoom = toolParams.zoom ?? 1;
-            res = await circleCropImage(imgElement, cX, cY, radius, zoom);
+            res = await circleCropImage(imgElement, cX, cY, radius);
             break;
           }
           case 'radius': {
@@ -358,18 +471,66 @@ export default function Workspace({
               </div>
             </div>
 
-            <button
-              type="button"
-              className="btn-change-image"
-              onClick={onBack}
-            >
-              <ArrowLeft size={15} />
-              <span>Change Image</span>
-            </button>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <input
+                type="file"
+                ref={canvasFileInputRef}
+                style={{ display: 'none' }}
+                accept="image/png,image/jpeg,image/webp,image/gif,image/bmp"
+                onChange={(e) => {
+                  if (e.target.files && e.target.files[0]) {
+                    handleIncomingFile(e.target.files[0]);
+                  }
+                }}
+              />
+              <button
+                type="button"
+                className="btn-change-image"
+                onClick={() => canvasFileInputRef.current?.click()}
+                title="Select a replacement image from your device"
+              >
+                <UploadCloud size={14} />
+                <span>Replace</span>
+              </button>
+              <button
+                type="button"
+                className="btn-change-image"
+                onClick={onBack}
+                title="Return to homepage"
+              >
+                <ArrowLeft size={14} />
+                <span>Change Image</span>
+              </button>
+            </div>
           </div>
 
-          {/* Central Preview Card with Checkerboard */}
-          <div className="preview-canvas-card">
+          {/* Central Preview Card with Checkerboard and Direct Drag-and-Drop */}
+          <div
+            className={`preview-canvas-card ${isCanvasDragOver ? 'is-dragover' : ''}`}
+            onDragEnter={handleCanvasDragEnter}
+            onDragOver={handleCanvasDragOver}
+            onDragLeave={handleCanvasDragLeave}
+            onDrop={handleCanvasDrop}
+          >
+            {/* Direct Canvas Drop Overlay */}
+            {isCanvasDragOver && (
+              <div className="canvas-drop-overlay">
+                <div className="canvas-drop-badge">
+                  <div className="canvas-drop-icon-box">
+                    <UploadCloud size={28} color="var(--color-accent)" />
+                  </div>
+                  <h4 className="canvas-drop-title">Drop new image here</h4>
+                  <p className="canvas-drop-sub">Release to replace current image in workspace</p>
+                  <div className="canvas-drop-pills">
+                    <span>JPG</span>
+                    <span>PNG</span>
+                    <span>WEBP</span>
+                    <span>BMP</span>
+                    <span>GIF</span>
+                  </div>
+                </div>
+              </div>
+            )}
             {showOriginal && (
               <div className="compare-floating-badge">
                 Original Image
@@ -543,8 +704,7 @@ export default function Workspace({
                 cropState={{
                   centerX: toolParams.centerX ?? Math.round(imageData.width / 2),
                   centerY: toolParams.centerY ?? Math.round(imageData.height / 2),
-                  radius: toolParams.radius ?? Math.round(Math.min(imageData.width, imageData.height) / 2),
-                  zoom: toolParams.zoom ?? 1
+                  radius: toolParams.radius ?? Math.round(Math.min(imageData.width, imageData.height) / 2)
                 }}
                 onChange={(newCrop) => setToolParams((prev) => ({ ...prev, ...newCrop }))}
               />
@@ -622,9 +782,6 @@ export default function Workspace({
           </button>
         </aside>
       </div>
-
-      {/* Bottom Dropzone Card (Exactly as in Mockup) */}
-      <BottomDropzone onFileLoaded={onFileLoaded} />
     </div>
   );
 }

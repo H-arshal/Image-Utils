@@ -479,16 +479,6 @@ body {
   color: var(--color-accent);
 }
 
-.sidebar-tool-card.is-active::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 6px;
-  bottom: 6px;
-  width: 3.5px;
-  background: var(--color-accent);
-  border-radius: 0 4px 4px 0;
-}
 
 .sidebar-tool-icon {
   width: 28px;
@@ -615,6 +605,80 @@ body {
     linear-gradient(-45deg, transparent 75%, #f0eeee 75%);
   background-size: 16px 16px;
   background-position: 0 0, 0 8px, 8px -8px, -8px 0px;
+}
+
+.preview-canvas-card.is-dragover {
+  border-color: var(--color-accent) !important;
+  box-shadow: 0 0 0 3px var(--color-accent-subtle), var(--shadow-card) !important;
+}
+
+.canvas-drop-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+  pointer-events: none;
+  animation: fadeIn 0.15s ease-out forwards;
+}
+
+.canvas-drop-badge {
+  background: var(--color-surface);
+  border: 2px dashed var(--color-accent);
+  border-radius: var(--radius-lg);
+  padding: 24px 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 12px 32px rgba(198, 93, 33, 0.15);
+  text-align: center;
+  max-width: 380px;
+}
+
+.canvas-drop-icon-box {
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-full);
+  background: var(--color-accent-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 4px;
+}
+
+.canvas-drop-title {
+  font-size: 1.0625rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.canvas-drop-sub {
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+.canvas-drop-pills {
+  display: flex;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.canvas-drop-pills span {
+  font-size: 0.6875rem;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  background: var(--color-accent-subtle);
+  color: var(--color-accent);
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
 }
 
 .compare-floating-badge {
