@@ -1,5 +1,5 @@
 import React from 'react';
-import { Lock, Sun, Info } from 'lucide-react';
+import { Lock, Info } from 'lucide-react';
 import logoIcon from '../assets/Orange Pixel Landscape Icon.png';
 
 export default function Header({ onReset, onOpenAbout }) {
@@ -75,18 +75,9 @@ export default function Header({ onReset, onOpenAbout }) {
           <Info size={15} className="header-nav-icon-mobile" />
           <span className="header-nav-link-text">About & Privacy</span>
         </button>
-
-        {/* Theme Toggle Button */}
-        <button
-          type="button"
-          className="theme-toggle-btn"
-          title="Theme (Light active)"
-          aria-label="Theme mode"
-        >
-          <Sun size={15} />
-        </button>
       </div>
     </header>
   );
 }
+
 
