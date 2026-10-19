@@ -80,7 +80,15 @@
     <priority>0.8</priority>
   </url>
 
-  <!-- 10. Watermark -->
+  <!-- 10. Favicon Generator -->
+  <url>
+    <loc>https://image-utils.vercel.app/favicon</loc>
+    <lastmod>2026-10-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- 11. Watermark -->
   <url>
     <loc>https://image-utils.vercel.app/watermark</loc>
     <lastmod>2026-10-19</lastmod>
@@ -88,7 +96,7 @@
     <priority>0.7</priority>
   </url>
 
-  <!-- 11. Image to PDF -->
+  <!-- 12. Image to PDF -->
   <url>
     <loc>https://image-utils.vercel.app/pdf</loc>
     <lastmod>2026-10-19</lastmod>
@@ -96,7 +104,7 @@
     <priority>0.8</priority>
   </url>
 
-  <!-- 12. EXIF Metadata Stripper -->
+  <!-- 13. EXIF Metadata Stripper -->
   <url>
     <loc>https://image-utils.vercel.app/metadata</loc>
     <lastmod>2026-10-19</lastmod>

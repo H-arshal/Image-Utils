@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route, useNavigate, useLocation, useParams, Navigate } from 'react-router-dom';
+import { Routes, Route, useNavigate, useLocation, useParams } from 'react-router-dom';
 import Header from './components/Header';
 import Dropzone from './components/Dropzone';
 import ToolGrid from './components/ToolGrid';
@@ -48,8 +48,12 @@ const ROUTE_SEO = {
     desc: 'Rotate photos 90°, 180°, 270° or mirror flip horizontally and vertically in-browser.',
   },
   convert: {
-    title: 'Convert Image Format (PNG, JPEG, WebP) | Image Utility',
-    desc: 'Convert seamlessly between PNG, JPEG, and WebP formats with custom quality and background fill.',
+    title: 'Convert Image Format (PNG, JPEG, WebP, BMP, AVIF, TIFF, ICO) | Image Utility',
+    desc: 'Convert seamlessly between PNG, JPEG, WebP, BMP, AVIF, TIFF, and ICO formats with custom quality and background fill.',
+  },
+  favicon: {
+    title: 'Favicon Generator (.ICO & App Icons) | Image Utility',
+    desc: 'Generate multi-resolution .ico favicons, 180x180 Apple Touch icons, Android PWA icons, and copy HTML embed snippet locally.',
   },
   watermark: {
     title: 'Add Watermark to Photo Online | Image Utility',

@@ -1,11 +1,24 @@
 import React from 'react';
-import { Lock, Sun } from 'lucide-react';
+import { Lock, Sun, Info } from 'lucide-react';
 import logoIcon from '../assets/Orange Pixel Landscape Icon.png';
 
 export default function Header({ onReset, onOpenAbout }) {
   return (
     <header className="app-header">
-      <div className="logo-group" onClick={onReset} role="button" tabIndex={0} title="Image Utility Home">
+      <div
+        className="logo-group"
+        onClick={onReset}
+        role="button"
+        tabIndex={0}
+        title="Image Utility Home"
+        aria-label="Image Utility Home"
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            onReset?.();
+          }
+        }}
+      >
         <div className="logo-icon-box">
           <img src={logoIcon} alt="Image Utility Logo" className="logo-icon-img" />
         </div>
@@ -21,11 +34,17 @@ export default function Header({ onReset, onOpenAbout }) {
           onClick={onOpenAbout}
           role="button"
           tabIndex={0}
-          title="Click to view our 100% Client-Side Privacy Policy"
-          style={{ cursor: 'pointer' }}
+          title="100% In-Browser & Private • Click to view Privacy Policy"
+          aria-label="100% Client-Side Privacy Policy"
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              onOpenAbout?.();
+            }
+          }}
         >
           <span className="status-dot-green" />
-          <Lock size={13} color="#065f46" />
+          <Lock size={12} color="#065f46" className="privacy-lock-icon" />
           <span className="privacy-pill-text-desktop">100% Client-Side • Zero Data Uploaded</span>
           <span className="privacy-pill-text-mobile">100% Private</span>
         </div>
@@ -37,8 +56,9 @@ export default function Header({ onReset, onOpenAbout }) {
           rel="noopener noreferrer"
           className="header-nav-link"
           title="GitHub Repository"
+          aria-label="GitHub Repository"
         >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
             <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
           </svg>
           <span className="header-nav-link-text">GitHub</span>
@@ -49,15 +69,19 @@ export default function Header({ onReset, onOpenAbout }) {
           type="button"
           className="header-nav-link-btn"
           onClick={onOpenAbout}
+          title="About Image Utility & Privacy"
+          aria-label="About Image Utility & Privacy"
         >
-          About & Privacy
+          <Info size={15} className="header-nav-icon-mobile" />
+          <span className="header-nav-link-text">About & Privacy</span>
         </button>
 
         {/* Theme Toggle Button */}
         <button
           type="button"
           className="theme-toggle-btn"
-          title="Light theme active"
+          title="Theme (Light active)"
+          aria-label="Theme mode"
         >
           <Sun size={15} />
         </button>
@@ -65,3 +89,4 @@ export default function Header({ onReset, onOpenAbout }) {
     </header>
   );
 }
+

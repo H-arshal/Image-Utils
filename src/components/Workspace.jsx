@@ -17,7 +17,8 @@ import {
   Sliders,
   Info,
   Columns,
-  UploadCloud
+  UploadCloud,
+  Globe
 } from 'lucide-react';
 import {
   formatBytes,
@@ -35,7 +36,8 @@ import {
   generatePdf,
   stripMetadata,
   watermarkImage,
-  adjustImage
+  adjustImage,
+  generateFavicon
 } from '../utils/canvasEngine';
 import ResizeControls from './tools/ResizeControls';
 import CompressControls from './tools/CompressControls';
@@ -51,16 +53,18 @@ import AdjustControls from './tools/AdjustControls';
 import InteractiveCircleCrop from './InteractiveCircleCrop';
 import InteractiveRectCrop from './InteractiveRectCrop';
 import CornerRadiusControls from './tools/CornerRadiusControls';
+import FaviconControls from './tools/FaviconControls';
 
 const WORKSPACE_TOOLS = [
   { id: 'resize', name: 'Resize', desc: 'Change image dimensions', icon: Maximize2 },
   { id: 'compress', name: 'Compress', desc: 'Reduce file size', icon: FileDown },
-  { id: 'convert', name: 'Convert', desc: 'Convert seamlessly between PNG, JPEG, and WebP', icon: Repeat },
+  { id: 'convert', name: 'Convert', desc: 'Convert seamlessly between PNG, JPEG, WebP, BMP, AVIF, TIFF, and ICO', icon: Repeat },
   { id: 'crop', name: 'Crop', desc: 'Trim to your perfect frame', icon: Crop },
   { id: 'circle', name: 'Circle Crop', desc: 'Create perfect circle images', icon: Circle },
   { id: 'radius', name: 'Corner Radius', desc: 'Round corners with transparent PNG', icon: Square },
   { id: 'border', name: 'Add Border', desc: 'Add custom borders', icon: Square },
   { id: 'rotate', name: 'Rotate', desc: 'Rotate and flip images', icon: RotateCw },
+  { id: 'favicon', name: 'Favicon Generator', desc: 'Create .ico and web app icons', icon: Globe },
   { id: 'watermark', name: 'Watermark', desc: 'Add text or logo', icon: Type },
   { id: 'adjust', name: 'Adjust', desc: 'Brightness, contrast and more', icon: Sliders },
   { id: 'pdf', name: 'Image to PDF', desc: 'Convert image to single-page PDF', icon: FileText },
@@ -287,6 +291,14 @@ export default function Workspace({
             res = await convertFormat(imgElement, targetFormat, quality, bgColor);
             break;
           }
+          case 'favicon': {
+            res = await generateFavicon(imgElement, {
+              preset: toolParams.preset || 'package',
+              bgColor: toolParams.bgColor || 'transparent',
+              radius: toolParams.radius ?? 0
+            });
+            break;
+          }
           case 'circle': {
             const minDim = Math.min(imageData.width, imageData.height);
             const radius = toolParams.radius ?? Math.round(minDim / 2);
@@ -305,7 +317,8 @@ export default function Workspace({
             res = await addBorderImage(imgElement, {
               borderWidth: toolParams.borderWidth ?? 16,
               borderColor: toolParams.borderColor ?? '#c65d21',
-              radius: toolParams.radius ?? 12
+              radius: toolParams.radius ?? 12,
+              mode: toolParams.mode || 'auto'
             });
             break;
           }
@@ -353,7 +366,9 @@ export default function Workspace({
             break;
           }
           case 'metadata': {
-            res = await stripMetadata(imgElement, imageData.type || 'image/jpeg');
+            const targetFormat = toolParams.format || imageData.type || 'image/jpeg';
+            const quality = toolParams.quality ?? 0.92;
+            res = await stripMetadata(imgElement, targetFormat, quality);
             break;
           }
           default:
@@ -388,15 +403,36 @@ export default function Workspace({
     if (activeTool === 'pdf') {
       filename = `${baseName}-document.pdf`;
       downloadBlob(processedResult.pdfBlob, filename);
+    } else if (activeTool === 'favicon') {
+      filename = processedResult.filename || 'favicon_package.zip';
+      downloadBlob(processedResult.blob, filename);
     } else {
       let ext = 'jpg';
-      if (activeTool === 'circle' || activeTool === 'radius' || activeTool === 'border' || activeTool === 'watermark') ext = 'png';
-      else if (activeTool === 'convert') {
-        ext = toolParams.targetFormat === 'image/webp' ? 'webp' : toolParams.targetFormat === 'image/png' ? 'png' : 'jpg';
-      } else if (imageData.type?.includes('png')) ext = 'png';
-      else if (imageData.type?.includes('webp')) ext = 'webp';
+      if (activeTool === 'circle' || activeTool === 'radius' || activeTool === 'border' || activeTool === 'watermark') {
+        ext = 'png';
+      } else if (activeTool === 'convert') {
+        const fmt = toolParams.targetFormat || 'image/png';
+        if (fmt === 'image/webp') ext = 'webp';
+        else if (fmt === 'image/png') ext = 'png';
+        else if (fmt === 'image/bmp') ext = 'bmp';
+        else if (fmt === 'image/tiff') ext = 'tiff';
+        else if (fmt === 'image/x-icon') ext = 'ico';
+        else if (fmt === 'image/avif') ext = 'avif';
+        else ext = 'jpg';
+      } else if (activeTool === 'metadata') {
+        const fmt = toolParams.format || imageData.type || 'image/jpeg';
+        if (fmt.includes('png')) ext = 'png';
+        else if (fmt.includes('webp')) ext = 'webp';
+        else ext = 'jpg';
+      } else if (imageData.type?.includes('png')) {
+        ext = 'png';
+      } else if (imageData.type?.includes('webp')) {
+        ext = 'webp';
+      }
 
-      filename = `${baseName}-${activeTool}.${ext}`;
+      filename = activeTool === 'metadata'
+        ? `${baseName}-cleaned.${ext}`
+        : `${baseName}-${activeTool}.${ext}`;
       downloadBlob(processedResult.blob, filename);
     }
 
@@ -648,7 +684,15 @@ export default function Workspace({
               <ToolIcon size={20} color="var(--color-accent)" />
             </div>
             <div>
-              <h3 className="panel-header-title">{activeToolDef.name} Image</h3>
+              <h3 className="panel-header-title">
+                {activeTool === 'metadata'
+                  ? 'Remove Metadata'
+                  : activeTool === 'favicon'
+                  ? 'Favicon Generator'
+                  : activeTool === 'pdf'
+                  ? 'Image to PDF'
+                  : `${activeToolDef.name} Image`}
+              </h3>
               <p className="panel-header-desc">{activeToolDef.desc}</p>
             </div>
           </div>
@@ -697,6 +741,13 @@ export default function Workspace({
               />
             )}
 
+            {activeTool === 'favicon' && (
+              <FaviconControls
+                previewUrl={processedResult?.url || imageData.dataUrl}
+                onChange={setToolParams}
+              />
+            )}
+
             {activeTool === 'circle' && (
               <CircleCropControls
                 originalWidth={imageData.width}
@@ -720,6 +771,7 @@ export default function Workspace({
 
             {activeTool === 'border' && (
               <AddBorderControls
+                imgElement={imgElement}
                 onChange={setToolParams}
               />
             )}
@@ -745,6 +797,8 @@ export default function Workspace({
             {activeTool === 'metadata' && (
               <MetadataControls
                 file={imageData.file}
+                fileType={imageData.type}
+                originalSize={imageData.size}
                 onChange={setToolParams}
               />
             )}
@@ -770,7 +824,6 @@ export default function Workspace({
             </div>
           </div>
 
-          {/* Primary Action Button */}
           <button
             type="button"
             className="btn-download-primary"
@@ -778,7 +831,15 @@ export default function Workspace({
             disabled={processing || !processedResult}
           >
             <Download size={18} />
-            <span>{activeTool === 'pdf' ? 'Download PDF' : 'Download Image'}</span>
+            <span>
+              {activeTool === 'pdf'
+                ? 'Download PDF'
+                : activeTool === 'favicon'
+                ? (processedResult?.filename ? `Download ${processedResult.filename}` : 'Download Favicon')
+                : activeTool === 'metadata'
+                ? 'Download Clean Image'
+                : 'Download Image'}
+            </span>
           </button>
         </aside>
       </div>

@@ -42,6 +42,14 @@
   /* Shadows */
   --shadow-card: 0 1px 3px rgba(17, 24, 39, 0.04), 0 1px 2px rgba(17, 24, 39, 0.02);
   --shadow-popover: 0 8px 24px rgba(17, 24, 39, 0.08);
+
+  /* Spacing */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
 }
 
 * {
@@ -141,11 +149,32 @@ body {
   color: #065f46;
   font-size: 0.8125rem;
   font-weight: 500;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+}
+
+.privacy-status-pill:hover {
+  background: #d1fae5;
+  border-color: #6ee7b7;
+}
+
+.privacy-status-pill:active {
+  transform: scale(0.97);
+}
+
+.privacy-lock-icon {
+  flex-shrink: 0;
 }
 
 .privacy-pill-text-mobile {
   display: none;
 }
+
+.header-nav-icon-mobile {
+  display: none;
+}
+
 
 .status-dot-green {
   width: 6px;
@@ -859,7 +888,9 @@ body {
   padding: 22px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 16px;
+  max-height: calc(100vh - 120px);
+  overflow-y: auto;
 }
 
 .panel-header-block {
@@ -1438,24 +1469,42 @@ input[type="range"] {
   .app-header {
     height: 54px;
     padding: 0 12px;
+    gap: 8px;
+    justify-content: space-between;
+  }
+
+  .logo-group {
+    gap: 8px;
+    flex-shrink: 0;
+    min-width: 0;
   }
 
   .logo-text {
-    font-size: 1.125rem;
+    font-size: 1.05rem;
+    white-space: nowrap;
+    letter-spacing: -0.01em;
   }
 
   .logo-icon-box {
     width: 28px;
     height: 28px;
+    flex-shrink: 0;
   }
 
   .header-right-actions {
-    gap: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
   }
 
   .privacy-status-pill {
     padding: 4px 8px;
-    font-size: 0.75rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    gap: 5px;
+    white-space: nowrap;
+    flex-shrink: 0;
   }
 
   .privacy-pill-text-desktop {
@@ -1466,10 +1515,60 @@ input[type="range"] {
     display: inline;
   }
 
+  /* Compact 32x32 round icon buttons for mobile */
+  .header-nav-link-text {
+    display: none;
+  }
+
+  .header-nav-icon-mobile {
+    display: block;
+  }
+
   .header-nav-link,
   .header-nav-link-btn {
-    font-size: 0.8125rem;
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    min-height: 32px;
+    border-radius: 50%;
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-secondary);
+    padding: 0;
+    flex-shrink: 0;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.15s ease;
   }
+
+  .header-nav-link:hover,
+  .header-nav-link-btn:hover {
+    color: var(--color-text);
+    background: var(--color-surface-subtle);
+    border-color: var(--color-border-hover);
+  }
+
+  .header-nav-link:active,
+  .header-nav-link-btn:active {
+    transform: scale(0.93);
+    background: var(--color-border);
+  }
+
+  .theme-toggle-btn {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    min-height: 32px;
+    flex-shrink: 0;
+  }
+
+  .theme-toggle-btn:active {
+    transform: scale(0.93);
+  }
+
 
   /* Main Container */
   .main-content {
@@ -1668,16 +1767,22 @@ input[type="range"] {
 
 /* 4. Compact Mobile Devices (max-width: 420px) */
 @media (max-width: 420px) {
-  .header-nav-link-text {
-    display: none;
+  .app-header {
+    padding: 0 10px;
+    gap: 6px;
   }
 
-  .privacy-pill-text-mobile {
-    display: none;
+  .logo-text {
+    font-size: 0.98rem;
+  }
+
+  .header-right-actions {
+    gap: 5px;
   }
 
   .privacy-status-pill {
-    padding: 4px 6px;
+    padding: 4px 7px;
+    font-size: 0.6875rem;
   }
 
   .file-info-title {
@@ -1701,3 +1806,46 @@ input[type="range"] {
     font-size: 0.8125rem;
   }
 }
+
+/* 5. Ultra-Compact Mobile Devices (max-width: 350px) */
+@media (max-width: 350px) {
+  .app-header {
+    padding: 0 6px;
+    gap: 4px;
+  }
+
+  .logo-group {
+    gap: 6px;
+  }
+
+  .logo-text {
+    font-size: 0.88rem;
+  }
+
+  .logo-icon-box {
+    width: 24px;
+    height: 24px;
+  }
+
+  .header-right-actions {
+    gap: 4px;
+  }
+
+  .privacy-pill-text-mobile {
+    display: none;
+  }
+
+  .privacy-status-pill {
+    padding: 4px 6px;
+  }
+
+  .header-nav-link,
+  .header-nav-link-btn,
+  .theme-toggle-btn {
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+    min-height: 28px;
+  }
+}
+

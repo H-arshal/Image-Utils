@@ -11,7 +11,8 @@ import {
   ShieldAlert,
   Wrench,
   Sliders,
-  Type
+  Type,
+  Globe
 } from 'lucide-react';
 
 export const TOOLS = [
@@ -28,10 +29,22 @@ export const TOOLS = [
     icon: FileDown
   },
   {
+    id: 'convert',
+    name: 'Convert',
+    desc: 'Convert seamlessly between PNG, JPEG, WebP, BMP, AVIF, TIFF, and ICO.',
+    icon: Repeat
+  },
+  {
     id: 'crop',
     name: 'Crop',
     desc: 'Crop rectangular regions with 1:1, 16:9, 4:3, or freeform presets.',
     icon: Crop
+  },
+  {
+    id: 'favicon',
+    name: 'Favicon Generator',
+    desc: 'Generate multi-resolution .ico and mobile app icons with live preview.',
+    icon: Globe
   },
   {
     id: 'circle',
@@ -52,10 +65,10 @@ export const TOOLS = [
     icon: Square
   },
   {
-    id: 'adjust',
-    name: 'Adjust & Filters',
-    desc: 'Fine-tune exposure, contrast, warmth, vignette, and 9 quick filters.',
-    icon: Sliders
+    id: 'rotate',
+    name: 'Rotate & Flip',
+    desc: 'Rotate 90°, 180° or mirror flip horizontally and vertically.',
+    icon: RotateCw
   },
   {
     id: 'watermark',
@@ -64,16 +77,10 @@ export const TOOLS = [
     icon: Type
   },
   {
-    id: 'convert',
-    name: 'Convert',
-    desc: 'Convert seamlessly between PNG, JPEG, and WebP formats.',
-    icon: Repeat
-  },
-  {
-    id: 'rotate',
-    name: 'Rotate & Flip',
-    desc: 'Rotate 90°, 180° or mirror flip horizontally and vertically.',
-    icon: RotateCw
+    id: 'adjust',
+    name: 'Adjust & Filters',
+    desc: 'Fine-tune exposure, contrast, warmth, vignette, and 9 quick filters.',
+    icon: Sliders
   },
   {
     id: 'pdf',

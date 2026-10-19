@@ -1,4 +1,5 @@
 import { jsPDF } from 'jspdf';
+import JSZip from 'jszip';
 
 /**
  * Format bytes into human-readable string (e.g. 1.2 MB, 450 KB)
@@ -204,18 +205,87 @@ export async function convertFormat(img, targetFormat = 'image/png', quality = 0
   canvas.height = height;
   const ctx = canvas.getContext('2d');
 
-  if (targetFormat === 'image/jpeg') {
-    ctx.fillStyle = bgColor;
-    ctx.fillRect(0, 0, width, height);
+  // Fill background if target format lacks alpha channel support
+  if (targetFormat === 'image/jpeg' || targetFormat === 'image/bmp') {
+    if (bgColor && bgColor !== 'transparent') {
+      ctx.fillStyle = bgColor;
+      ctx.fillRect(0, 0, width, height);
+    }
   }
 
   ctx.drawImage(img, 0, 0);
 
+  // 1. BMP Format (Pure in-browser binary 24-bit bitmap)
+  if (targetFormat === 'image/bmp') {
+    const blob = encodeBmp(canvas, bgColor);
+    return {
+      blob,
+      url: URL.createObjectURL(blob),
+      width,
+      height,
+      size: blob.size,
+      format: targetFormat
+    };
+  }
+
+  // 2. TIFF Format (Pure in-browser binary Little-Endian TIFF)
+  if (targetFormat === 'image/tiff') {
+    const blob = encodeTiff(canvas);
+    return {
+      blob,
+      url: URL.createObjectURL(blob),
+      width,
+      height,
+      size: blob.size,
+      format: targetFormat
+    };
+  }
+
+  // 3. ICO Format (Windows Icon single/multi size)
+  if (targetFormat === 'image/x-icon') {
+    const iconDim = Math.min(256, Math.max(16, Math.min(width, height)));
+    const iconCanvas = document.createElement('canvas');
+    iconCanvas.width = iconDim;
+    iconCanvas.height = iconDim;
+    const iconCtx = iconCanvas.getContext('2d');
+    iconCtx.imageSmoothingEnabled = true;
+    iconCtx.imageSmoothingQuality = 'high';
+    iconCtx.drawImage(canvas, 0, 0, iconDim, iconDim);
+
+    const blob = await encodeIcoFromCanvases([iconCanvas]);
+    const previewBlob = await new Promise((r) => iconCanvas.toBlob(r, 'image/png'));
+    return {
+      blob,
+      url: URL.createObjectURL(previewBlob),
+      width: iconDim,
+      height: iconDim,
+      size: blob.size,
+      format: targetFormat
+    };
+  }
+
+  // 4. Native Canvas Formats: PNG, JPEG, WebP, AVIF
   return new Promise((resolve) => {
     canvas.toBlob((blob) => {
+      // Graceful fallback to WebP if AVIF is unsupported by the browser
+      if (!blob && targetFormat === 'image/avif') {
+        canvas.toBlob((fallbackBlob) => {
+          resolve({
+            blob: fallbackBlob,
+            url: URL.createObjectURL(fallbackBlob),
+            width,
+            height,
+            size: fallbackBlob ? fallbackBlob.size : 0,
+            format: 'image/webp',
+            fallback: true
+          });
+        }, 'image/webp', quality);
+        return;
+      }
+
       resolve({
         blob,
-        url: URL.createObjectURL(blob),
+        url: blob ? URL.createObjectURL(blob) : '',
         width,
         height,
         size: blob ? blob.size : 0,
@@ -264,7 +334,29 @@ export async function circleCropImage(img, centerX, centerY, radius, zoom = 1) {
 /**
  * 7. ADD BORDER & CORNER RADIUS
  */
-export async function addBorderImage(img, { borderWidth = 16, borderColor = '#c65d21', radius = 12 }) {
+export function hasImageTransparency(img) {
+  try {
+    const testCanvas = document.createElement('canvas');
+    testCanvas.width = 32;
+    testCanvas.height = 32;
+    const ctx = testCanvas.getContext('2d', { willReadFrequently: true });
+    ctx.drawImage(img, 0, 0, 32, 32);
+    const data = ctx.getImageData(0, 0, 32, 32).data;
+    for (let i = 3; i < data.length; i += 4) {
+      if (data[i] < 240) return true;
+    }
+    return false;
+  } catch {
+    return false;
+  }
+}
+
+export async function addBorderImage(img, {
+  borderWidth = 16,
+  borderColor = '#c65d21',
+  radius = 12,
+  mode = 'auto' // 'auto' | 'contour' | 'frame'
+} = {}) {
   const origW = img.naturalWidth || img.width;
   const origH = img.naturalHeight || img.height;
   const b = Math.max(0, parseInt(borderWidth, 10) || 0);
@@ -273,27 +365,89 @@ export async function addBorderImage(img, { borderWidth = 16, borderColor = '#c6
   canvas.width = origW + b * 2;
   canvas.height = origH + b * 2;
   const ctx = canvas.getContext('2d');
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = 'high';
 
-  if (b > 0) {
-    ctx.fillStyle = borderColor;
+  if (b === 0) {
+    ctx.drawImage(img, 0, 0);
+    return new Promise((resolve) => {
+      canvas.toBlob((blob) => {
+        resolve({
+          blob,
+          url: URL.createObjectURL(blob),
+          width: origW,
+          height: origH,
+          size: blob ? blob.size : 0
+        });
+      }, 'image/png');
+    });
+  }
+
+  // Determine whether to outline the shape contour (circle, cutout, sticker) or draw a rectangular frame
+  const isTransparent = hasImageTransparency(img);
+  const useContour = mode === 'contour' || (mode === 'auto' && isTransparent);
+
+  if (useContour) {
+    // 1. Create a solid silhouette of the image in borderColor
+    const silhouetteCanvas = document.createElement('canvas');
+    silhouetteCanvas.width = canvas.width;
+    silhouetteCanvas.height = canvas.height;
+    const sCtx = silhouetteCanvas.getContext('2d');
+    sCtx.imageSmoothingEnabled = true;
+    sCtx.imageSmoothingQuality = 'high';
+
+    // Draw image centered at (b, b)
+    sCtx.drawImage(img, b, b, origW, origH);
+
+    // Turn all visible pixels into solid borderColor
+    sCtx.globalCompositeOperation = 'source-in';
+    sCtx.fillStyle = borderColor;
+    sCtx.fillRect(0, 0, silhouetteCanvas.width, silhouetteCanvas.height);
+
+    // 2. Expand silhouette in all directions by b pixels (radial dilation)
+    const step = Math.max(1, Math.min(2.5, b / 8));
+    for (let r = step; r <= b; r += step) {
+      const count = Math.max(12, Math.ceil((2 * Math.PI * r) / step));
+      for (let i = 0; i < count; i++) {
+        const angle = (i * 2 * Math.PI) / count;
+        ctx.drawImage(silhouetteCanvas, Math.cos(angle) * r, Math.sin(angle) * r);
+      }
+    }
+
+    // Exact outer perimeter pass to ensure crisp continuous edge
+    const perimeterCount = Math.max(16, Math.ceil((2 * Math.PI * b) / 1.5));
+    for (let i = 0; i < perimeterCount; i++) {
+      const angle = (i * 2 * Math.PI) / perimeterCount;
+      ctx.drawImage(silhouetteCanvas, Math.cos(angle) * b, Math.sin(angle) * b);
+    }
+
+    // Ensure center is solid
+    ctx.drawImage(silhouetteCanvas, 0, 0);
+
+    // 3. Draw original image on top in center
+    ctx.drawImage(img, b, b, origW, origH);
+  } else {
+    // Standard rectangle / rounded photo frame
+    if (b > 0) {
+      ctx.fillStyle = borderColor;
+      if (ctx.roundRect && radius > 0) {
+        ctx.beginPath();
+        ctx.roundRect(0, 0, canvas.width, canvas.height, radius + b);
+        ctx.fill();
+      } else {
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+      }
+    }
+
+    ctx.save();
     if (ctx.roundRect && radius > 0) {
       ctx.beginPath();
-      ctx.roundRect(0, 0, canvas.width, canvas.height, radius + b);
-      ctx.fill();
-    } else {
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.roundRect(b, b, origW, origH, radius);
+      ctx.clip();
     }
+    ctx.drawImage(img, b, b, origW, origH);
+    ctx.restore();
   }
-
-  // Draw image inside border with inner radius
-  ctx.save();
-  if (ctx.roundRect && radius > 0) {
-    ctx.beginPath();
-    ctx.roundRect(b, b, origW, origH, radius);
-    ctx.clip();
-  }
-  ctx.drawImage(img, b, b);
-  ctx.restore();
 
   return new Promise((resolve) => {
     canvas.toBlob((blob) => {
@@ -631,7 +785,14 @@ export async function stripMetadata(img, mimeType = 'image/jpeg', quality = 0.95
 export async function inspectFileMetadata(file) {
   return new Promise((resolve) => {
     if (!file) {
-      resolve({ hasExif: false, hasGps: false, fileType: 'image/jpeg', fileSize: 0 });
+      resolve({
+        hasExif: false,
+        hasGps: false,
+        cameraModel: null,
+        fileType: 'image/jpeg',
+        fileSize: 0,
+        isSample: true
+      });
       return;
     }
 
@@ -646,7 +807,8 @@ export async function inspectFileMetadata(file) {
           dateTime: null,
           hasGps: false,
           fileType: file.type || 'image/jpeg',
-          fileSize: file.size
+          fileSize: file.size,
+          fileName: file.name
         };
 
         // Check JPEG SOI marker (0xFFD8)
@@ -656,21 +818,33 @@ export async function inspectFileMetadata(file) {
             if (view.getUint8(offset) !== 0xff) break;
             const marker = view.getUint8(offset + 1);
 
-            // Stop at Start of Scan (0xDA) or End of Image (0xD9)
             if (marker === 0xda || marker === 0xd9) break;
 
             if (marker === 0xe1) {
               metadata.hasExif = true;
               const strSlice = new TextDecoder('latin1').decode(
-                new Uint8Array(buffer, offset, Math.min(2048, view.byteLength - offset))
+                new Uint8Array(buffer, offset, Math.min(4096, view.byteLength - offset))
               );
               if (strSlice.includes('GPS')) metadata.hasGps = true;
+
+              const modelMatch = strSlice.match(/(?:Model|Make)[\x00\s]*([a-zA-Z0-9_\-\s]{3,28})/);
+              if (modelMatch && modelMatch[1]) {
+                metadata.cameraModel = modelMatch[1].trim();
+              }
               break;
             }
 
             const segLength = view.getUint16(offset + 2, false);
             if (segLength < 2) break; // Corrupt length field protection
             offset += 2 + segLength;
+          }
+        } else if (file.type === 'image/png') {
+          // PNG metadata chunks inspection
+          const textChunk = new TextDecoder('latin1').decode(
+            new Uint8Array(buffer, 0, Math.min(4096, buffer.byteLength))
+          );
+          if (textChunk.includes('eXIf') || textChunk.includes('tEXt') || textChunk.includes('iTXt')) {
+            metadata.hasExif = true;
           }
         }
 
@@ -688,4 +862,355 @@ export async function inspectFileMetadata(file) {
     reader.onerror = () => resolve({ hasExif: false, hasGps: false, fileType: file.type || 'image/jpeg', fileSize: file.size });
     reader.readAsArrayBuffer(file.slice(0, 65536));
   });
+}
+
+/**
+ * 12. PURE CLIENT-SIDE BINARY ENCODERS (BMP, ICO, TIFF) & FAVICON GENERATOR
+ */
+
+export function isAvifSupported() {
+  try {
+    const c = document.createElement('canvas');
+    c.width = 1;
+    c.height = 1;
+    return c.toDataURL('image/avif').startsWith('data:image/avif');
+  } catch {
+    return false;
+  }
+}
+
+export function encodeBmp(canvas, bgColor = 'transparent') {
+  const width = canvas.width;
+  const height = canvas.height;
+  const ctx = canvas.getContext('2d');
+  const imgData = ctx.getImageData(0, 0, width, height);
+  const data = imgData.data;
+
+  const rowSize = Math.floor((24 * width + 31) / 32) * 4;
+  const pixelArraySize = rowSize * height;
+  const fileHeaderSize = 14;
+  const dibHeaderSize = 40;
+  const fileSize = fileHeaderSize + dibHeaderSize + pixelArraySize;
+
+  const buffer = new ArrayBuffer(fileSize);
+  const view = new DataView(buffer);
+
+  // File Header ('BM')
+  view.setUint8(0, 0x42);
+  view.setUint8(1, 0x4d);
+  view.setUint32(2, fileSize, true);
+  view.setUint16(6, 0, true);
+  view.setUint16(8, 0, true);
+  view.setUint32(10, fileHeaderSize + dibHeaderSize, true);
+
+  // DIB Header (BITMAPINFOHEADER)
+  view.setUint32(14, dibHeaderSize, true);
+  view.setInt32(18, width, true);
+  view.setInt32(22, height, true);
+  view.setUint16(26, 1, true);
+  view.setUint16(28, 24, true);
+  view.setUint32(30, 0, true);
+  view.setUint32(34, pixelArraySize, true);
+  view.setInt32(38, 2835, true);
+  view.setInt32(42, 2835, true);
+  view.setUint32(46, 0, true);
+  view.setUint32(50, 0, true);
+
+  let offset = 54;
+  for (let y = height - 1; y >= 0; y--) {
+    const rowStart = offset;
+    for (let x = 0; x < width; x++) {
+      const idx = (y * width + x) * 4;
+      const r = data[idx];
+      const g = data[idx + 1];
+      const b = data[idx + 2];
+      const a = data[idx + 3] / 255;
+
+      const finalR = Math.round(r * a + 255 * (1 - a));
+      const finalG = Math.round(g * a + 255 * (1 - a));
+      const finalB = Math.round(b * a + 255 * (1 - a));
+
+      view.setUint8(offset++, finalB);
+      view.setUint8(offset++, finalG);
+      view.setUint8(offset++, finalR);
+    }
+    while ((offset - rowStart) % 4 !== 0) {
+      view.setUint8(offset++, 0);
+    }
+  }
+
+  return new Blob([buffer], { type: 'image/bmp' });
+}
+
+export async function encodeIcoFromCanvases(canvases) {
+  const pngEntries = [];
+  for (const canvas of canvases) {
+    const blob = await new Promise((r) => canvas.toBlob(r, 'image/png'));
+    const arrayBuffer = await blob.arrayBuffer();
+    pngEntries.push({
+      width: canvas.width,
+      height: canvas.height,
+      data: new Uint8Array(arrayBuffer),
+      size: arrayBuffer.byteLength
+    });
+  }
+
+  const numImages = pngEntries.length;
+  const headerSize = 6;
+  const dirEntrySize = 16;
+  const dirSize = numImages * dirEntrySize;
+  let totalSize = headerSize + dirSize;
+  for (const entry of pngEntries) {
+    totalSize += entry.size;
+  }
+
+  const buffer = new ArrayBuffer(totalSize);
+  const view = new DataView(buffer);
+
+  // ICONDIR Header
+  view.setUint16(0, 0, true);
+  view.setUint16(2, 1, true);
+  view.setUint16(4, numImages, true);
+
+  let currentOffset = headerSize + dirSize;
+
+  for (let i = 0; i < numImages; i++) {
+    const entry = pngEntries[i];
+    const entryOffset = headerSize + i * dirEntrySize;
+
+    view.setUint8(entryOffset, entry.width >= 256 ? 0 : entry.width);
+    view.setUint8(entryOffset + 1, entry.height >= 256 ? 0 : entry.height);
+    view.setUint8(entryOffset + 2, 0);
+    view.setUint8(entryOffset + 3, 0);
+    view.setUint16(entryOffset + 4, 1, true);
+    view.setUint16(entryOffset + 6, 32, true);
+    view.setUint32(entryOffset + 8, entry.size, true);
+    view.setUint32(entryOffset + 12, currentOffset, true);
+
+    new Uint8Array(buffer, currentOffset, entry.size).set(entry.data);
+    currentOffset += entry.size;
+  }
+
+  return new Blob([buffer], { type: 'image/x-icon' });
+}
+
+export function encodeTiff(canvas) {
+  const width = canvas.width;
+  const height = canvas.height;
+  const ctx = canvas.getContext('2d');
+  const imgData = ctx.getImageData(0, 0, width, height);
+  const data = imgData.data;
+
+  const numTags = 11;
+  const ifdOffset = 8;
+  const ifdSize = 2 + numTags * 12 + 4;
+  const valuesOffset = ifdOffset + ifdSize;
+  const extraValuesSize = 24;
+  const pixelOffset = valuesOffset + extraValuesSize;
+  const pixelSize = width * height * 4;
+  const fileSize = pixelOffset + pixelSize;
+
+  const buffer = new ArrayBuffer(fileSize);
+  const view = new DataView(buffer);
+  const u8 = new Uint8Array(buffer);
+
+  // TIFF Header (Little Endian "II", 42)
+  view.setUint8(0, 0x49);
+  view.setUint8(1, 0x49);
+  view.setUint16(2, 42, true);
+  view.setUint32(4, ifdOffset, true);
+
+  view.setUint16(ifdOffset, numTags, true);
+
+  const bitsPerSampleOffset = valuesOffset;
+  const xResOffset = valuesOffset + 8;
+  const yResOffset = valuesOffset + 16;
+
+  view.setUint16(bitsPerSampleOffset, 8, true);
+  view.setUint16(bitsPerSampleOffset + 2, 8, true);
+  view.setUint16(bitsPerSampleOffset + 4, 8, true);
+  view.setUint16(bitsPerSampleOffset + 6, 8, true);
+
+  view.setUint32(xResOffset, 72, true);
+  view.setUint32(xResOffset + 4, 1, true);
+
+  view.setUint32(yResOffset, 72, true);
+  view.setUint32(yResOffset + 4, 1, true);
+
+  let tagPos = ifdOffset + 2;
+  const writeTag = (tag, type, count, valOrOffset) => {
+    view.setUint16(tagPos, tag, true);
+    view.setUint16(tagPos + 2, type, true);
+    view.setUint32(tagPos + 4, count, true);
+    view.setUint32(tagPos + 8, valOrOffset, true);
+    tagPos += 12;
+  };
+
+  writeTag(256, 3, 1, width);
+  writeTag(257, 3, 1, height);
+  writeTag(258, 3, 4, bitsPerSampleOffset);
+  writeTag(259, 3, 1, 1);
+  writeTag(262, 3, 1, 2);
+  writeTag(273, 4, 1, pixelOffset);
+  writeTag(277, 3, 1, 4);
+  writeTag(278, 3, 1, height);
+  writeTag(279, 4, 1, pixelSize);
+  writeTag(282, 5, 1, xResOffset);
+  writeTag(283, 5, 1, yResOffset);
+
+  view.setUint32(tagPos, 0, true);
+  u8.set(data, pixelOffset);
+
+  return new Blob([buffer], { type: 'image/tiff' });
+}
+
+export async function generateFavicon(img, {
+  preset = 'package',
+  bgColor = 'transparent',
+  radius = 0
+} = {}) {
+  const makeIconCanvas = (targetDim) => {
+    const c = document.createElement('canvas');
+    c.width = targetDim;
+    c.height = targetDim;
+    const ctx = c.getContext('2d');
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+
+    if (bgColor && bgColor !== 'transparent') {
+      ctx.fillStyle = bgColor;
+      if (radius > 0 && ctx.roundRect) {
+        const scaledR = (radius / 100) * (targetDim / 2);
+        ctx.beginPath();
+        ctx.roundRect(0, 0, targetDim, targetDim, scaledR);
+        ctx.fill();
+        ctx.clip();
+      } else {
+        ctx.fillRect(0, 0, targetDim, targetDim);
+      }
+    } else if (radius > 0 && ctx.roundRect) {
+      const scaledR = (radius / 100) * (targetDim / 2);
+      ctx.beginPath();
+      ctx.roundRect(0, 0, targetDim, targetDim, scaledR);
+      ctx.clip();
+    }
+
+    const imgW = img.naturalWidth || img.width;
+    const imgH = img.naturalHeight || img.height;
+    const minD = Math.min(imgW, imgH);
+    const srcX = (imgW - minD) / 2;
+    const srcY = (imgH - minD) / 2;
+
+    ctx.drawImage(img, srcX, srcY, minD, minD, 0, 0, targetDim, targetDim);
+    return c;
+  };
+
+  const makeManifest = () => JSON.stringify({
+    name: 'My Web App',
+    short_name: 'App',
+    icons: [
+      {
+        src: '/android-chrome-192x192.png',
+        sizes: '192x192',
+        type: 'image/png'
+      },
+      {
+        src: '/android-chrome-512x512.png',
+        sizes: '512x512',
+        type: 'image/png'
+      }
+    ],
+    theme_color: bgColor === 'transparent' ? '#ffffff' : bgColor,
+    background_color: bgColor === 'transparent' ? '#ffffff' : bgColor,
+    display: 'standalone'
+  }, null, 2);
+
+  // 1. Complete Favicon Package (ZIP with 7 files)
+  if (preset === 'package') {
+    const c16 = makeIconCanvas(16);
+    const c32 = makeIconCanvas(32);
+    const c48 = makeIconCanvas(48);
+    const c180 = makeIconCanvas(180);
+    const c192 = makeIconCanvas(192);
+    const c512 = makeIconCanvas(512);
+
+    const [icoBlob, png16, png32, png180, png192, png512] = await Promise.all([
+      encodeIcoFromCanvases([c16, c32, c48]),
+      new Promise((r) => c16.toBlob(r, 'image/png')),
+      new Promise((r) => c32.toBlob(r, 'image/png')),
+      new Promise((r) => c180.toBlob(r, 'image/png')),
+      new Promise((r) => c192.toBlob(r, 'image/png')),
+      new Promise((r) => c512.toBlob(r, 'image/png'))
+    ]);
+
+    const manifestContent = makeManifest();
+
+    const zip = new JSZip();
+    zip.file('favicon.ico', icoBlob);
+    zip.file('favicon-16x16.png', png16);
+    zip.file('favicon-32x32.png', png32);
+    zip.file('apple-touch-icon.png', png180);
+    zip.file('android-chrome-192x192.png', png192);
+    zip.file('android-chrome-512x512.png', png512);
+    zip.file('site.webmanifest', manifestContent);
+
+    const zipBlob = await zip.generateAsync({ type: 'blob' });
+
+    return {
+      blob: zipBlob,
+      url: URL.createObjectURL(png180),
+      width: 512,
+      height: 512,
+      size: zipBlob.size,
+      filename: 'favicon_package.zip',
+      isZip: true,
+      fileCount: 7,
+      previewUrls: {
+        16: URL.createObjectURL(png16),
+        32: URL.createObjectURL(png32),
+        48: URL.createObjectURL(png32),
+        180: URL.createObjectURL(png180),
+        192: URL.createObjectURL(png192),
+        512: URL.createObjectURL(png512)
+      }
+    };
+  }
+
+  // 2. Multi-size ICO (16x16, 32x32, 48x48)
+  if (preset === 'ico') {
+    const c16 = makeIconCanvas(16);
+    const c32 = makeIconCanvas(32);
+    const c48 = makeIconCanvas(48);
+    const icoBlob = await encodeIcoFromCanvases([c16, c32, c48]);
+    const previewBlob = await new Promise((r) => c48.toBlob(r, 'image/png'));
+    return {
+      blob: icoBlob,
+      url: URL.createObjectURL(previewBlob),
+      width: 48,
+      height: 48,
+      size: icoBlob.size,
+      filename: 'favicon.ico',
+      isIco: true
+    };
+  }
+
+  // 3. Individual PNG formats (16, 32, 180, 192, 512)
+  const dim = parseInt(preset, 10) || 32;
+  const c = makeIconCanvas(dim);
+  const blob = await new Promise((r) => c.toBlob(r, 'image/png'));
+  const filename = dim === 180
+    ? 'apple-touch-icon.png'
+    : (dim === 192 || dim === 512)
+    ? `android-chrome-${dim}x${dim}.png`
+    : `favicon-${dim}x${dim}.png`;
+
+  return {
+    blob,
+    url: URL.createObjectURL(blob),
+    width: dim,
+    height: dim,
+    size: blob.size,
+    filename,
+    isIco: false
+  };
 }
