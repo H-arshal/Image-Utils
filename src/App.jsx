@@ -190,7 +190,7 @@ export default function App() {
       ? (ROUTE_SEO[path] || ROUTE_SEO.home)
       : {
           title: '404 - Page Not Found | Image Utility',
-          desc: 'The requested image tool or page could not be found. Explore our 12 client-side image editing tools.'
+          desc: 'The requested image tool or page could not be found. Explore our 13 client-side image editing tools.'
         };
 
     document.title = meta.title;
@@ -201,6 +201,25 @@ export default function App() {
       descMeta.setAttribute('content', meta.desc);
     }
 
+    // Dynamic Canonical URL (clean path without query strings or hash)
+    const productionOrigin = 'https://image-utils.vercel.app';
+    const cleanPath = location.pathname === '/' ? '/' : location.pathname.replace(/\/$/, '');
+    const canonicalHref = `${productionOrigin}${cleanPath}`;
+
+    const canonical = document.querySelector('link[rel="canonical"]');
+    if (canonical) {
+      canonical.setAttribute('href', canonicalHref);
+    }
+
+    // Dynamic Robots Meta Tag: ensure 404s are not indexed
+    let robotsMeta = document.querySelector('meta[name="robots"]');
+    if (!robotsMeta) {
+      robotsMeta = document.createElement('meta');
+      robotsMeta.setAttribute('name', 'robots');
+      document.head.appendChild(robotsMeta);
+    }
+    robotsMeta.setAttribute('content', isKnownTool ? 'index, follow' : 'noindex, nofollow');
+
     // Update Open Graph tags
     const ogTitle = document.querySelector('meta[property="og:title"]');
     if (ogTitle) ogTitle.setAttribute('content', meta.title);
@@ -209,12 +228,16 @@ export default function App() {
     if (ogDesc) ogDesc.setAttribute('content', meta.desc);
 
     const ogUrl = document.querySelector('meta[property="og:url"]');
-    if (ogUrl) ogUrl.setAttribute('content', window.location.href);
+    if (ogUrl) ogUrl.setAttribute('content', canonicalHref);
 
-    // Update Canonical URL link
-    const canonical = document.querySelector('link[rel="canonical"]');
-    if (canonical) canonical.setAttribute('href', window.location.href);
+    // Update Twitter / X tags
+    const twTitle = document.querySelector('meta[name="twitter:title"]');
+    if (twTitle) twTitle.setAttribute('content', meta.title);
+
+    const twDesc = document.querySelector('meta[name="twitter:description"]');
+    if (twDesc) twDesc.setAttribute('content', meta.desc);
   }, [location.pathname]);
+
 
   const showToast = (msg) => {
     setToastMessage(msg);

@@ -111,9 +111,11 @@ export default function AboutModal({ isOpen, onClose }) {
                 <ul style={{ paddingLeft: '20px', marginTop: '6px' }}>
                   <li>File size is capped at 50 MB to prevent client-side memory exhaustion.</li>
                   <li>Images are constrained to safe browser canvas dimensions (up to 12,000 px).</li>
-                  <li>Supported formats: JPG, PNG, WebP, GIF, and BMP (SVG vector files are excluded to maintain canvas security).</li>
+                  <li>Supported input formats: JPG, PNG, WebP, GIF, and BMP (SVG vector files are excluded for security).</li>
+                  <li>Supported output formats: PNG, JPEG, WebP, BMP, AVIF, TIFF, ICO, PDF, and 7-file ZIP Favicon packages.</li>
                 </ul>
               </div>
+
 
               <div>
                 <h4 style={{ fontSize: '0.9375rem', fontWeight: 700, color: 'var(--color-text)', marginBottom: '4px' }}>

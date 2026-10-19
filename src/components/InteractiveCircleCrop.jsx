@@ -77,7 +77,7 @@ export default function InteractiveCircleCrop({
 
       const minDim = Math.min(naturalWidth, naturalHeight);
       const minRadius = 20;
-      const maxRadius = minDim / 2;
+      const _maxRadius = minDim / 2;
 
       if (dragMode === 'move') {
         const newCenterX = Math.max(

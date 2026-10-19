@@ -18,7 +18,8 @@
     <link rel="canonical" href="https://image-utils.vercel.app/" />
 
     <!-- Favicon & Icons -->
-    <link rel="icon" type="image/png" href="/logo.png" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="alternate icon" type="image/png" href="/logo.png" />
     <link rel="apple-touch-icon" href="/logo.png" />
 
     <!-- Open Graph / Facebook / LinkedIn -->
@@ -34,6 +35,25 @@
     <meta name="twitter:title" content="Image Utility | Client-Side Image Tools (Private &amp; Fast)" />
     <meta name="twitter:description" content="Free, 100% private in-browser image tools. Resize, compress, crop, circle crop, round corners, and convert formats without uploading files." />
     <meta name="twitter:image" content="https://image-utils.vercel.app/logo.png" />
+
+    <!-- Schema.org JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Image Utility",
+      "url": "https://image-utils.vercel.app/",
+      "description": "Free, 100% private in-browser image tools. Resize, compress, crop, circle crop, round corners, add borders, convert formats, generate favicons, and remove EXIF data without uploading files.",
+      "applicationCategory": "MultimediaApplication",
+      "operatingSystem": "All",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "browserRequirements": "Requires JavaScript and HTML5 Canvas support"
+    }
+    </script>
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
