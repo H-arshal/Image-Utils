@@ -1,128 +1,242 @@
-# Image Utility
+<div align="center">
 
-> **Everyday image tools. Simple, private, 100% in-browser.**  
-> Fast, client-side image editing with zero server uploads, zero tracking, and zero latency.
+# 🖼️ Image Utility
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-orange.svg)](https://opensource.org/licenses/MIT)
-[![React 19](https://img.shields.io/badge/React-19-blue.svg)](https://react.dev/)
-[![Vite](https://img.shields.io/badge/Vite-8.3-646CFF.svg)](https://vitejs.dev/)
-[![Privacy: 100% Client-Side](https://img.shields.io/badge/Privacy-100%25%20Client--Side-success.svg)](#privacy--security-guarantee)
+### A lightning-fast, privacy-first image editing & conversion suite running 100% in your browser.
 
----
+**Zero server uploads · Zero tracking · Zero latency · 100% Client-Side Sandbox**
 
-## Overview
+[![License: MIT](https://img.shields.io/badge/license-MIT-f4c430?style=flat-square)](LICENSE)
+[![React 19](https://img.shields.io/badge/React-19.2-61DAFB?style=flat-square&logo=react&logoColor=black)](https://react.dev/)
+[![Vite](https://img.shields.io/badge/Vite-8.3-646CFF?style=flat-square&logo=vite&logoColor=white)](https://vitejs.dev/)
+[![Privacy: 100% Client-Side](https://img.shields.io/badge/Privacy-100%25_Local_Sandbox-10b981?style=flat-square&logo=shield&logoColor=white)](#privacy--security-guarantee)
+[![Linter: Oxlint](https://img.shields.io/badge/linter-oxlint-c65d21?style=flat-square)](https://oxc.rs/)
+[![Deploy: Vercel](https://img.shields.io/badge/deploy-Vercel-000000?style=flat-square&logo=vercel&logoColor=white)](https://vercel.com/)
+[![GitHub stars](https://img.shields.io/github/stars/h-arshal/Image-Utils?style=flat-square&color=c65d21)](https://github.com/h-arshal/Image-Utils/stargazers)
 
-**Image Utility** is a modern, lightweight web application that provides 13 essential image editing and conversion utilities directly inside the user's browser. Unlike typical online image converters that upload personal files to remote servers, Image Utility processes everything locally using browser Canvas 2D and Web Workers.
+**[Portfolio](https://h-arshal.github.io/Portfolio/) · [GitHub](https://github.com/h-arshal) · [LinkedIn](https://www.linkedin.com/in/harshal-moon-064956174/) · [LeetCode](https://leetcode.com/u/harshal_jaipal/) · [Instagram](https://www.instagram.com/harshal.moon)**
 
----
-
-## 13 Everyday Image Utilities
-
-| Tool | Route | Description |
-| :--- | :--- | :--- |
-| **Resize** | `/resize` | Resize image width and height with aspect ratio lock or custom dimensions. |
-| **Compress** | `/compress` | Reduce file size using target KB or interactive quality slider. |
-| **Convert Format** | `/convert` | Seamlessly convert between PNG, JPEG, WebP, BMP, AVIF, TIFF, and ICO formats. |
-| **Crop** | `/crop` | Crop rectangular regions with freeform handles or 1:1, 16:9, and 4:3 presets. |
-| **Favicon Generator** | `/favicon` | Generate multi-resolution .ico bundles, Apple Touch Icons, and complete ZIP packages. |
-| **Circle Crop** | `/circle` | Create circular profile avatars with transparent PNG output and interactive handles. |
-| **Corner Radius** | `/radius` | Apply smooth rounded corners with transparent outer clipping or color background. |
-| **Add Border** | `/border` | Frame photos with custom borders, including contour silhouette borders for round crops. |
-| **Rotate & Flip** | `/rotate` | Rotate 90°, 180°, 270° or mirror flip horizontally and vertically. |
-| **Add Watermark** | `/watermark` | Protect photos with customizable text watermark copyright, opacity, and positioning. |
-| **Adjust & Filters** | `/adjust` | Exposure, contrast, saturation, warmth, vignette, blur, and 9 Instagram-style filters. |
-| **Image to PDF** | `/pdf` | Generate printable single-page PDF documents (A4, Letter, or Fit-to-Image). |
-| **Metadata Stripper**| `/metadata` | Inspect and scrub EXIF, camera serials, and GPS location coordinates. |
-
----
-
-## Privacy & Security Guarantee
-
-- **Zero Server Uploads:** Images, filenames, and metadata are **never** transmitted over the network.
-- **Client-Side Sandbox:** All pixel manipulations execute in your device's memory using HTML5 Canvas.
-- **Zero Cookies & Zero Analytics:** No tracking scripts, advertising networks, or third-party tracking.
-- **Memory Safety:** Blobs and Object URLs are revoked automatically upon changing images or closing tabs.
-- **Strict Input Validation:** Rejects unsafe vector SVGs, limits maximum dimensions to 12,000 px, and caps file uploads to 50 MB to prevent client-side resource exhaustion.
-
----
-
-## Supported Formats
-
-- **Import:** `JPEG` (`.jpg`, `.jpeg`), `PNG` (`.png`), `WebP` (`.webp`), `BMP` (`.bmp`), `GIF` (`.gif`)
-- **Single-File Export:** `PNG`, `JPEG`, `WebP`, `BMP`, `AVIF`, `TIFF`, `ICO`, and `PDF` (via jsPDF)
-- **Archive Package Export:** Complete 7-file Favicon Package `.ZIP` (via JSZip) containing 16x16, 32x32, 48x48, 180x180, 192x192, 512x512 icons and web manifest.
-
----
-
-## Getting Started
-
-### Prerequisites
-
-- [Node.js](https://nodejs.org/) (version 18+ recommended)
-- `npm` or `yarn`
-
-### Installation
+[Quick start](#quick-start) · [13 Everyday Utilities](#13-everyday-utilities) · [How It Works](#how-it-works) · [Privacy & Security](#privacy--security-guarantee) · [Supported Formats](#supported-formats) · [FAQ](#faq) · [License](#license)
 
 ```bash
-# Clone the repository
-git clone https://github.com/H-arshal/Image-Utils.git
-
-# Navigate to project directory
-cd Image-Utils
-
-# Install dependencies
-npm install
+git clone https://github.com/h-arshal/Image-Utils.git && cd Image-Utils && npm install && npm run dev
 ```
 
-### Development Server
+</div>
+
+> [!IMPORTANT]
+> **100% Local Image Processing Guarantee:**  
+> When you drop or select a photo, it is loaded directly into your browser's local memory via `FileReader` and rendered on an HTML5 `Canvas`. **Your images, file names, and metadata are never uploaded to any remote server or external cloud.** All processing happens locally on your machine.
+
+---
+
+## ⚡ Why Image Utility?
+
+Most online converters and image editors force you to upload your sensitive photos, contracts, and avatars to their remote servers, wait in processing queues, and accept tracking cookies or subscription paywalls.
+
+**Image Utility changes that:**
+
+| Feature | Typical Online Converters | Image Utility |
+| :--- | :--- | :--- |
+| **Data Privacy** | Uploads photos to remote third-party servers | **100% Local in-browser sandbox (0 network bytes sent)** |
+| **Speed & Latency** | Network upload & download bottlenecks | **Instant real-time manipulation via HTML5 Canvas 2D** |
+| **Cost & Limits** | Subscriptions, paywalls, and daily limits | **Free, open source, no accounts, no watermarks** |
+| **Security & EXIF** | Metadata frequently retained or logged | **Built-in EXIF scrubber to protect GPS coordinates** |
+| **Reliability** | Requires high-speed internet connection | **Runs client-side; works entirely offline once loaded** |
+
+---
+
+## 🛠️ 13 Everyday Utilities
+
+A complete, purpose-built creative suite tailored for designers, engineers, students, and content creators:
+
+| Tool | Route | Primary Capabilities | Output Options |
+| :--- | :--- | :--- | :--- |
+| **Resize** | `/resize` | Pixel-perfect width/height scaling with aspect-ratio lock, custom dimensions, and dimension presets. | `PNG`, `JPEG`, `WebP` |
+| **Compress** | `/compress` | Smart lossy/lossless compression via target file size (e.g., 200 KB) or interactive quality slider. | `JPEG`, `WebP` |
+| **Convert Format** | `/convert` | High-fidelity cross-format conversion without server roundtrips. | `PNG`, `JPEG`, `WebP`, `BMP`, `AVIF`, `TIFF`, `ICO` |
+| **Crop** | `/crop` | Freeform and preset aspect-ratio rectangular cropping (`1:1`, `16:9`, `4:3`, `3:2`). | `PNG`, `JPEG`, `WebP` |
+| **Favicon Generator** | `/favicon` | Generates cross-platform multi-resolution favicon packages with standard Web Manifest configurations. | `.ICO`, `.PNG`, `ZIP` archive (7 sizes) |
+| **Circle Crop** | `/circle` | Creates circular profile avatars and headshots with transparent backgrounds. | `PNG` (Transparent) |
+| **Corner Radius** | `/radius` | Adds rounded corners with customizable pixel curvature radius. | `PNG`, `JPEG` |
+| **Add Border** | `/border` | Outer photo framing with customizable border width, hex colors, and silhouette contour detection. | `PNG`, `JPEG`, `WebP` |
+| **Rotate & Flip** | `/rotate` | Lossless 90°, 180°, 270° canvas rotation and horizontal / vertical mirror reflection. | `PNG`, `JPEG`, `WebP` |
+| **Watermark** | `/watermark` | Embeds custom copyright text, typography size, opacity levels, and position alignments. | `PNG`, `JPEG`, `WebP` |
+| **Adjust & Filters** | `/adjust` | Real-time exposure, contrast, saturation, warmth, blur, sepia, invert, and 9 color filter presets. | `PNG`, `JPEG`, `WebP` |
+| **Image to PDF** | `/pdf` | Converts photos into clean, printable PDF documents with A4, Letter, and Fit-to-Page formatting. | `.PDF` (via jsPDF) |
+| **Metadata Stripper** | `/metadata` | Inspects and strips sensitive camera serials, EXIF tags, software signatures, and GPS coordinates. | Clean `JPEG`, `PNG`, `WebP` |
+
+---
+
+## 🧠 How It Works
+
+Image Utility leverages modern HTML5 browser capabilities to replace bulky server-side image processing engines (like ImageMagick or Sharp) with zero-latency client-side APIs:
+
+```mermaid
+flowchart LR
+    A[User Selects File] --> B[FileReader API]
+    B --> C[Local RAM Buffer]
+    C --> D[HTML5 2D Canvas]
+    D --> E[Real-Time Sliders & Filters]
+    E --> F[Client-Side Blob / ArrayBuffer]
+    F --> G[Direct Browser Download]
+
+    style A fill:#f1f5f9,stroke:#cbd5e1,stroke-width:1px
+    style C fill:#fff4eb,stroke:#f3c7a8,stroke-width:1px
+    style D fill:#fff4eb,stroke:#c65d21,stroke-width:2px
+    style G fill:#ecfdf5,stroke:#10b981,stroke-width:2px
+```
+
+1. **FileReader & Object URLs**: Files are read into client RAM as non-persistent buffers (`blob:` or `data:`).
+2. **Hardware-Accelerated Canvas**: Pixel manipulations execute through 2D Canvas rendering contexts.
+3. **ArrayBuffer Scrubbing**: Binary EXIF markers (APP1 0xFFE1 blocks) are stripped directly in byte streams.
+4. **Local Stream Export**: Files are generated as `Blob` objects and triggered via synthetic download anchors.
+
+---
+
+## 🔒 Privacy & Security Guarantee
+
+As a project engineered by a cybersecurity researcher, Image Utility implements defense-in-depth client-side sandboxing:
+
+- **Zero Network Egress:** Your image data is never packaged into `POST` or `PUT` payloads. You can inspect your browser's Network DevTools tab to verify that zero bytes leave your machine.
+- **50 MB File Size Ceiling:** Protects client-side RAM from out-of-memory browser tab crashes on mobile devices.
+- **12,000 px Dimension Boundary:** Restricts hardware canvas allocation to safe GPU surface limits.
+- **Vector Code Sanitization:** SVG vector uploads are intentionally excluded to prevent cross-site scripting (XSS) payload injection via embedded SVG `<script>` tags.
+- **Zero Cookies & Zero Tracking:** No third-party analytics (Google Analytics, Mixpanel, Segment), no tracking beacons, and no marketing cookies.
+- **Automatic Buffer Deallocation:** Closing your browser tab or clicking the logo resets all allocated Object URLs and Canvas buffers immediately.
+
+---
+
+## 📦 Supported Formats
+
+### Input Formats
+- `JPEG` (`.jpg`, `.jpeg`)
+- `PNG` (`.png`)
+- `WebP` (`.webp`)
+- `BMP` (`.bmp`)
+- `GIF` (`.gif` - first frame)
+
+### Output Formats
+- **Raster Formats:** `PNG` (with Alpha transparency), `JPEG` (custom quality), `WebP`, `BMP`, `AVIF`, `TIFF`, `ICO`
+- **Document Formats:** `PDF` (via `jsPDF`)
+- **Multi-Asset Archives:** `.ZIP` Favicon Package containing 16x16, 32x32, 48x48, 180x180, 192x192, 512x512 icons and web manifest (via `JSZip`)
+
+---
+
+## 🚀 Quick Start
+
+### Prerequisites
+- [Node.js](https://nodejs.org/) (version 18+ or 20+ recommended)
+- `npm` (bundled with Node.js)
+
+### Installation & Development
 
 ```bash
+# 1. Clone the repository
+git clone https://github.com/h-arshal/Image-Utils.git
+
+# 2. Enter the repository
+cd Image-Utils
+
+# 3. Install dependencies
+npm install
+
+# 4. Start local development server
 npm run dev
 ```
 
 Open [http://localhost:5173](http://localhost:5173) in your browser.
 
-### Production Build
+### Scripts
 
-```bash
-# Compile and optimize production bundle
-npm run build
+| Command | Action |
+| :--- | :--- |
+| `npm run dev` | Starts Vite local development server with Hot Module Replacement (HMR). |
+| `npm run build` | Compiles optimized production bundle into `dist/`. |
+| `npm run preview` | Previews the compiled production bundle locally. |
+| `npm run lint` | Runs `oxlint` for high-speed JavaScript and React lint checks. |
 
-# Preview production build locally
-npm run preview
+---
+
+## 🚢 Deployment
+
+Image Utility builds into a static Single Page Application (SPA). It can be hosted on any static edge network:
+
+- **Vercel (Recommended):** Pre-configured with [`vercel.json`](vercel.json) for SPA client-side routing rewrites and strict security headers (`X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, `Permissions-Policy`).
+- **Netlify & Cloudflare Pages:** Pre-configured with [`public/_redirects`](public/_redirects) for client-side route fallback.
+- **GitHub Pages:** Serve from the `dist/` branch or configure a GitHub Actions deployment.
+
+---
+
+## ❓ FAQ
+
+<details>
+<summary><strong>Do my images ever touch an external server or AI API?</strong></summary>
+
+**No, never.** All pixel computations, filters, crops, and conversions happen directly in your browser's local memory using HTML5 Canvas. No data is ever transmitted over the network.
+</details>
+
+<details>
+<summary><strong>Can I use Image Utility without an internet connection?</strong></summary>
+
+**Yes.** Once the web application is loaded in your browser tab, all tools execute 100% offline. You can disconnect your Wi-Fi and continue resizing, cropping, and converting images without interruption.
+</details>
+
+<details>
+<summary><strong>Are there file size or upload limits?</strong></summary>
+
+To prevent your browser tab from exhausting device RAM (especially on smartphones or older laptops), file imports are capped at **50 MB** and dimensions at **12,000 px**.
+</details>
+
+<details>
+<summary><strong>Why are SVG files not supported for conversion?</strong></summary>
+
+SVGs are XML vector code that can contain executable `<script>` tags, presenting cross-site scripting (XSS) risks. Because Image Utility is designed with strict security standards, untrusted vector code is intentionally excluded.
+</details>
+
+<details>
+<summary><strong>Is Image Utility free and open source?</strong></summary>
+
+**Yes.** Image Utility is open source under the permissive [MIT License](LICENSE). There are no subscriptions, paywalls, watermark stamps, or account sign-ups.
+</details>
+
+---
+
+## 👤 Author & Connect
+
+**Harshal Moon**  
+*Software Engineer & Cybersecurity Researcher*
+
+<div align="left">
+
+[![Portfolio](https://img.shields.io/badge/Portfolio-h--arshal.github.io-c65d21?style=flat-square&logo=google-chrome&logoColor=white)](https://h-arshal.github.io/Portfolio/)
+[![GitHub](https://img.shields.io/badge/GitHub-@h--arshal-181717?style=flat-square&logo=github&logoColor=white)](https://github.com/h-arshal)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Harshal_Moon-0A66C2?style=flat-square&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/harshal-moon-064956174/)
+[![LeetCode](https://img.shields.io/badge/LeetCode-harshal__jaipal-FFA116?style=flat-square&logo=leetcode&logoColor=white)](https://leetcode.com/u/harshal_jaipal/)
+[![Instagram](https://img.shields.io/badge/Instagram-@harshal.moon-E4405F?style=flat-square&logo=instagram&logoColor=white)](https://www.instagram.com/harshal.moon)
+
+</div>
+
+---
+
+## 🤝 Contributing
+
+Contributions, bug reports, and feature requests are very welcome!  
+Feel free to open an issue or submit a pull request:
+
+1. Fork the Project (`https://github.com/h-arshal/Image-Utils/fork`)
+2. Create your Feature Branch (`git checkout -b feature/AmazingUtility`)
+3. Commit your Changes (`git commit -m 'feat: add AmazingUtility'`)
+4. Push to the Branch (`git push origin feature/AmazingUtility`)
+5. Open a Pull Request on [GitHub Pull Requests](https://github.com/h-arshal/Image-Utils/pulls)
+
+---
+
+## 📄 License
+
+Distributed under the **MIT License**. See [`LICENSE`](LICENSE) for more information.
+
+```text
+Copyright (c) 2026 Harshal Moon
+Licensed under the MIT License.
 ```
-
----
-
-## Deployment
-
-The application compiles to a static Single Page Application (SPA) in the `dist/` directory.
-
-### Vercel
-A [`vercel.json`](./vercel.json) file is included with SPA rewrites and recommended HTTP security headers (`X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`, `Permissions-Policy`). Connect the repository on Vercel and it deploys automatically.
-
-### Netlify & Cloudflare Pages
-A [`public/_redirects`](./public/_redirects) file is included to support client-side routing on nested paths (`/resize`, `/crop`, etc.). Set build command to `npm run build` and publish directory to `dist`.
-
-### GitHub Pages
-If deploying via GitHub Pages:
-1. Ensure the publish branch serves the `dist/` folder or uses GitHub Actions.
-2. Ensure fallback routing is enabled (copy `index.html` as `404.html` in `dist` if using static branch hosting).
-
-### Deployment Rollbacks
-To roll back a deployment:
-- **Vercel / Netlify:** Navigate to your dashboard, select the previous successful deployment from the **Deployments** history, and click **Promote to Production** / **Rollback**.
-- **Git:** Revert the offending commit locally with `git revert <commit-hash>` and push to `main`.
-
----
-
-## License
-
-This project is open-source. We recommend the [MIT License](https://opensource.org/licenses/MIT). See the repository settings or create a `LICENSE` file with your preferred copyright holder.
-
----
-
-## Feedback & Contributions
-
-Bug reports, feature requests, and pull requests are welcome on [GitHub Issues](https://github.com/H-arshal/Image-Utils/issues).
-
