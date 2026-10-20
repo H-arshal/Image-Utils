@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import {
   Maximize2,
   FileDown,
@@ -108,19 +109,21 @@ export default function ToolGrid({ onSelectTool }) {
         {TOOLS.map((tool) => {
           const Icon = tool.icon;
           return (
-            <div
+            <Link
               key={tool.id}
+              to={`/${tool.id}`}
               className="tool-card"
-              onClick={() => onSelectTool(tool.id)}
-              role="button"
-              tabIndex={0}
+              onClick={(e) => {
+                e.preventDefault();
+                onSelectTool(tool.id);
+              }}
             >
               <div className="tool-card-icon">
                 <Icon size={18} />
               </div>
-              <h4 className="tool-card-title">{tool.name}</h4>
+              <h3 className="tool-card-title">{tool.name}</h3>
               <p className="tool-card-desc">{tool.desc}</p>
-            </div>
+            </Link>
           );
         })}
       </div>

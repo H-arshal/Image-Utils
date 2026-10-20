@@ -29,6 +29,8 @@
     <meta property="og:description" content="Free, 100% private in-browser image tools. Resize, compress, crop, circle crop, round corners, and convert formats without uploading files." />
     <meta property="og:url" content="https://image-utils.vercel.app/" />
     <meta property="og:image" content="https://image-utils.vercel.app/logo.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
 
     <!-- Twitter / X -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -51,7 +53,27 @@
         "price": "0",
         "priceCurrency": "USD"
       },
-      "browserRequirements": "Requires JavaScript and HTML5 Canvas support"
+      "browserRequirements": "Requires JavaScript and HTML5 Canvas support",
+      "author": {
+        "@type": "Person",
+        "name": "Harshal Moon",
+        "url": "https://h-arshal.github.io/Portfolio/"
+      },
+      "featureList": [
+        "Resize Image",
+        "Compress Image",
+        "Crop Image",
+        "Circle Crop",
+        "Corner Radius",
+        "Add Border",
+        "Adjust & Filters",
+        "Rotate & Flip",
+        "Convert Format",
+        "Favicon Generator",
+        "Add Watermark",
+        "Image to PDF",
+        "Remove EXIF Metadata"
+      ]
     }
     </script>
 
@@ -62,6 +84,19 @@
   </head>
   <body>
     <div id="root"></div>
+    <noscript>
+      <div style="max-width:680px;margin:60px auto;padding:32px;font-family:Inter,system-ui,sans-serif;text-align:center">
+        <h1>Image Utility — Free, Private, In-Browser Image Tools</h1>
+        <p style="margin:16px 0;color:#64748b;line-height:1.6">
+          Resize, compress, crop, circle crop, round corners, add borders, adjust filters, rotate &amp; flip,
+          convert formats (PNG, JPEG, WebP, AVIF, ICO), generate favicons, add watermarks, create PDFs,
+          and strip EXIF metadata — all 100% client-side with zero data uploaded.
+        </p>
+        <p style="margin:16px 0;color:#94a3b8;font-size:0.875rem">
+          This application requires JavaScript to run. Please enable JavaScript in your browser settings.
+        </p>
+      </div>
+    </noscript>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

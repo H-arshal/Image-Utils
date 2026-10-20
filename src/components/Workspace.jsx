@@ -456,6 +456,9 @@ export default function Workspace({
 
   return (
     <div className="workspace-main-wrapper">
+      {/* SEO: Visible h1 for each tool page */}
+      <h1 className="workspace-seo-h1">{activeToolDef.name} — Image Utility</h1>
+
       {/* Three Column Desktop Workspace */}
       <div className="workspace-desktop-grid">
         {/* Column 1: Left Navigation Sidebar */}

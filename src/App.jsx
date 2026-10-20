@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route, useNavigate, useLocation, useParams } from 'react-router-dom';
+import { Routes, Route, useNavigate, useLocation, useParams, Link } from 'react-router-dom';
 import Header from './components/Header';
 import Dropzone from './components/Dropzone';
 import ToolGrid from './components/ToolGrid';
@@ -289,6 +289,39 @@ export default function App() {
         isOpen={isAboutOpen}
         onClose={() => setIsAboutOpen(false)}
       />
+
+      {/* SEO Footer — crawlable internal links to all tool pages */}
+      {location.pathname === '/' && (
+        <footer className="site-footer">
+          <div className="footer-inner">
+            <div className="footer-tools-section">
+              <h2 className="footer-heading">All Tools</h2>
+              <nav className="footer-tool-links" aria-label="Image tools">
+                {Object.entries(ROUTE_SEO)
+                  .filter(([key]) => key !== 'home')
+                  .map(([id, meta]) => (
+                    <Link key={id} to={`/${id}`} className="footer-tool-link">
+                      {meta.title.split(' | ')[0]}
+                    </Link>
+                  ))}
+              </nav>
+            </div>
+            <div className="footer-bottom">
+              <p className="footer-copy">
+                © {new Date().getFullYear()} Image Utility by{' '}
+                <a href="https://h-arshal.github.io/Portfolio/" target="_blank" rel="noopener noreferrer">
+                  Harshal Moon
+                </a>. 100% client-side. Zero data uploaded.
+              </p>
+              <div className="footer-ext-links">
+                <a href="https://github.com/H-arshal/Image-Utils" target="_blank" rel="noopener noreferrer">GitHub</a>
+                <span className="footer-dot">·</span>
+                <button type="button" className="footer-link-btn" onClick={() => setIsAboutOpen(true)}>Privacy</button>
+              </div>
+            </div>
+          </div>
+        </footer>
+      )}
 
       {/* Toast Notification */}
       {toastMessage && (
