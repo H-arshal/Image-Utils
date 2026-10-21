@@ -1,4 +1,4 @@
-/* Image Utility — Pixel-Perfect Burnt Orange Design matching Mockup */
+/* Image Utility - Pixel-Perfect Burnt Orange Design matching Mockup */
 :root {
   color-scheme: light;
 
@@ -1161,6 +1161,22 @@ input[type="range"] {
   font-weight: 600;
 }
 
+/* Convert Format Grid & Button */
+.convert-format-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.format-select-btn {
+  height: auto;
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+}
+
 .button-secondary {
   color: var(--color-text);
   background: var(--color-surface);
@@ -1997,38 +2013,72 @@ input[type="range"] {
     display: flex !important;
     flex-direction: row !important;
     overflow-x: auto;
+    overflow-y: hidden;
     gap: 8px;
-    padding: 2px 2px 8px;
+    padding: 4px 4px 10px;
     margin-bottom: 2px;
     scrollbar-width: none;
     -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
     background: transparent;
     border: none;
     box-shadow: none;
     max-height: none;
+    min-width: 0;
+    width: 100%;
   }
 
   .workspace-sidebar::-webkit-scrollbar {
     display: none;
   }
 
-
   .sidebar-tool-card {
+    width: auto !important;
     flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
     padding: 8px 14px;
     border-radius: 9999px;
     background: var(--color-surface);
     border: 1px solid var(--color-border);
-    gap: 8px;
+    white-space: nowrap;
+    text-align: center;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+    touch-action: manipulation;
+  }
+
+  .sidebar-tool-card:hover {
+    background: var(--color-surface-subtle);
+    border-color: var(--color-border-strong);
   }
 
   .sidebar-tool-card.is-active {
     background: var(--color-accent-tint);
     border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+
+  .sidebar-tool-card.is-active .sidebar-tool-title {
+    color: var(--color-accent);
+    font-weight: 600;
   }
 
   .sidebar-tool-card.is-active::before {
     display: none;
+  }
+
+  .sidebar-tool-meta {
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+    overflow: visible;
+  }
+
+  .sidebar-tool-title {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    white-space: nowrap;
   }
 
   .sidebar-tool-desc {
@@ -2181,36 +2231,137 @@ input[type="range"] {
   }
 
   .tools-grid {
-    grid-template-columns: 1fr;
-    gap: 0.75rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .tool-card {
+    padding: 12px;
+    gap: 6px;
+    border-radius: var(--radius-md);
+  }
+
+  .tool-card-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-sm);
+  }
+
+  .tool-card-title {
+    font-size: 0.875rem;
+    margin-top: 2px;
+  }
+
+  .tool-card-desc {
+    font-size: 0.75rem;
+    line-height: 1.35;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 
   /* Workspace Layout on Mobile */
   .workspace-main-wrapper {
-    gap: 1rem;
+    gap: 0.75rem;
   }
 
   .workspace-desktop-grid {
-    gap: 1rem;
+    gap: 0.75rem;
   }
 
   /* Horizontal Tool Selector */
   .workspace-sidebar {
-    padding: 2px 2px 6px;
+    padding: 4px 2px 8px;
     gap: 6px;
+    scroll-padding: 0 8px;
+    min-width: 0;
+    width: 100%;
   }
 
   .sidebar-tool-card {
+    width: auto !important;
     padding: 7px 12px;
+    gap: 6px;
+    border-radius: 9999px;
+    height: 36px;
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
   }
 
   .sidebar-tool-title {
     font-size: 0.8125rem;
+    white-space: nowrap;
+    line-height: 1;
   }
 
   .sidebar-tool-icon {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  /* Tool controls adaptation on mobile */
+  .dimension-inputs-row {
+    gap: 8px;
+    width: 100%;
+  }
+
+  .dimension-field {
+    min-width: 0;
+    flex: 1;
+  }
+
+  .input-with-suffix {
+    height: 36px;
+  }
+
+  .input-with-suffix input {
+    padding: 6px 8px;
+    font-size: 0.8125rem;
+    min-width: 0;
+  }
+
+  .input-suffix {
+    padding: 0 8px;
+    font-size: 0.75rem;
+  }
+
+  .link-icon-btn {
+    width: 30px;
+    height: 36px;
+  }
+
+  .preset-grid-4 {
+    gap: 6px;
+  }
+
+  .preset-btn-item {
+    height: 32px;
+    font-size: 0.75rem;
+  }
+
+  .inputs-2col-grid {
+    gap: 8px;
+  }
+
+  .inputs-2col-grid .pill-btn {
+    padding: 8px 6px;
+    font-size: 0.75rem;
+    text-align: center;
+  }
+
+  .convert-format-grid {
+    gap: 6px;
+  }
+
+  .format-select-btn {
+    padding: 6px 8px;
   }
 
   /* File Info Header */
@@ -2427,6 +2578,64 @@ input[type="range"] {
     max-height: 290px;
   }
 
+  .tools-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .tool-card {
+    padding: 10px 12px;
+    display: grid;
+    grid-template-columns: 32px 1fr;
+    grid-template-areas:
+      "icon title"
+      "icon desc";
+    column-gap: 10px;
+    row-gap: 2px;
+    align-items: center;
+  }
+
+  .tool-card-icon {
+    grid-area: icon;
+    margin: 0;
+  }
+
+  .tool-card-title {
+    grid-area: title;
+    margin: 0;
+  }
+
+  .tool-card-desc {
+    grid-area: desc;
+    margin: 0;
+  }
+
+  .workspace-sidebar {
+    gap: 5px;
+    padding: 2px 2px 6px;
+  }
+
+  .sidebar-tool-card {
+    width: auto !important;
+    padding: 6px 10px;
+    gap: 5px;
+    height: 32px;
+  }
+
+  .sidebar-tool-title {
+    font-size: 0.75rem;
+  }
+
+  .sidebar-tool-icon {
+    width: 15px;
+    height: 15px;
+  }
+
+  .convert-format-grid {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
   .inputs-2col-grid {
     gap: 8px;
   }
@@ -2488,7 +2697,7 @@ a.tool-card {
   color: inherit;
 }
 
-/* Workspace: Visible h1 for tool pages — compact but present for crawlers and accessibility */
+/* Workspace: Visible h1 for tool pages - compact but present for crawlers and accessibility */
 .workspace-seo-h1 {
   font-size: 0.8125rem;
   font-weight: 500;
@@ -2500,7 +2709,7 @@ a.tool-card {
   background: var(--color-surface);
 }
 
-/* Site Footer — internal link surface for crawlers */
+/* Site Footer - internal link surface for crawlers */
 .site-footer {
   margin-top: 56px;
   border-top: 1px solid var(--color-border);

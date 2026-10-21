@@ -39,22 +39,14 @@ export default function ConvertControls({ onChange }) {
             .{activeFormatMeta.ext.toUpperCase()}
           </span>
         </label>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '8px' }}>
+        <div className="convert-format-grid">
           {CONVERT_FORMATS.map((fmt) => {
             const isActive = format === fmt.id;
             return (
               <button
                 key={fmt.id}
                 type="button"
-                className={`pill-btn ${isActive ? 'is-active' : ''}`}
-                style={{
-                  height: 'auto',
-                  padding: '8px 10px',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'flex-start',
-                  textAlign: 'left'
-                }}
+                className={`pill-btn format-select-btn ${isActive ? 'is-active' : ''}`}
                 onClick={() => setFormat(fmt.id)}
               >
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>

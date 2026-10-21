@@ -290,7 +290,7 @@ export default function App() {
         onClose={() => setIsAboutOpen(false)}
       />
 
-      {/* SEO Footer — crawlable internal links to all tool pages */}
+      {/* SEO Footer - crawlable internal links to all tool pages */}
       {location.pathname === '/' && (
         <footer className="site-footer">
           <div className="footer-inner">

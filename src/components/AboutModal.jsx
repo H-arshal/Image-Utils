@@ -251,7 +251,7 @@ export default function AboutModal({ isOpen, onClose }) {
                   >
                     <div className="developer-action-btn-left">
                       <Globe size={15} />
-                      <span>Harshal Moon — Portfolio Website</span>
+                      <span>Harshal Moon - Portfolio Website</span>
                     </div>
                     <ExternalLink size={13} />
                   </a>

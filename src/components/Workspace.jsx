@@ -116,6 +116,17 @@ export default function Workspace({
   const [isCanvasDragOver, setIsCanvasDragOver] = useState(false);
   const dragCounterRef = useRef(0);
   const canvasFileInputRef = useRef(null);
+  const sidebarNavRef = useRef(null);
+
+  // Auto-scroll active tool into view in horizontal navigation on mobile/tablet
+  useEffect(() => {
+    if (sidebarNavRef.current) {
+      const activeBtn = sidebarNavRef.current.querySelector('.sidebar-tool-card.is-active');
+      if (activeBtn) {
+        activeBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      }
+    }
+  }, [activeTool]);
 
   const ALLOWED_MIME_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/bmp'];
   const MAX_FILE_SIZE = 50 * 1024 * 1024;
@@ -457,12 +468,12 @@ export default function Workspace({
   return (
     <div className="workspace-main-wrapper">
       {/* SEO: Visible h1 for each tool page */}
-      <h1 className="workspace-seo-h1">{activeToolDef.name} — Image Utility</h1>
+      <h1 className="workspace-seo-h1">{activeToolDef.name} - Image Utility</h1>
 
       {/* Three Column Desktop Workspace */}
       <div className="workspace-desktop-grid">
         {/* Column 1: Left Navigation Sidebar */}
-        <aside className="workspace-sidebar">
+        <aside className="workspace-sidebar" ref={sidebarNavRef} aria-label="Image utility options">
           {WORKSPACE_TOOLS.map((tool) => {
             const Icon = tool.icon;
             const isActive = activeTool === tool.id;
