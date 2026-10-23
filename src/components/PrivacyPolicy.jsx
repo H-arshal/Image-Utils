@@ -60,7 +60,7 @@ export default function PrivacyPolicy() {
           </p>
         </section>
 
-        <section id="cookies" className="legal-section">
+        <section className="legal-section">
           <h2>3. Cookies and Tracking</h2>
           <p>
             Image Utility is strictly cookie-free. We do not set advertising cookies, profiling cookies, or tracking beacons.

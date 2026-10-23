@@ -99,10 +99,10 @@ export const TOOLS = [
 
 export default function ToolGrid({ onSelectTool }) {
   return (
-    <section id="tools-section" aria-labelledby="tools-heading">
+    <section>
       <div className="tools-grid-heading">
         <Wrench size={18} color="var(--color-accent)" />
-        <h2 id="tools-heading" style={{ fontSize: '1rem', fontWeight: 600, margin: 0, display: 'inline' }}>Everyday image utilities</h2>
+        <span>Everyday image utilities</span>
       </div>
 
       <div className="tools-grid">

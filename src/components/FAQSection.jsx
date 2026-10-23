@@ -43,17 +43,17 @@ export default function FAQSection() {
         Everything you need to know about private, in-browser image optimization and conversions.
       </p>
 
-      <div className="faq-grid-list">
+      <div className="faq-accordion-list">
         {FAQ_ITEMS.map((item, idx) => {
           const isOpen = openIndex === idx;
           return (
             <div
               key={idx}
-              className={`faq-card ${isOpen ? 'is-open' : ''}`}
+              className={`faq-item-card ${isOpen ? 'is-open' : ''}`}
             >
               <button
                 type="button"
-                className="faq-question-row"
+                className="faq-question-btn"
                 onClick={() => toggleFAQ(idx)}
                 aria-expanded={isOpen}
                 aria-controls={`faq-answer-${idx}`}
@@ -67,8 +67,9 @@ export default function FAQSection() {
               </button>
               <div
                 id={`faq-answer-${idx}`}
+                role="region"
                 aria-labelledby={`faq-btn-${idx}`}
-                className={`faq-answer-content ${isOpen ? 'is-visible' : ''}`}
+                className={`faq-answer-container ${isOpen ? 'is-visible' : ''}`}
               >
                 <p className="faq-answer-text">{item.a}</p>
               </div>

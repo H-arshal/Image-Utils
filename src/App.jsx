@@ -175,11 +175,8 @@ function HomeRoute({ imageData, setImageData }) {
         </div>
         <h1 className="hero-title">Everyday image tools. Simple, private, in-browser.</h1>
         <p className="hero-subtitle">
-          Image Utility is a free, privacy-first suite of in-browser image tools designed to resize, compress, crop, and convert photos directly on your device. Every operation processes locally inside your browser's memory—zero files or images are ever uploaded to any cloud server.
+          Make quick adjustments, resize, compress, and convert formats directly inside your browser.
         </p>
-        <div className="hero-cta-actions">
-          <a href="#tools-section" className="hero-primary-cta">Explore 13 Image Tools ↓</a>
-        </div>
       </div>
 
       <Dropzone onFileLoaded={handleFileLoadedOnHome} />
@@ -334,18 +331,14 @@ export default function App() {
                 © {new Date().getFullYear()} Image Utility by{' '}
                 <a href="https://h-arshal.github.io/Portfolio/" target="_blank" rel="noopener noreferrer">
                   Harshal Moon
-                </a>. Updated <time dateTime="2026-10-23">October 23, 2026</time>. 100% client-side. Zero data uploaded.
+                </a>. 100% client-side. Zero data uploaded.
               </p>
               <div className="footer-ext-links">
                 <a href="https://github.com/H-arshal/Image-Utils" target="_blank" rel="noopener noreferrer">GitHub</a>
                 <span className="footer-dot">·</span>
                 <Link to="/privacy">Privacy Policy</Link>
                 <span className="footer-dot">·</span>
-                <Link to="/privacy#cookies">Cookie Policy</Link>
-                <span className="footer-dot">·</span>
                 <Link to="/terms">Terms</Link>
-                <span className="footer-dot">·</span>
-                <a href="https://h-arshal.github.io/Portfolio/#contact" target="_blank" rel="noopener noreferrer">Contact</a>
               </div>
             </div>
           </div>
