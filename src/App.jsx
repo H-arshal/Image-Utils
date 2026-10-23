@@ -48,7 +48,7 @@ const ROUTE_SEO = {
     desc: 'Rotate photos 90°, 180°, 270° or mirror flip horizontally and vertically in-browser.',
   },
   convert: {
-    title: 'Convert Image Format (PNG, JPEG, WebP, BMP, AVIF, TIFF, ICO) | Image Utility',
+    title: 'Convert Image Format | Image Utility',
     desc: 'Convert seamlessly between PNG, JPEG, WebP, BMP, AVIF, TIFF, and ICO formats with custom quality and background fill.',
   },
   favicon: {
