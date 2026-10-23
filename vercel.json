@@ -1,7 +1,7 @@
 {
   "rewrites": [
     {
-      "source": "/(resize|compress|convert|crop|favicon|circle|radius|border|rotate|watermark|adjust|pdf|metadata|privacy|terms)/?",
+      "source": "/(.*)",
       "destination": "/index.html"
     }
   ],
