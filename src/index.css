@@ -279,6 +279,37 @@ body {
   margin: 0 auto;
 }
 
+.hero-cta-actions {
+  margin-top: 1.25rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+}
+
+.hero-primary-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-strong);
+  color: var(--color-text);
+  padding: 8px 18px;
+  border-radius: 9999px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.15s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.hero-primary-cta:hover {
+  background: var(--color-surface-subtle);
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+  transform: translateY(-1px);
+}
+
 /* Landing Dropzone */
 .dropzone-container {
   max-width: 720px;
@@ -2882,13 +2913,15 @@ a.tool-card {
   line-height: 1.5;
 }
 
-.faq-accordion-list {
+.faq-accordion-list,
+.faq-grid-list {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
-.faq-item-card {
+.faq-item-card,
+.faq-card {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
@@ -2896,16 +2929,19 @@ a.tool-card {
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
-.faq-item-card:hover {
+.faq-item-card:hover,
+.faq-card:hover {
   border-color: var(--color-border-strong);
 }
 
-.faq-item-card.is-open {
+.faq-item-card.is-open,
+.faq-card.is-open {
   border-color: var(--color-accent-border);
   box-shadow: 0 2px 8px rgba(198, 93, 33, 0.06);
 }
 
-.faq-question-btn {
+.faq-question-btn,
+.faq-question-row {
   width: 100%;
   display: flex;
   align-items: center;
@@ -2927,7 +2963,8 @@ a.tool-card {
   line-height: 1.4;
 }
 
-.faq-item-card.is-open .faq-question-title {
+.faq-item-card.is-open .faq-question-title,
+.faq-card.is-open .faq-question-title {
   color: var(--color-accent);
 }
 
@@ -2942,13 +2979,15 @@ a.tool-card {
   color: var(--color-accent);
 }
 
-.faq-answer-container {
+.faq-answer-container,
+.faq-answer-content {
   display: none;
   padding: 0 20px 18px;
   animation: fadeIn 0.15s ease;
 }
 
-.faq-answer-container.is-visible {
+.faq-answer-container.is-visible,
+.faq-answer-content.is-visible {
   display: block;
 }
 

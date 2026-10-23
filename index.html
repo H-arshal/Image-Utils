@@ -3,42 +3,40 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light" />
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' ws: http:; object-src 'none'; base-uri 'self';" />
     
-    <!-- Primary SEO Metadata -->
     <title>Image Utility - Free In-Browser Image Tools (100% Private)</title>
     <meta name="title" content="Image Utility - Free In-Browser Image Tools (100% Private)" />
-    <meta name="description" content="Free, 100% private in-browser image tools. Resize, compress, crop, convert formats, and remove EXIF data without uploading. Optimize your images online now!" />
+    <meta name="description" content="Free, private in-browser image tools. Resize, compress, crop, convert formats, and remove EXIF data with zero server uploads. Start editing your images now!" />
     <meta name="keywords" content="image utility, client side image editor, private image tools, compress image online, resize image, circle crop, corner radius, convert png to jpg, webp converter, image to pdf, exif remover" />
     <meta name="author" content="Harshal Moon" />
     <meta name="robots" content="index, follow" />
     <meta name="theme-color" content="#c65d21" />
+    <meta name="date" content="2026-10-23" />
+    <meta property="article:modified_time" content="2026-10-23T00:00:00Z" />
 
-    <!-- Canonical URL -->
     <link rel="canonical" href="https://www.image-utils.site/" />
 
-    <!-- Favicon & Icons -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/logo.png" />
     <link rel="alternate icon" type="image/png" href="/logo.png" />
     <link rel="apple-touch-icon" href="/logo.png" />
 
-    <!-- Open Graph / Facebook / LinkedIn -->
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Image Utility" />
     <meta property="og:title" content="Image Utility - Free In-Browser Image Tools (100% Private)" />
-    <meta property="og:description" content="Free, 100% private in-browser image tools. Resize, compress, crop, convert formats, and remove EXIF data without uploading. Optimize your images online now!" />
+    <meta property="og:description" content="Free, private in-browser image tools. Resize, compress, crop, convert formats, and remove EXIF data with zero server uploads. Start editing your images now!" />
     <meta property="og:url" content="https://www.image-utils.site/" />
     <meta property="og:image" content="https://www.image-utils.site/logo.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
 
-    <!-- Twitter / X -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Image Utility - Free In-Browser Image Tools (100% Private)" />
-    <meta name="twitter:description" content="Free, 100% private in-browser image tools. Resize, compress, crop, convert formats, and remove EXIF data without uploading. Optimize your images online now!" />
+    <meta name="twitter:description" content="Free, private in-browser image tools. Resize, compress, crop, convert formats, and remove EXIF data with zero server uploads. Start editing your images now!" />
     <meta name="twitter:image" content="https://www.image-utils.site/logo.png" />
 
-    <!-- Schema.org JSON-LD Structured Data (WebApplication, WebSite, FAQPage) -->
     <script type="application/ld+json">
     [
       {
@@ -47,6 +45,8 @@
         "@id": "https://www.image-utils.site/#webapp",
         "name": "Image Utility",
         "url": "https://www.image-utils.site/",
+        "datePublished": "2026-10-15T00:00:00+00:00",
+        "dateModified": "2026-10-23T00:00:00+00:00",
         "description": "Free, 100% private in-browser image tools. Resize, compress, crop, circle crop, round corners, add borders, convert formats, generate favicons, and remove EXIF data without uploading files.",
         "applicationCategory": "MultimediaApplication",
         "operatingSystem": "All",
@@ -83,6 +83,7 @@
         "@id": "https://www.image-utils.site/#website",
         "url": "https://www.image-utils.site/",
         "name": "Image Utility",
+        "dateModified": "2026-10-23T00:00:00+00:00",
         "description": "Free, 100% client-side in-browser image processing utilities.",
         "author": {
           "@type": "Person",
@@ -139,23 +140,19 @@
     ]
     </script>
 
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   </head>
   <body>
-    <!-- Root Container: Pre-rendered with accessible semantic landmarks & SEO content -->
     <div id="root">
       <div class="app-container">
-        <!-- Accessibility: Skip to main content -->
         <a href="#main-content" class="skip-to-content">Skip to main content</a>
 
-        <!-- Semantic Header Landmark -->
         <header class="app-header" role="banner">
           <div class="logo-group">
             <div class="logo-icon-box">
-              <img src="/logo.png" alt="Image Utility Logo" class="logo-icon-img" width="28" height="28" />
+              <img src="/logo.png" alt="Image Utility Logo" class="logo-icon-img" width="28" height="28" fetchpriority="high" />
             </div>
             <span class="logo-text">Image <span class="logo-accent">Utility</span></span>
           </div>
@@ -175,18 +172,17 @@
           </nav>
         </header>
 
-        <!-- Semantic Main Landmark -->
         <main id="main-content" class="main-content" role="main">
-          <!-- Hero Section with exactly one H1 -->
           <section class="hero-section" aria-labelledby="hero-title-h1">
             <h1 id="hero-title-h1" class="hero-title">Everyday image tools. Simple, private, in-browser.</h1>
             <p class="hero-subtitle">
-              Make quick adjustments, resize, compress, and convert formats directly inside your browser.
-              All operations run locally in your device's memory—zero files or photos are ever uploaded to any server.
+              Image Utility is a free, privacy-first suite of in-browser image tools designed to resize, compress, crop, and convert photos directly on your device. Every operation processes locally inside your browser's memory—zero files or images are ever uploaded to any cloud server.
             </p>
+            <div class="hero-cta-actions">
+              <a href="#tools-heading" class="hero-primary-cta">Explore 13 Image Tools ↓</a>
+            </div>
           </section>
 
-          <!-- Pre-rendered Tool Cards Grid Section -->
           <section class="tools-grid-section" aria-labelledby="tools-heading">
             <div class="tools-grid-heading">
               <h2 id="tools-heading" style="font-size:1.125rem;font-weight:600;margin:0">Everyday image utilities</h2>
@@ -248,8 +244,85 @@
             </div>
           </section>
 
-          <!-- Pre-rendered FAQ Section with Question-based Headings (GEO Optimization) -->
-          <section class="faq-section" aria-labelledby="faq-static-title">
+          <section class="features-overview-section" aria-labelledby="why-client-side-heading" style="margin-top:56px;padding-top:36px;border-top:1px solid var(--color-border)">
+            <h2 id="why-client-side-heading" style="font-size:1.25rem;font-weight:700;margin:0 0 16px;color:var(--color-text)">Why 100% Client-Side Image Processing Matters</h2>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:20px;line-height:1.6;color:var(--color-text-secondary);font-size:0.875rem">
+              <div style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:12px;padding:20px">
+                <h3 style="font-size:1rem;font-weight:600;margin:0 0 8px;color:var(--color-text)">Zero Uploads &amp; Absolute Privacy</h3>
+                <p style="margin:0">
+                  Standard online converters require sending your photos to remote cloud servers where they may be stored, scanned, or cached. Image Utility computes every pixel manipulation right inside your device RAM using modern HTML5 Canvas technology.
+                </p>
+              </div>
+              <div style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:12px;padding:20px">
+                <h3 style="font-size:1rem;font-weight:600;margin:0 0 8px;color:var(--color-text)">Instant Performance With No Queue</h3>
+                <p style="margin:0">
+                  Because conversions leverage your own computer or smartphone GPU, there are zero server wait queues, upload bottlenecks, or slow network timeouts. Large multi-megabyte images process and export in milliseconds.
+                </p>
+              </div>
+              <div style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:12px;padding:20px">
+                <h3 style="font-size:1rem;font-weight:600;margin:0 0 8px;color:var(--color-text)">No Paywalls, Subscriptions, or Quotas</h3>
+                <p style="margin:0">
+                  Image Utility is 100% free open-source software under the permissive MIT license. Process thousands of images, generate professional icon packages, or scrub EXIF GPS tags without subscription fees, watermarks, or artificial limits.
+                </p>
+              </div>
+              <div style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:12px;padding:20px">
+                <h3 style="font-size:1rem;font-weight:600;margin:0 0 8px;color:var(--color-text)">Zero Data Retention and Memory Auto-Clearing</h3>
+                <p style="margin:0">
+                  Once you close your browser tab or complete an edit, the local memory buffer is automatically cleared by the browser garbage collector. No temporary cache files linger on any third-party infrastructure.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <section class="formats-overview-section" aria-labelledby="formats-overview-heading" style="margin-top:40px;padding-top:36px;border-top:1px solid var(--color-border)">
+            <h2 id="formats-overview-heading" style="font-size:1.25rem;font-weight:700;margin:0 0 16px;color:var(--color-text)">Comprehensive Format Support for Modern Web Needs</h2>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:20px;line-height:1.6;color:var(--color-text-secondary);font-size:0.875rem">
+              <div style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:12px;padding:20px">
+                <h3 style="font-size:1rem;font-weight:600;margin:0 0 8px;color:var(--color-text)">Next-Generation WebP and AVIF Formats</h3>
+                <p style="margin:0">
+                  Modern web applications prioritize speed and core web vitals. Converting standard JPEG and PNG files into WebP or AVIF reduces bandwidth payload by up to 35% without visible loss in fidelity. Our browser converter provides real-time size comparison to help you find the optimal balance between visual clarity and file size.
+                </p>
+              </div>
+              <div style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:12px;padding:20px">
+                <h3 style="font-size:1rem;font-weight:600;margin:0 0 8px;color:var(--color-text)">Lossless PNG with Alpha Transparency Support</h3>
+                <p style="margin:0">
+                  Graphic assets, brand logos, badges, and icons require crisp pixel boundaries and true transparency. Our circular crop, corner radius, and PNG tools preserve full 32-bit RGBA color channels with zero jagged artifacts or edge bleeding.
+                </p>
+              </div>
+              <div style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:12px;padding:20px">
+                <h3 style="font-size:1rem;font-weight:600;margin:0 0 8px;color:var(--color-text)">Camera EXIF and GPS Privacy Sanitization</h3>
+                <p style="margin:0">
+                  Smartphone cameras embed rich metadata including exact GPS coordinates, camera serial numbers, lens specifications, and capture timestamps. When sharing photos online or on forums, this sensitive data can compromise personal security. Our metadata stripper rebuilds the image canvas from scratch, discarding all extraneous data streams.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <section class="how-it-works-section" aria-labelledby="how-it-works-heading" style="margin-top:40px;padding-top:36px;border-top:1px solid var(--color-border)">
+            <h2 id="how-it-works-heading" style="font-size:1.25rem;font-weight:700;margin:0 0 16px;color:var(--color-text)">How to Process Images in Three Simple Steps</h2>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:20px;line-height:1.6;color:var(--color-text-secondary);font-size:0.875rem">
+              <div style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:12px;padding:20px">
+                <h3 style="font-size:1rem;font-weight:600;margin:0 0 8px;color:var(--color-text)">1. Choose a Tool &amp; Load Your Photo</h3>
+                <p style="margin:0">
+                  Select any of our 13 specialized image utilities and drag your file into the upload zone, paste directly from your clipboard, or browse your local storage. Supported formats include PNG, JPEG, WebP, GIF, SVG, BMP, and TIFF.
+                </p>
+              </div>
+              <div style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:12px;padding:20px">
+                <h3 style="font-size:1rem;font-weight:600;margin:0 0 8px;color:var(--color-text)">2. Customize Dimensions, Quality, &amp; Presets</h3>
+                <p style="margin:0">
+                  Use intuitive slider controls and input boxes to define exact width, height, compression quality, rotation angles, or border parameters. Visual preview updates instantly in real time so you know exactly how the exported asset will look.
+                </p>
+              </div>
+              <div style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:12px;padding:20px">
+                <h3 style="font-size:1rem;font-weight:600;margin:0 0 8px;color:var(--color-text)">3. Export Clean Files Directly to Your Device</h3>
+                <p style="margin:0">
+                  Click Download to save your processed image instantly. Because the file is assembled locally from memory, downloads start immediately without waiting for background cloud encoding.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <section class="faq-section" aria-labelledby="faq-static-title" style="margin-top:40px;padding-top:36px;border-top:1px solid var(--color-border)">
             <div class="faq-heading-wrapper">
               <h2 id="faq-static-title" class="faq-main-title">Frequently Asked Questions</h2>
             </div>
@@ -257,56 +330,56 @@
               Learn how client-side image processing protects your privacy and accelerates workflow.
             </p>
 
-            <div class="faq-accordion-list">
-              <div class="faq-item-card is-open">
-                <div class="faq-question-btn">
+            <div class="faq-grid-list">
+              <div class="faq-card is-open">
+                <div class="faq-question-row">
                   <h3 class="faq-question-title">How does 100% client-side image editing protect my privacy?</h3>
                 </div>
-                <div class="faq-answer-container is-visible">
+                <div class="faq-answer-content is-visible">
                   <p class="faq-answer-text">
                     Every image operation—including resizing, compression, format conversion, and watermark rendering—is computed strictly in your web browser using HTML5 Canvas and JavaScript. Your image bytes are never uploaded to any server or cloud storage, meaning your sensitive media never leaves your personal device.
                   </p>
                 </div>
               </div>
 
-              <div class="faq-item-card is-open">
-                <div class="faq-question-btn">
+              <div class="faq-card is-open">
+                <div class="faq-question-row">
                   <h3 class="faq-question-title">Can I resize or compress images without noticeable quality loss?</h3>
                 </div>
-                <div class="faq-answer-container is-visible">
+                <div class="faq-answer-content is-visible">
                   <p class="faq-answer-text">
                     Yes. Our compression tool employs perceptual quantization algorithms and high-fidelity downscaling routines that preserve edge crispness and color balance while shrinking file size by up to 80%. You can fine-tune quality with a visual preview slider or specify an exact target size in kilobytes.
                   </p>
                 </div>
               </div>
 
-              <div class="faq-item-card is-open">
-                <div class="faq-question-btn">
+              <div class="faq-card is-open">
+                <div class="faq-question-row">
                   <h3 class="faq-question-title">What image formats are supported for conversion?</h3>
                 </div>
-                <div class="faq-answer-container is-visible">
+                <div class="faq-answer-content is-visible">
                   <p class="faq-answer-text">
                     Image Utility supports bidirectional conversions between PNG (lossless with alpha transparency), JPEG (compressed photography), WebP (modern high-efficiency web format), AVIF (next-generation compression), BMP (uncompressed Windows raster), TIFF (archival print quality), and ICO (multi-resolution browser favicon format).
                   </p>
                 </div>
               </div>
 
-              <div class="faq-item-card is-open">
-                <div class="faq-question-btn">
+              <div class="faq-card is-open">
+                <div class="faq-question-row">
                   <h3 class="faq-question-title">Is Image Utility completely free with no usage limits?</h3>
                 </div>
-                <div class="faq-answer-container is-visible">
+                <div class="faq-answer-content is-visible">
                   <p class="faq-answer-text">
                     Yes. Image Utility is 100% free and open-source under the MIT License. There are no daily conversion quotas, paywalls, watermarks forced on output, or mandatory user accounts. Because computations run on your hardware, you can process as many images as you need.
                   </p>
                 </div>
               </div>
 
-              <div class="faq-item-card is-open">
-                <div class="faq-question-btn">
+              <div class="faq-card is-open">
+                <div class="faq-question-row">
                   <h3 class="faq-question-title">How do I remove GPS coordinates and EXIF camera tags?</h3>
                 </div>
-                <div class="faq-answer-container is-visible">
+                <div class="faq-answer-content is-visible">
                   <p class="faq-answer-text">
                     Use the Remove Metadata utility. When you load a photo, our engine decodes the pure pixel bitmap and re-encodes it into a pristine container without the Exif, TIFF, IPTC, or XMP metadata chunks, completely scrubbing GPS coordinates, camera serial numbers, and capture timestamps.
                   </p>
@@ -316,7 +389,6 @@
           </section>
         </main>
 
-        <!-- Semantic Footer Landmark -->
         <footer class="site-footer" role="contentinfo">
           <div class="footer-inner">
             <div class="footer-tools-section">
@@ -339,14 +411,18 @@
             </div>
             <div class="footer-bottom">
               <p class="footer-copy">
-                © 2026 Image Utility by <a href="https://h-arshal.github.io/Portfolio/" target="_blank" rel="noopener noreferrer">Harshal Moon</a>. 100% client-side. Zero data uploaded.
+                © 2026 Image Utility by <a href="https://h-arshal.github.io/Portfolio/" target="_blank" rel="noopener noreferrer">Harshal Moon</a>. Updated <time datetime="2026-10-23">October 23, 2026</time>. 100% client-side. Zero data uploaded.
               </p>
               <div class="footer-ext-links">
                 <a href="https://github.com/H-arshal/Image-Utils" target="_blank" rel="noopener noreferrer">GitHub</a>
                 <span class="footer-dot">·</span>
                 <a href="/privacy">Privacy Policy</a>
                 <span class="footer-dot">·</span>
+                <a href="/privacy#cookies">Cookie Policy</a>
+                <span class="footer-dot">·</span>
                 <a href="/terms">Terms of Service</a>
+                <span class="footer-dot">·</span>
+                <a href="https://h-arshal.github.io/Portfolio/#contact" target="_blank" rel="noopener noreferrer">Contact</a>
               </div>
             </div>
           </div>
