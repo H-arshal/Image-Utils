@@ -1,8 +1,19 @@
 # Robots.txt for Image Utility
-# https://github.com/H-arshal/Image-Utils
+# https://www.image-utils.site/
+# Source: https://github.com/H-arshal/Image-Utils
 
 User-agent: *
 Allow: /
 
-# Canonical Sitemap (Update with your custom production domain if applicable)
-Sitemap: https://image-utils.vercel.app/sitemap.xml
+# Dedicated AI Answer Engine Crawlers
+User-agent: GPTBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+# Canonical XML Sitemap
+Sitemap: https://www.image-utils.site/sitemap.xml

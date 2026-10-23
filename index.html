@@ -6,16 +6,16 @@
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' ws: http:; object-src 'none'; base-uri 'self';" />
     
     <!-- Primary SEO Metadata -->
-    <title>Image Utility | Client-Side Image Tools (Private &amp; Fast)</title>
-    <meta name="title" content="Image Utility | Client-Side Image Tools (Private &amp; Fast)" />
-    <meta name="description" content="Free, 100% private in-browser image tools. Resize, compress, crop, circle crop, round corners, adjust filters, watermark, convert to PNG/JPG/WebP, and generate PDFs without uploading files." />
-    <meta name="keywords" content="image utility, client side image editor, private image tools, compress image, resize image, circle crop, corner radius, convert png to jpg, webp converter, image to pdf, exif remover" />
-    <meta name="author" content="Harshal" />
+    <title>Image Utility - Free In-Browser Image Tools (100% Private)</title>
+    <meta name="title" content="Image Utility - Free In-Browser Image Tools (100% Private)" />
+    <meta name="description" content="Free, 100% private in-browser image tools. Resize, compress, crop, convert formats, and remove EXIF data without uploading. Optimize your images online now!" />
+    <meta name="keywords" content="image utility, client side image editor, private image tools, compress image online, resize image, circle crop, corner radius, convert png to jpg, webp converter, image to pdf, exif remover" />
+    <meta name="author" content="Harshal Moon" />
     <meta name="robots" content="index, follow" />
     <meta name="theme-color" content="#c65d21" />
 
-    <!-- Canonical URL (Update with custom production domain when launched) -->
-    <link rel="canonical" href="https://image-utils.vercel.app/" />
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://www.image-utils.site/" />
 
     <!-- Favicon & Icons -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -25,78 +25,335 @@
     <!-- Open Graph / Facebook / LinkedIn -->
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Image Utility" />
-    <meta property="og:title" content="Image Utility | Client-Side Image Tools (Private &amp; Fast)" />
-    <meta property="og:description" content="Free, 100% private in-browser image tools. Resize, compress, crop, circle crop, round corners, and convert formats without uploading files." />
-    <meta property="og:url" content="https://image-utils.vercel.app/" />
-    <meta property="og:image" content="https://image-utils.vercel.app/logo.png" />
+    <meta property="og:title" content="Image Utility - Free In-Browser Image Tools (100% Private)" />
+    <meta property="og:description" content="Free, 100% private in-browser image tools. Resize, compress, crop, convert formats, and remove EXIF data without uploading. Optimize your images online now!" />
+    <meta property="og:url" content="https://www.image-utils.site/" />
+    <meta property="og:image" content="https://www.image-utils.site/logo.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
 
     <!-- Twitter / X -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Image Utility | Client-Side Image Tools (Private &amp; Fast)" />
-    <meta name="twitter:description" content="Free, 100% private in-browser image tools. Resize, compress, crop, circle crop, round corners, and convert formats without uploading files." />
-    <meta name="twitter:image" content="https://image-utils.vercel.app/logo.png" />
+    <meta name="twitter:title" content="Image Utility - Free In-Browser Image Tools (100% Private)" />
+    <meta name="twitter:description" content="Free, 100% private in-browser image tools. Resize, compress, crop, convert formats, and remove EXIF data without uploading. Optimize your images online now!" />
+    <meta name="twitter:image" content="https://www.image-utils.site/logo.png" />
 
-    <!-- Schema.org JSON-LD Structured Data -->
+    <!-- Schema.org JSON-LD Structured Data (WebApplication, WebSite, FAQPage) -->
     <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebApplication",
-      "name": "Image Utility",
-      "url": "https://image-utils.vercel.app/",
-      "description": "Free, 100% private in-browser image tools. Resize, compress, crop, circle crop, round corners, add borders, convert formats, generate favicons, and remove EXIF data without uploading files.",
-      "applicationCategory": "MultimediaApplication",
-      "operatingSystem": "All",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD"
+    [
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "@id": "https://www.image-utils.site/#webapp",
+        "name": "Image Utility",
+        "url": "https://www.image-utils.site/",
+        "description": "Free, 100% private in-browser image tools. Resize, compress, crop, circle crop, round corners, add borders, convert formats, generate favicons, and remove EXIF data without uploading files.",
+        "applicationCategory": "MultimediaApplication",
+        "operatingSystem": "All",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "browserRequirements": "Requires JavaScript and HTML5 Canvas support",
+        "author": {
+          "@type": "Person",
+          "name": "Harshal Moon",
+          "url": "https://h-arshal.github.io/Portfolio/"
+        },
+        "featureList": [
+          "Resize Image Dimensions with Aspect Ratio Lock",
+          "Compress Image to Target KB or Quality Slider",
+          "Convert Image Formats (PNG, JPEG, WebP, AVIF, TIFF, ICO)",
+          "Crop Images with Freeform and Fixed Presets",
+          "Circle Crop for Round Avatars and Profile Pictures",
+          "Round Image Corners with Transparent Background",
+          "Add Custom Border Frames",
+          "Rotate 90/180/270 Degrees and Mirror Flip",
+          "Add Customizable Text Watermarks",
+          "Fine-tune Photo Adjustments and 9 Creative Filters",
+          "Favicon Generator (.ICO and Mobile App Icons)",
+          "Convert Images to Single-Page Printable PDFs",
+          "Scrub EXIF Metadata and GPS Location Coordinates"
+        ]
       },
-      "browserRequirements": "Requires JavaScript and HTML5 Canvas support",
-      "author": {
-        "@type": "Person",
-        "name": "Harshal Moon",
-        "url": "https://h-arshal.github.io/Portfolio/"
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "@id": "https://www.image-utils.site/#website",
+        "url": "https://www.image-utils.site/",
+        "name": "Image Utility",
+        "description": "Free, 100% client-side in-browser image processing utilities.",
+        "author": {
+          "@type": "Person",
+          "name": "Harshal Moon"
+        }
       },
-      "featureList": [
-        "Resize Image",
-        "Compress Image",
-        "Crop Image",
-        "Circle Crop",
-        "Corner Radius",
-        "Add Border",
-        "Adjust & Filters",
-        "Rotate & Flip",
-        "Convert Format",
-        "Favicon Generator",
-        "Add Watermark",
-        "Image to PDF",
-        "Remove EXIF Metadata"
-      ]
-    }
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "@id": "https://www.image-utils.site/#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How does 100% client-side image editing protect my privacy?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Every image operation—including resizing, compression, format conversion, and watermark rendering—is computed strictly in your web browser using HTML5 Canvas and JavaScript. Your image bytes are never uploaded to any server or cloud storage, meaning your sensitive media never leaves your personal device."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can I resize or compress images without noticeable quality loss?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Our compression tool employs perceptual quantization algorithms and high-fidelity downscaling routines that preserve edge crispness and color balance while shrinking file size by up to 80%. You can fine-tune quality with a visual preview slider or specify an exact target size in kilobytes."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What image formats are supported for conversion?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Image Utility supports bidirectional conversions between PNG (lossless with alpha transparency), JPEG (compressed photography), WebP (modern high-efficiency web format), AVIF (next-generation compression), BMP (uncompressed Windows raster), TIFF (archival print quality), and ICO (multi-resolution browser favicon format)."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is Image Utility completely free with no usage limits?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Image Utility is 100% free and open-source under the MIT License. There are no daily conversion quotas, paywalls, watermarks forced on output, or mandatory user accounts. Because computations run on your hardware, you can process as many images as you need."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do I remove GPS coordinates and EXIF camera tags?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Use the Remove Metadata utility. When you load a photo, our engine decodes the pure pixel bitmap and re-encodes it into a pristine container without the Exif, TIFF, IPTC, or XMP metadata chunks, completely scrubbing GPS coordinates, camera serial numbers, and capture timestamps."
+            }
+          }
+        ]
+      }
+    ]
     </script>
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   </head>
   <body>
-    <div id="root"></div>
-    <noscript>
-      <div style="max-width:680px;margin:60px auto;padding:32px;font-family:Inter,system-ui,sans-serif;text-align:center">
-        <h1>Image Utility | Free, Private, In-Browser Image Tools</h1>
-        <p style="margin:16px 0;color:#64748b;line-height:1.6">
-          Resize, compress, crop, circle crop, round corners, add borders, adjust filters, rotate &amp; flip,
-          convert formats (PNG, JPEG, WebP, AVIF, ICO), generate favicons, add watermarks, create PDFs,
-          and strip EXIF metadata - all 100% client-side with zero data uploaded.
-        </p>
-        <p style="margin:16px 0;color:#94a3b8;font-size:0.875rem">
-          This application requires JavaScript to run. Please enable JavaScript in your browser settings.
-        </p>
+    <!-- Root Container: Pre-rendered with accessible semantic landmarks & SEO content -->
+    <div id="root">
+      <div class="app-container">
+        <!-- Accessibility: Skip to main content -->
+        <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+        <!-- Semantic Header Landmark -->
+        <header class="app-header" role="banner">
+          <div class="logo-group">
+            <div class="logo-icon-box">
+              <img src="/logo.png" alt="Image Utility Logo" class="logo-icon-img" width="28" height="28" />
+            </div>
+            <span class="logo-text">Image <span class="logo-accent">Utility</span></span>
+          </div>
+
+          <nav class="header-right-actions" aria-label="Main Navigation">
+            <div class="privacy-status-pill" title="100% In-Browser &amp; Private • Zero Data Uploaded">
+              <span class="status-dot-green"></span>
+              <span class="privacy-pill-text-desktop">100% Client-Side • Zero Data Uploaded</span>
+              <span class="privacy-pill-text-mobile">100% Private</span>
+            </div>
+            <a href="https://github.com/H-arshal/Image-Utils" target="_blank" rel="noopener noreferrer" class="header-nav-link" aria-label="GitHub Repository">
+              <span class="header-nav-link-text">GitHub</span>
+            </a>
+            <a href="/privacy" class="header-nav-link-btn" aria-label="Privacy Policy">
+              <span class="header-nav-link-text">About &amp; Privacy</span>
+            </a>
+          </nav>
+        </header>
+
+        <!-- Semantic Main Landmark -->
+        <main id="main-content" class="main-content" role="main">
+          <!-- Hero Section with exactly one H1 -->
+          <section class="hero-section" aria-labelledby="hero-title-h1">
+            <h1 id="hero-title-h1" class="hero-title">Everyday image tools. Simple, private, in-browser.</h1>
+            <p class="hero-subtitle">
+              Make quick adjustments, resize, compress, and convert formats directly inside your browser.
+              All operations run locally in your device's memory—zero files or photos are ever uploaded to any server.
+            </p>
+          </section>
+
+          <!-- Pre-rendered Tool Cards Grid Section -->
+          <section class="tools-grid-section" aria-labelledby="tools-heading">
+            <div class="tools-grid-heading">
+              <h2 id="tools-heading" style="font-size:1.125rem;font-weight:600;margin:0">Everyday image utilities</h2>
+            </div>
+
+            <div class="tools-grid">
+              <a href="/resize" class="tool-card">
+                <h3 class="tool-card-title">Resize</h3>
+                <p class="tool-card-desc">Change width and height dimensions with aspect ratio lock.</p>
+              </a>
+              <a href="/compress" class="tool-card">
+                <h3 class="tool-card-title">Compress</h3>
+                <p class="tool-card-desc">Reduce file size using target KB or quality slider.</p>
+              </a>
+              <a href="/convert" class="tool-card">
+                <h3 class="tool-card-title">Convert</h3>
+                <p class="tool-card-desc">Convert seamlessly between PNG, JPEG, WebP, BMP, AVIF, TIFF, and ICO.</p>
+              </a>
+              <a href="/crop" class="tool-card">
+                <h3 class="tool-card-title">Crop</h3>
+                <p class="tool-card-desc">Crop rectangular regions with 1:1, 16:9, 4:3, or freeform presets.</p>
+              </a>
+              <a href="/favicon" class="tool-card">
+                <h3 class="tool-card-title">Favicon Generator</h3>
+                <p class="tool-card-desc">Generate multi-resolution .ico and mobile app icons with live preview.</p>
+              </a>
+              <a href="/circle" class="tool-card">
+                <h3 class="tool-card-title">Circle Crop</h3>
+                <p class="tool-card-desc">Create circular profile pictures and avatars with transparent PNG.</p>
+              </a>
+              <a href="/radius" class="tool-card">
+                <h3 class="tool-card-title">Corner Radius</h3>
+                <p class="tool-card-desc">Add clean rounded corners with transparent outer clipping.</p>
+              </a>
+              <a href="/border" class="tool-card">
+                <h3 class="tool-card-title">Add Border</h3>
+                <p class="tool-card-desc">Add stylish border frames with customizable colors and widths.</p>
+              </a>
+              <a href="/rotate" class="tool-card">
+                <h3 class="tool-card-title">Rotate &amp; Flip</h3>
+                <p class="tool-card-desc">Rotate 90°, 180° or mirror flip horizontally and vertically.</p>
+              </a>
+              <a href="/watermark" class="tool-card">
+                <h3 class="tool-card-title">Watermark</h3>
+                <p class="tool-card-desc">Protect photos with custom copyright text, logos, and opacity.</p>
+              </a>
+              <a href="/adjust" class="tool-card">
+                <h3 class="tool-card-title">Adjust &amp; Filters</h3>
+                <p class="tool-card-desc">Fine-tune exposure, contrast, warmth, vignette, and 9 quick filters.</p>
+              </a>
+              <a href="/pdf" class="tool-card">
+                <h3 class="tool-card-title">Image to PDF</h3>
+                <p class="tool-card-desc">Generate single-page A4, Letter, or fit-to-image printable PDFs.</p>
+              </a>
+              <a href="/metadata" class="tool-card">
+                <h3 class="tool-card-title">Remove Metadata</h3>
+                <p class="tool-card-desc">Inspect and scrub EXIF, camera, and GPS location tags.</p>
+              </a>
+            </div>
+          </section>
+
+          <!-- Pre-rendered FAQ Section with Question-based Headings (GEO Optimization) -->
+          <section class="faq-section" aria-labelledby="faq-static-title">
+            <div class="faq-heading-wrapper">
+              <h2 id="faq-static-title" class="faq-main-title">Frequently Asked Questions</h2>
+            </div>
+            <p class="faq-subtitle">
+              Learn how client-side image processing protects your privacy and accelerates workflow.
+            </p>
+
+            <div class="faq-accordion-list">
+              <div class="faq-item-card is-open">
+                <div class="faq-question-btn">
+                  <h3 class="faq-question-title">How does 100% client-side image editing protect my privacy?</h3>
+                </div>
+                <div class="faq-answer-container is-visible">
+                  <p class="faq-answer-text">
+                    Every image operation—including resizing, compression, format conversion, and watermark rendering—is computed strictly in your web browser using HTML5 Canvas and JavaScript. Your image bytes are never uploaded to any server or cloud storage, meaning your sensitive media never leaves your personal device.
+                  </p>
+                </div>
+              </div>
+
+              <div class="faq-item-card is-open">
+                <div class="faq-question-btn">
+                  <h3 class="faq-question-title">Can I resize or compress images without noticeable quality loss?</h3>
+                </div>
+                <div class="faq-answer-container is-visible">
+                  <p class="faq-answer-text">
+                    Yes. Our compression tool employs perceptual quantization algorithms and high-fidelity downscaling routines that preserve edge crispness and color balance while shrinking file size by up to 80%. You can fine-tune quality with a visual preview slider or specify an exact target size in kilobytes.
+                  </p>
+                </div>
+              </div>
+
+              <div class="faq-item-card is-open">
+                <div class="faq-question-btn">
+                  <h3 class="faq-question-title">What image formats are supported for conversion?</h3>
+                </div>
+                <div class="faq-answer-container is-visible">
+                  <p class="faq-answer-text">
+                    Image Utility supports bidirectional conversions between PNG (lossless with alpha transparency), JPEG (compressed photography), WebP (modern high-efficiency web format), AVIF (next-generation compression), BMP (uncompressed Windows raster), TIFF (archival print quality), and ICO (multi-resolution browser favicon format).
+                  </p>
+                </div>
+              </div>
+
+              <div class="faq-item-card is-open">
+                <div class="faq-question-btn">
+                  <h3 class="faq-question-title">Is Image Utility completely free with no usage limits?</h3>
+                </div>
+                <div class="faq-answer-container is-visible">
+                  <p class="faq-answer-text">
+                    Yes. Image Utility is 100% free and open-source under the MIT License. There are no daily conversion quotas, paywalls, watermarks forced on output, or mandatory user accounts. Because computations run on your hardware, you can process as many images as you need.
+                  </p>
+                </div>
+              </div>
+
+              <div class="faq-item-card is-open">
+                <div class="faq-question-btn">
+                  <h3 class="faq-question-title">How do I remove GPS coordinates and EXIF camera tags?</h3>
+                </div>
+                <div class="faq-answer-container is-visible">
+                  <p class="faq-answer-text">
+                    Use the Remove Metadata utility. When you load a photo, our engine decodes the pure pixel bitmap and re-encodes it into a pristine container without the Exif, TIFF, IPTC, or XMP metadata chunks, completely scrubbing GPS coordinates, camera serial numbers, and capture timestamps.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+        </main>
+
+        <!-- Semantic Footer Landmark -->
+        <footer class="site-footer" role="contentinfo">
+          <div class="footer-inner">
+            <div class="footer-tools-section">
+              <h2 class="footer-heading">All Tools</h2>
+              <nav class="footer-tool-links" aria-label="Image tools footer navigation">
+                <a href="/resize" class="footer-tool-link">Resize Image</a>
+                <a href="/compress" class="footer-tool-link">Compress Image</a>
+                <a href="/convert" class="footer-tool-link">Convert Format</a>
+                <a href="/crop" class="footer-tool-link">Crop Image</a>
+                <a href="/favicon" class="footer-tool-link">Favicon Generator</a>
+                <a href="/circle" class="footer-tool-link">Circle Crop</a>
+                <a href="/radius" class="footer-tool-link">Corner Radius</a>
+                <a href="/border" class="footer-tool-link">Add Border</a>
+                <a href="/rotate" class="footer-tool-link">Rotate &amp; Flip</a>
+                <a href="/watermark" class="footer-tool-link">Watermark</a>
+                <a href="/adjust" class="footer-tool-link">Adjust &amp; Filters</a>
+                <a href="/pdf" class="footer-tool-link">Image to PDF</a>
+                <a href="/metadata" class="footer-tool-link">Remove Metadata</a>
+              </nav>
+            </div>
+            <div class="footer-bottom">
+              <p class="footer-copy">
+                © 2026 Image Utility by <a href="https://h-arshal.github.io/Portfolio/" target="_blank" rel="noopener noreferrer">Harshal Moon</a>. 100% client-side. Zero data uploaded.
+              </p>
+              <div class="footer-ext-links">
+                <a href="https://github.com/H-arshal/Image-Utils" target="_blank" rel="noopener noreferrer">GitHub</a>
+                <span class="footer-dot">·</span>
+                <a href="/privacy">Privacy Policy</a>
+                <span class="footer-dot">·</span>
+                <a href="/terms">Terms of Service</a>
+              </div>
+            </div>
+          </div>
+        </footer>
       </div>
-    </noscript>
+    </div>
+
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

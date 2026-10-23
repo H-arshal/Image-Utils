@@ -3,8 +3,11 @@ import { Routes, Route, useNavigate, useLocation, useParams, Link } from 'react-
 import Header from './components/Header';
 import Dropzone from './components/Dropzone';
 import ToolGrid from './components/ToolGrid';
+import FAQSection from './components/FAQSection';
 import Workspace from './components/Workspace';
 import AboutModal from './components/AboutModal';
+import PrivacyPolicy from './components/PrivacyPolicy';
+import TermsOfService from './components/TermsOfService';
 import NotFound from './components/NotFound';
 import { CheckCircle2 } from 'lucide-react';
 import { createSampleLandscape } from './utils/sampleImages';
@@ -66,6 +69,14 @@ const ROUTE_SEO = {
   metadata: {
     title: 'EXIF Metadata Stripper (Scrub GPS) | Image Utility',
     desc: 'Inspect and remove EXIF tags, GPS location coordinates, and camera device serial numbers for privacy.',
+  },
+  privacy: {
+    title: 'Privacy Policy | Image Utility (100% Private)',
+    desc: 'Read our zero-upload privacy policy. All image editing, resizing, compression, and conversions run 100% client-side in your browser RAM.',
+  },
+  terms: {
+    title: 'Terms of Service | Image Utility',
+    desc: 'Free, open-source image utility terms under the MIT License. No subscriptions, no hidden limits, and full copyright ownership of your media.',
   }
 };
 
@@ -171,6 +182,8 @@ function HomeRoute({ imageData, setImageData }) {
       <Dropzone onFileLoaded={handleFileLoadedOnHome} />
 
       <ToolGrid onSelectTool={handleSelectToolFromGrid} />
+
+      <FAQSection />
     </div>
   );
 }
@@ -202,7 +215,7 @@ export default function App() {
     }
 
     // Dynamic Canonical URL (clean path without query strings or hash)
-    const productionOrigin = 'https://image-utils.vercel.app';
+    const productionOrigin = 'https://www.image-utils.site';
     const cleanPath = location.pathname === '/' ? '/' : location.pathname.replace(/\/$/, '');
     const canonicalHref = `${productionOrigin}${cleanPath}`;
 
@@ -253,12 +266,17 @@ export default function App() {
 
   return (
     <div className="app-container">
+      {/* Accessibility: Skip to main content link */}
+      <a href="#main-content" className="skip-to-content">
+        Skip to main content
+      </a>
+
       <Header
         onReset={handleResetToHome}
         onOpenAbout={() => setIsAboutOpen(true)}
       />
 
-      <main className="main-content">
+      <main id="main-content" className="main-content" role="main">
         <Routes>
           <Route
             path="/"
@@ -270,6 +288,8 @@ export default function App() {
               />
             }
           />
+          <Route path="/privacy" element={<PrivacyPolicy />} />
+          <Route path="/terms" element={<TermsOfService />} />
           <Route
             path="/:toolId"
             element={
@@ -290,15 +310,15 @@ export default function App() {
         onClose={() => setIsAboutOpen(false)}
       />
 
-      {/* SEO Footer - crawlable internal links to all tool pages */}
-      {location.pathname === '/' && (
-        <footer className="site-footer">
+      {/* SEO Footer - crawlable internal links to all tool pages & legal pages */}
+      {(location.pathname === '/' || location.pathname === '/privacy' || location.pathname === '/terms') && (
+        <footer className="site-footer" role="contentinfo">
           <div className="footer-inner">
             <div className="footer-tools-section">
               <h2 className="footer-heading">All Tools</h2>
               <nav className="footer-tool-links" aria-label="Image tools">
                 {Object.entries(ROUTE_SEO)
-                  .filter(([key]) => key !== 'home')
+                  .filter(([key]) => key !== 'home' && key !== 'privacy' && key !== 'terms')
                   .map(([id, meta]) => (
                     <Link key={id} to={`/${id}`} className="footer-tool-link">
                       {meta.title.split(' | ')[0]}
@@ -316,7 +336,9 @@ export default function App() {
               <div className="footer-ext-links">
                 <a href="https://github.com/H-arshal/Image-Utils" target="_blank" rel="noopener noreferrer">GitHub</a>
                 <span className="footer-dot">·</span>
-                <button type="button" className="footer-link-btn" onClick={() => setIsAboutOpen(true)}>Privacy</button>
+                <Link to="/privacy">Privacy Policy</Link>
+                <span className="footer-dot">·</span>
+                <Link to="/terms">Terms</Link>
               </div>
             </div>
           </div>

@@ -4,7 +4,7 @@ import logoIcon from '../assets/Orange Pixel Landscape Icon.png';
 
 export default function Header({ onReset, onOpenAbout }) {
   return (
-    <header className="app-header">
+    <header className="app-header" role="banner">
       <div
         className="logo-group"
         onClick={onReset}
@@ -27,7 +27,7 @@ export default function Header({ onReset, onOpenAbout }) {
         </span>
       </div>
 
-      <div className="header-right-actions">
+      <nav className="header-right-actions" aria-label="Main Navigation">
         {/* Privacy Status Pill */}
         <div
           className="privacy-status-pill"
@@ -75,7 +75,7 @@ export default function Header({ onReset, onOpenAbout }) {
           <Info size={15} className="header-nav-icon-mobile" />
           <span className="header-nav-link-text">About & Privacy</span>
         </button>
-      </div>
+      </nav>
     </header>
   );
 }

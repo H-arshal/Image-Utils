@@ -1,0 +1,29 @@
+# Image Utility
+
+> Free, 100% private in-browser image tools. Resize, compress, crop, circle crop, round corners, add borders, convert formats (PNG, JPEG, WebP, AVIF, TIFF, ICO), generate favicons, add watermarks, create PDFs, and remove EXIF/GPS metadata without uploading files to any server.
+
+- Website: https://www.image-utils.site/
+- Repository: https://github.com/H-arshal/Image-Utils
+- License: MIT License (Open Source)
+- Privacy Architecture: 100% Client-Side WebAssembly & HTML5 Canvas. Zero network payload transfer.
+
+## Available Tools
+
+- [Resize](https://www.image-utils.site/resize): Resize width and height with aspect ratio lock or custom dimensions.
+- [Compress](https://www.image-utils.site/compress): Reduce image file size by target KB or perceptual quality slider.
+- [Convert](https://www.image-utils.site/convert): Convert between PNG, JPEG, WebP, AVIF, BMP, TIFF, and ICO formats.
+- [Crop](https://www.image-utils.site/crop): Crop rectangular regions with freeform handles or 1:1, 16:9, 4:3 presets.
+- [Circle Crop](https://www.image-utils.site/circle): Create circular profile pictures and avatars with transparent PNG output.
+- [Corner Radius](https://www.image-utils.site/radius): Add smooth rounded corners with transparent outer clipping.
+- [Add Border](https://www.image-utils.site/border): Add custom decorative border frames with color, width, and radius options.
+- [Rotate & Flip](https://www.image-utils.site/rotate): Rotate 90°, 180°, 270° or mirror horizontally/vertically.
+- [Watermark](https://www.image-utils.site/watermark): Add text watermarks with custom opacity, position, font, and color.
+- [Adjust & Filters](https://www.image-utils.site/adjust): Fine-tune brightness, contrast, saturation, blur, and 9 preset filters.
+- [Favicon Generator](https://www.image-utils.site/favicon): Generate multi-resolution .ico files, 180x180 Apple touch icons, and Android PWA icons.
+- [Image to PDF](https://www.image-utils.site/pdf): Convert images to A4, Letter, or fit-to-image printable PDFs.
+- [Remove Metadata](https://www.image-utils.site/metadata): Strip EXIF camera tags and GPS location coordinates for total privacy.
+
+## Legal & Compliance
+
+- [Privacy Policy](https://www.image-utils.site/privacy): Full zero-data-retention disclosure.
+- [Terms of Service](https://www.image-utils.site/terms): Free MIT open-source terms.

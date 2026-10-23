@@ -2,113 +2,129 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <!-- Homepage -->
   <url>
-    <loc>https://image-utils.vercel.app/</loc>
-    <lastmod>2026-10-19</lastmod>
-    <changefreq>weekly</changefreq>
+    <loc>https://www.image-utils.site/</loc>
+    <lastmod>2026-10-23</lastmod>
+    <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
 
   <!-- 1. Resize Image -->
   <url>
-    <loc>https://image-utils.vercel.app/resize</loc>
-    <lastmod>2026-10-19</lastmod>
+    <loc>https://www.image-utils.site/resize</loc>
+    <lastmod>2026-10-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <!-- 2. Compress Image -->
   <url>
-    <loc>https://image-utils.vercel.app/compress</loc>
-    <lastmod>2026-10-19</lastmod>
+    <loc>https://www.image-utils.site/compress</loc>
+    <lastmod>2026-10-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <!-- 3. Crop Image -->
   <url>
-    <loc>https://image-utils.vercel.app/crop</loc>
-    <lastmod>2026-10-19</lastmod>
+    <loc>https://www.image-utils.site/crop</loc>
+    <lastmod>2026-10-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <!-- 4. Circle Crop -->
   <url>
-    <loc>https://image-utils.vercel.app/circle</loc>
-    <lastmod>2026-10-19</lastmod>
+    <loc>https://www.image-utils.site/circle</loc>
+    <lastmod>2026-10-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <!-- 5. Corner Radius -->
   <url>
-    <loc>https://image-utils.vercel.app/radius</loc>
-    <lastmod>2026-10-19</lastmod>
+    <loc>https://www.image-utils.site/radius</loc>
+    <lastmod>2026-10-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <!-- 6. Add Border -->
   <url>
-    <loc>https://image-utils.vercel.app/border</loc>
-    <lastmod>2026-10-19</lastmod>
+    <loc>https://www.image-utils.site/border</loc>
+    <lastmod>2026-10-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <!-- 7. Adjust & Filters -->
   <url>
-    <loc>https://image-utils.vercel.app/adjust</loc>
-    <lastmod>2026-10-19</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <!-- 8. Rotate & Flip -->
-  <url>
-    <loc>https://image-utils.vercel.app/rotate</loc>
-    <lastmod>2026-10-19</lastmod>
+    <loc>https://www.image-utils.site/adjust</loc>
+    <lastmod>2026-10-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
 
-  <!-- 9. Format Conversion -->
+  <!-- 8. Rotate & Flip -->
   <url>
-    <loc>https://image-utils.vercel.app/convert</loc>
-    <lastmod>2026-10-19</lastmod>
+    <loc>https://www.image-utils.site/rotate</loc>
+    <lastmod>2026-10-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- 9. Convert Format -->
+  <url>
+    <loc>https://www.image-utils.site/convert</loc>
+    <lastmod>2026-10-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <!-- 10. Favicon Generator -->
   <url>
-    <loc>https://image-utils.vercel.app/favicon</loc>
-    <lastmod>2026-10-19</lastmod>
+    <loc>https://www.image-utils.site/favicon</loc>
+    <lastmod>2026-10-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
-  <!-- 11. Watermark -->
+  <!-- 11. Add Watermark -->
   <url>
-    <loc>https://image-utils.vercel.app/watermark</loc>
-    <lastmod>2026-10-19</lastmod>
+    <loc>https://www.image-utils.site/watermark</loc>
+    <lastmod>2026-10-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <!-- 12. Image to PDF -->
   <url>
-    <loc>https://image-utils.vercel.app/pdf</loc>
-    <lastmod>2026-10-19</lastmod>
+    <loc>https://www.image-utils.site/pdf</loc>
+    <lastmod>2026-10-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
-  <!-- 13. EXIF Metadata Stripper -->
+  <!-- 13. Remove Metadata -->
   <url>
-    <loc>https://image-utils.vercel.app/metadata</loc>
-    <lastmod>2026-10-19</lastmod>
+    <loc>https://www.image-utils.site/metadata</loc>
+    <lastmod>2026-10-23</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Legal: Privacy Policy -->
+  <url>
+    <loc>https://www.image-utils.site/privacy</loc>
+    <lastmod>2026-10-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <!-- Legal: Terms of Service -->
+  <url>
+    <loc>https://www.image-utils.site/terms</loc>
+    <lastmod>2026-10-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
   </url>
 </urlset>

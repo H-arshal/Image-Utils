@@ -1,0 +1,85 @@
+# Image Utility — Complete System & Architectural Documentation
+
+## Executive Overview
+Image Utility is a comprehensive, client-side web application providing 13 essential image manipulation and conversion tools. The application runs entirely within modern web browsers using HTML5 Canvas, the JavaScript Canvas 2D API, WebAssembly decoders, and jsPDF. Zero image data is ever uploaded, cached, or logged on remote servers.
+
+- Canonical URL: https://www.image-utils.site/
+- Production Source: https://github.com/H-arshal/Image-Utils
+- Author: Harshal Moon (https://h-arshal.github.io/Portfolio/)
+- License: MIT License
+
+---
+
+## Tool Capabilities & Specifications
+
+### 1. Resize Image (/resize)
+- Change pixel dimensions (width and height).
+- Aspect ratio lock automatically calculates proportional dimensions based on initial natural width/height.
+- Instant preset buttons: 25%, 50%, 75%, 100%.
+- Safe dimension boundary clamps prevent GPU memory overflow up to 10,000px.
+
+### 2. Compress Image (/compress)
+- Mode A: Target File Size (KB). Dynamically performs binary search quantization over encoding quality parameters to achieve exact file size thresholds (e.g. 50KB, 100KB, 200KB, 500KB, 1MB).
+- Mode B: Manual Quality Slider (5% to 100%). Fine-grained lossy compression for JPEG and WebP.
+
+### 3. Convert Format (/convert)
+- Lossless formats: PNG (supports full 8-bit alpha transparency channel).
+- Photographic lossy formats: JPEG (with customizable background color fill for transparent images).
+- Modern web formats: WebP (25-34% smaller than equivalent JPEG), AVIF (where supported).
+- Legacy & Print formats: Windows 24-bit BMP, Archival TIFF, Windows ICO icon files.
+
+### 4. Crop Image (/crop)
+- Interactive drag-and-resize crop box overlay with corner anchors.
+- Aspect ratio presets: Freeform, 1:1 Square, 16:9 Widescreen, 4:3 Standard, 3:2 Photography, 9:16 Social Stories.
+
+### 5. Circle Crop (/circle)
+- Creates circular avatar cutouts with transparent PNG outer areas.
+- Configurable radius and center coordinates. Ideal for profile pictures (Twitter/X, LinkedIn, Discord).
+
+### 6. Corner Radius (/radius)
+- Rounds rectangle corners with precise radius (1px to 200px).
+- Anti-aliased canvas clipping path with transparent outer background or solid color fill.
+
+### 7. Add Border (/border)
+- Adds uniform decorative borders around images.
+- Customizable border width (1px to 100px) and hex color picker.
+- Supports outer expansion or inner overlay framing.
+
+### 8. Rotate & Flip (/rotate)
+- Lossless 90° clockwise, 90° counter-clockwise, and 180° rotation with automatic canvas dimension transposition.
+- Mirror horizontal flip and vertical flip.
+
+### 9. Watermark (/watermark)
+- Overlays custom copyright or brand text.
+- Options: Text content, opacity (10% to 100%), font size (12px to 72px), text color, and 5 anchor positions (Top-Left, Top-Right, Center, Bottom-Left, Bottom-Right).
+
+### 10. Adjust & Filters (/adjust)
+- Real-time CSS filter matrix & pixel manipulations:
+  - Brightness (0% to 200%)
+  - Contrast (0% to 200%)
+  - Saturation (0% to 200%)
+  - Warmth / Color Temperature (-100 to +100)
+  - Gaussian Blur (0px to 20px)
+  - Vignette edge shading
+- One-click filters: Dramatic, Vintage, Noir, Warm Sunset, Cool Tone, Vivid, Muted, Cinematic, Fade.
+
+### 11. Favicon Generator (/favicon)
+- Packages multi-resolution .ico files (16x16, 32x32, 48x48) compatible with all modern and legacy web browsers.
+- Exports 180x180 Apple Touch Icon and 192x192 / 512x512 Android PWA icons.
+- Provides HTML `<link rel="icon">` code snippet for webmasters.
+
+### 12. Image to PDF (/pdf)
+- Converts single or multi-resolution images into vector PDF documents using jsPDF.
+- Presets: A4, US Letter, Fit to Image dimensions.
+- Margin controls (None, Small, Normal) and orientation (Portrait, Landscape, Auto-Detect).
+
+### 13. Remove Metadata (/metadata)
+- Decodes image pixel matrices and strips Exchangeable Image File Format (EXIF) header tags.
+- Removes GPS latitude/longitude, altitude, camera manufacturer/model serial numbers, exposure metadata, and author tags.
+
+---
+
+## Technical Security & Data Governance
+- Client-Side Isolation: All bytes reside strictly inside browser memory.
+- Zero-Persistence: Files are discarded upon tab closure (`URL.revokeObjectURL`).
+- No Cookies: Zero third-party ad tags, fingerprinting scripts, or session cookies.
