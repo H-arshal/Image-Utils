@@ -1,164 +1,49 @@
 {
   "specVersion": "1.0",
-  "host": {
-    "displayName": "Image Utility",
-    "url": "https://www.image-utils.site"
-  },
   "entries": [
     {
-      "identifier": "urn:air:image-utils.site:tools:resize",
-      "displayName": "Resize Image Online",
-      "type": "text/html",
-      "url": "https://www.image-utils.site/resize",
-      "description": "Resize image width and height dimensions with aspect ratio lock or custom dimensions client-side.",
+      "identifier": "urn:air:image-utils.site:agent-card",
+      "displayName": "Image Utility Agent Card",
+      "type": "application/agent-card+json",
+      "url": "https://www.image-utils.site/agent-card.json",
+      "description": "Agent Card declaring 13 private, in-browser image processing tools including resize, compress, crop, format conversion, and watermark.",
       "representativeQueries": [
         "resize image online",
-        "change photo dimensions",
-        "scale image width and height"
-      ]
-    },
-    {
-      "identifier": "urn:air:image-utils.site:tools:compress",
-      "displayName": "Compress Image Online",
-      "type": "text/html",
-      "url": "https://www.image-utils.site/compress",
-      "description": "Compress image file size to a target KB or with a custom quality slider in-browser.",
-      "representativeQueries": [
-        "compress image",
-        "reduce image size in kb",
-        "shrink photo file size"
-      ]
-    },
-    {
-      "identifier": "urn:air:image-utils.site:tools:convert",
-      "displayName": "Convert Image Format",
-      "type": "text/html",
-      "url": "https://www.image-utils.site/convert",
-      "description": "Convert seamlessly between PNG, JPEG, WebP, AVIF, TIFF, BMP, and ICO formats.",
-      "representativeQueries": [
+        "compress image to target kb",
         "convert png to jpg",
-        "convert to webp",
-        "convert image format online"
-      ]
-    },
-    {
-      "identifier": "urn:air:image-utils.site:tools:crop",
-      "displayName": "Crop Image Online",
-      "type": "text/html",
-      "url": "https://www.image-utils.site/crop",
-      "description": "Crop rectangular image regions with 1:1, 16:9, 4:3, or custom freeform crop presets.",
-      "representativeQueries": [
         "crop image",
-        "photo cropper online",
-        "cut photo rectangle"
-      ]
-    },
-    {
-      "identifier": "urn:air:image-utils.site:tools:circle",
-      "displayName": "Circle Crop Image",
-      "type": "text/html",
-      "url": "https://www.image-utils.site/circle",
-      "description": "Create circular profile pictures and avatars with transparent PNG outer clipping.",
-      "representativeQueries": [
-        "round profile picture",
-        "circle crop photo",
-        "make circular avatar"
-      ]
-    },
-    {
-      "identifier": "urn:air:image-utils.site:tools:radius",
-      "displayName": "Round Image Corners",
-      "type": "text/html",
-      "url": "https://www.image-utils.site/radius",
-      "description": "Add rounded corners to photos with transparent outer clipping or custom background fill.",
-      "representativeQueries": [
+        "circle crop avatar",
         "round image corners",
-        "corner radius tool",
-        "smooth photo borders"
-      ]
-    },
-    {
-      "identifier": "urn:air:image-utils.site:tools:border",
-      "displayName": "Add Border to Image",
-      "type": "text/html",
-      "url": "https://www.image-utils.site/border",
-      "description": "Add custom border frames with adjustable colors, widths, and corner radius.",
-      "representativeQueries": [
         "add border to image",
-        "photo frame maker",
-        "image border online"
-      ]
-    },
-    {
-      "identifier": "urn:air:image-utils.site:tools:adjust",
-      "displayName": "Photo Adjustments and Filters",
-      "type": "text/html",
-      "url": "https://www.image-utils.site/adjust",
-      "description": "Fine-tune exposure, contrast, saturation, warmth, vignette, and 9 creative filters.",
-      "representativeQueries": [
-        "photo filter online",
-        "adjust brightness and contrast",
-        "photo color correction"
-      ]
-    },
-    {
-      "identifier": "urn:air:image-utils.site:tools:rotate",
-      "displayName": "Rotate and Flip Image",
-      "type": "text/html",
-      "url": "https://www.image-utils.site/rotate",
-      "description": "Rotate photos 90, 180, 270 degrees or mirror flip horizontally and vertically.",
-      "representativeQueries": [
-        "rotate photo",
-        "flip image horizontally",
-        "mirror image online"
-      ]
-    },
-    {
-      "identifier": "urn:air:image-utils.site:tools:favicon",
-      "displayName": "Favicon Generator",
-      "type": "text/html",
-      "url": "https://www.image-utils.site/favicon",
-      "description": "Generate multi-resolution .ico favicons, Apple Touch icons, and Android PWA icon packages.",
-      "representativeQueries": [
+        "photo filters and adjustment",
         "generate favicon ico",
-        "create website icon",
-        "apple touch icon generator"
-      ]
-    },
-    {
-      "identifier": "urn:air:image-utils.site:tools:watermark",
-      "displayName": "Add Watermark to Photo",
-      "type": "text/html",
-      "url": "https://www.image-utils.site/watermark",
-      "description": "Protect photos with customizable text watermarks, custom opacity, and positions.",
-      "representativeQueries": [
         "add watermark to photo",
-        "copyright watermark online",
-        "protect image with watermark"
+        "convert picture to pdf",
+        "strip exif gps metadata"
       ]
     },
     {
-      "identifier": "urn:air:image-utils.site:tools:pdf",
-      "displayName": "Convert Image to PDF",
-      "type": "text/html",
-      "url": "https://www.image-utils.site/pdf",
-      "description": "Convert single photos into A4, Letter, or fit-to-image printable PDF documents locally.",
+      "identifier": "urn:air:image-utils.site:agent-skills",
+      "displayName": "Image Utility Agent Skills",
+      "type": "text/markdown; profile=\"urn:air:agent-skills\"",
+      "url": "https://www.image-utils.site/llms.txt",
+      "description": "Machine-readable instructions and documentation for autonomous AI agents on how to process images client-side.",
       "representativeQueries": [
-        "image to pdf",
-        "jpg to pdf converter",
-        "convert picture to pdf"
+        "image tools documentation",
+        "ai agent instructions for image editing",
+        "client side photo editing manual"
       ]
     },
     {
-      "identifier": "urn:air:image-utils.site:tools:metadata",
-      "displayName": "EXIF Metadata Stripper",
-      "type": "text/html",
-      "url": "https://www.image-utils.site/metadata",
-      "description": "Inspect and remove EXIF tags, GPS location coordinates, and camera device serial numbers.",
+      "identifier": "urn:air:image-utils.site:full-agent-skills",
+      "displayName": "Image Utility Comprehensive Agent Skills",
+      "type": "text/markdown; profile=\"urn:air:agent-skills\"",
+      "url": "https://www.image-utils.site/llms-full.txt",
+      "description": "Complete reference manual and architectural specification for all 13 client-side image editing utilities.",
       "representativeQueries": [
-        "remove exif metadata",
-        "scrub photo gps coordinates",
-        "strip photo camera data"
+        "full image tools documentation",
+        "complete image processing guide",
+        "in-browser canvas processing spec"
       ]
     }
   ]

@@ -1,0 +1,63 @@
+{
+  "$schema": "https://agenticresourcediscovery.org/schema/v1/agent-card.json",
+  "name": "Image Utility",
+  "description": "Free, 100% private client-side in-browser image editing tools with zero server uploads.",
+  "url": "https://www.image-utils.site",
+  "version": "1.0.0",
+  "capabilities": {
+    "tools": [
+      {
+        "name": "resize",
+        "description": "Resize image width and height dimensions with aspect ratio lock."
+      },
+      {
+        "name": "compress",
+        "description": "Compress image to target KB or quality slider."
+      },
+      {
+        "name": "convert",
+        "description": "Convert image between PNG, JPEG, WebP, AVIF, TIFF, BMP, and ICO."
+      },
+      {
+        "name": "crop",
+        "description": "Crop rectangular image regions with freeform or fixed aspect ratios."
+      },
+      {
+        "name": "circle",
+        "description": "Circle crop image to create rounded profile pictures with transparent PNG."
+      },
+      {
+        "name": "radius",
+        "description": "Round image corners with transparent outer clipping."
+      },
+      {
+        "name": "border",
+        "description": "Add customizable border frame and padding to image."
+      },
+      {
+        "name": "adjust",
+        "description": "Fine-tune exposure, contrast, saturation, warmth, and 9 creative filters."
+      },
+      {
+        "name": "rotate",
+        "description": "Rotate 90, 180, 270 degrees or mirror flip horizontally/vertically."
+      },
+      {
+        "name": "favicon",
+        "description": "Generate multi-resolution .ico favicons, Apple Touch icons, and PWA icons."
+      },
+      {
+        "name": "watermark",
+        "description": "Add customizable text watermarks with opacity and positioning."
+      },
+      {
+        "name": "pdf",
+        "description": "Convert single images to A4, Letter, or fit printable PDFs."
+      },
+      {
+        "name": "metadata",
+        "description": "Scrub EXIF tags, GPS location coordinates, and camera serial metadata."
+      }
+    ]
+  }
+}
