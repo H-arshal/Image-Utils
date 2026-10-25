@@ -17,6 +17,3 @@ Allow: /
 
 # Canonical XML Sitemap
 Sitemap: https://www.image-utils.site/sitemap.xml
-
-# Agentic Resource Discovery (ARD) Manifest
-Agentmap: https://www.image-utils.site/.well-known/ai-catalog.json
