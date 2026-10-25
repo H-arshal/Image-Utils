@@ -1,0 +1,79 @@
+{
+  "$schema": "https://agenticresourcediscovery.org/schema/v1/ai-catalog.json",
+  "name": "Image Utility",
+  "version": "1.0.0",
+  "description": "Free, 100% private client-side in-browser image editing tools. Resize, compress, crop, convert formats, add borders, round corners, and scrub metadata with zero server uploads.",
+  "homepage": "https://www.image-utils.site",
+  "documentation": "https://www.image-utils.site/llms.txt",
+  "provider": {
+    "name": "Image Utility",
+    "url": "https://www.image-utils.site"
+  },
+  "capabilities": [
+    {
+      "name": "resize",
+      "description": "Resize image dimensions with aspect ratio lock or custom dimensions.",
+      "url": "https://www.image-utils.site/resize"
+    },
+    {
+      "name": "compress",
+      "description": "Compress image to target file size in KB or custom quality slider.",
+      "url": "https://www.image-utils.site/compress"
+    },
+    {
+      "name": "convert",
+      "description": "Convert image between PNG, JPEG, WebP, AVIF, TIFF, BMP, and ICO.",
+      "url": "https://www.image-utils.site/convert"
+    },
+    {
+      "name": "crop",
+      "description": "Crop image with 1:1, 16:9, 4:3, or custom freeform crop presets.",
+      "url": "https://www.image-utils.site/crop"
+    },
+    {
+      "name": "circle",
+      "description": "Circle crop image to create rounded avatars with transparent PNG.",
+      "url": "https://www.image-utils.site/circle"
+    },
+    {
+      "name": "radius",
+      "description": "Round image corners with transparent outer border clipping.",
+      "url": "https://www.image-utils.site/radius"
+    },
+    {
+      "name": "border",
+      "description": "Add customizable border frame and padding to image.",
+      "url": "https://www.image-utils.site/border"
+    },
+    {
+      "name": "adjust",
+      "description": "Photo adjustments (brightness, contrast, saturation, filters).",
+      "url": "https://www.image-utils.site/adjust"
+    },
+    {
+      "name": "rotate",
+      "description": "Rotate 90, 180, 270 degrees or flip horizontally and vertically.",
+      "url": "https://www.image-utils.site/rotate"
+    },
+    {
+      "name": "favicon",
+      "description": "Generate multi-resolution ICO, Apple Touch icon, and PWA icons.",
+      "url": "https://www.image-utils.site/favicon"
+    },
+    {
+      "name": "watermark",
+      "description": "Add customizable text watermarks with opacity and positioning.",
+      "url": "https://www.image-utils.site/watermark"
+    },
+    {
+      "name": "pdf",
+      "description": "Convert image to single-page A4, Letter, or fit printable PDF.",
+      "url": "https://www.image-utils.site/pdf"
+    },
+    {
+      "name": "metadata",
+      "description": "Scrub EXIF tags, GPS location coordinates, and camera serial metadata.",
+      "url": "https://www.image-utils.site/metadata"
+    }
+  ]
+}

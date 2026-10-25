@@ -2,10 +2,10 @@
 :root {
   color-scheme: light;
 
-  /* Accent tokens (Burnt Orange) */
-  --color-accent: #c65d21;
-  --color-accent-hover: #a94b18;
-  --color-accent-pressed: #873b13;
+  /* Accent tokens (Burnt Orange - WCAG AA 4.6:1 contrast compliant) */
+  --color-accent: #b85217;
+  --color-accent-hover: #9c4311;
+  --color-accent-pressed: #7e340c;
   --color-accent-tint: #fff4eb;
   --color-accent-border: #f3c7a8;
 
@@ -14,10 +14,10 @@
   --color-surface: #ffffff;
   --color-surface-subtle: #ffffff;
 
-  /* Text colors */
+  /* Text colors - High contrast WCAG AA compliant */
   --color-text: #0f172a;
-  --color-text-secondary: #64748b;
-  --color-text-muted: #94a3b8;
+  --color-text-secondary: #475569;
+  --color-text-muted: #64748b;
 
   /* Borders */
   --color-border: #e2e8f0;

@@ -122,7 +122,7 @@ export default function Dropzone({ onFileLoaded }) {
         <UploadCloud size={26} />
       </div>
 
-      <h3 className="dropzone-title">Drop your image here, or browse</h3>
+      <h2 className="dropzone-title">Drop your image here, or browse</h2>
       <p className="dropzone-desc">
         Supports JPG, PNG, WebP, BMP, and GIF • Paste directly with <kbd>Ctrl + V</kbd>
       </p>

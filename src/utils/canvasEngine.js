@@ -1,6 +1,3 @@
-import { jsPDF } from 'jspdf';
-import JSZip from 'jszip';
-
 /**
  * Format bytes into human-readable string (e.g. 1.2 MB, 450 KB)
  */
@@ -666,6 +663,7 @@ export async function adjustImage(img, {
  * 10. IMAGE TO PDF
  */
 export async function generatePdf(img, { pageSize = 'a4', orientation = 'auto', margin = 'normal', fitMode = 'contain' }) {
+  const { jsPDF } = await import('jspdf');
   const imgW = img.naturalWidth || img.width;
   const imgH = img.naturalHeight || img.height;
   const imgAspect = imgW / imgH;
@@ -1145,6 +1143,7 @@ export async function generateFavicon(img, {
 
     const manifestContent = makeManifest();
 
+    const { default: JSZip } = await import('jszip');
     const zip = new JSZip();
     zip.file('favicon.ico', icoBlob);
     zip.file('favicon-16x16.png', png16);

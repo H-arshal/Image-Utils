@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' ws: http:; object-src 'none'; base-uri 'self';" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://www.google-analytics.com https://*.googletagmanager.com; connect-src 'self' ws: http: https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; object-src 'none'; base-uri 'self';" />
     <meta name="google-site-verification" content="nNuM-kVQGL-MpDX38DwUeLJRmxFKnEw9qqgibKwYwe4" />
     <!-- Primary SEO Metadata -->
     <title>Image Utility - Free In-Browser Image Tools (100% Private)</title>
@@ -141,20 +141,24 @@
     ]
     </script>
 
-    <!-- Google Fonts -->
+    <!-- Google Fonts (Non-blocking async load) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  </head>
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-HYJJE3JSPJ"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript>
+      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    </noscript>
 
-  gtag('config', 'G-HYJJE3JSPJ');
-</script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-HYJJE3JSPJ"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-HYJJE3JSPJ');
+    </script>
+  </head>
   <body>
     <!-- Root Container: Pre-rendered with accessible semantic landmarks & SEO content -->
     <div id="root">
@@ -166,7 +170,7 @@
         <header class="app-header" role="banner">
           <div class="logo-group">
             <div class="logo-icon-box">
-              <img src="/logo.png" alt="Image Utility Logo" class="logo-icon-img" width="28" height="28" />
+              <img src="/favicon-48x48.png" alt="Image Utility Logo" class="logo-icon-img" width="28" height="28" />
             </div>
             <span class="logo-text">Image <span class="logo-accent">Utility</span></span>
           </div>
@@ -177,10 +181,10 @@
               <span class="privacy-pill-text-desktop">100% Client-Side • Zero Data Uploaded</span>
               <span class="privacy-pill-text-mobile">100% Private</span>
             </div>
-            <a href="https://github.com/H-arshal/Image-Utils" target="_blank" rel="noopener noreferrer" class="header-nav-link" aria-label="GitHub Repository">
+            <a href="https://github.com/H-arshal/Image-Utils" target="_blank" rel="noopener noreferrer" class="header-nav-link" aria-label="GitHub">
               <span class="header-nav-link-text">GitHub</span>
             </a>
-            <a href="/privacy" class="header-nav-link-btn" aria-label="Privacy Policy">
+            <a href="/privacy" class="header-nav-link-btn" aria-label="About &amp; Privacy">
               <span class="header-nav-link-text">About &amp; Privacy</span>
             </a>
           </nav>

@@ -1,17 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { Routes, Route, useNavigate, useLocation, useParams, Link } from 'react-router-dom';
 import Header from './components/Header';
 import Dropzone from './components/Dropzone';
 import ToolGrid from './components/ToolGrid';
 import FAQSection from './components/FAQSection';
-import Workspace from './components/Workspace';
-import AboutModal from './components/AboutModal';
-import PrivacyPolicy from './components/PrivacyPolicy';
-import TermsOfService from './components/TermsOfService';
-import NotFound from './components/NotFound';
 import { CheckCircle2 } from 'lucide-react';
 import { createSampleLandscape } from './utils/sampleImages';
 import logoIcon from './assets/Orange Pixel Landscape Icon.png';
+
+const Workspace = lazy(() => import('./components/Workspace'));
+const AboutModal = lazy(() => import('./components/AboutModal'));
+const PrivacyPolicy = lazy(() => import('./components/PrivacyPolicy'));
+const TermsOfService = lazy(() => import('./components/TermsOfService'));
+const NotFound = lazy(() => import('./components/NotFound'));
 
 const ROUTE_SEO = {
   home: {
@@ -171,7 +172,7 @@ function HomeRoute({ imageData, setImageData }) {
     <div>
       <div className="hero-section">
         <div className="hero-badge-wrap">
-          <img src={logoIcon} alt="Image Utility" className="hero-badge-icon" />
+          <img src={logoIcon} alt="Image Utility" className="hero-badge-icon" width="95" height="95" />
         </div>
         <h1 className="hero-title">Everyday image tools. Simple, private, in-browser.</h1>
         <p className="hero-subtitle">
@@ -277,38 +278,44 @@ export default function App() {
       />
 
       <main id="main-content" className="main-content" role="main">
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <HomeRoute
-                imageData={imageData}
-                setImageData={setImageData}
-                onShowToast={showToast}
-              />
-            }
-          />
-          <Route path="/privacy" element={<PrivacyPolicy />} />
-          <Route path="/terms" element={<TermsOfService />} />
-          <Route
-            path="/:toolId"
-            element={
-              <ToolRouteWrapper
-                imageData={imageData}
-                setImageData={setImageData}
-                onShowToast={showToast}
-              />
-            }
-          />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <Suspense fallback={null}>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <HomeRoute
+                  imageData={imageData}
+                  setImageData={setImageData}
+                  onShowToast={showToast}
+                />
+              }
+            />
+            <Route path="/privacy" element={<PrivacyPolicy />} />
+            <Route path="/terms" element={<TermsOfService />} />
+            <Route
+              path="/:toolId"
+              element={
+                <ToolRouteWrapper
+                  imageData={imageData}
+                  setImageData={setImageData}
+                  onShowToast={showToast}
+                />
+              }
+            />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Suspense>
       </main>
 
       {/* About Modal */}
-      <AboutModal
-        isOpen={isAboutOpen}
-        onClose={() => setIsAboutOpen(false)}
-      />
+      {isAboutOpen && (
+        <Suspense fallback={null}>
+          <AboutModal
+            isOpen={isAboutOpen}
+            onClose={() => setIsAboutOpen(false)}
+          />
+        </Suspense>
+      )}
 
       {/* SEO Footer - crawlable internal links to all tool pages & legal pages */}
       {(location.pathname === '/' || location.pathname === '/privacy' || location.pathname === '/terms') && (
