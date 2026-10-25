@@ -17,8 +17,8 @@ const NotFound = lazy(() => import('./components/NotFound'));
 
 const ROUTE_SEO = {
   home: {
-    title: 'Image Utility | Client-Side Image Tools (Private & Fast)',
-    desc: 'Free, private, in-browser image tools. Resize, compress, crop, circle crop, round corners, adjust filters, watermark, convert to PNG/JPG/WebP, and generate PDFs without uploading files.',
+    title: 'Image Utils | Free In-Browser Image Utility & Tools (100% Private)',
+    desc: 'Image Utils is a free, 100% private in-browser image utility. Resize, compress, crop, convert formats, and remove EXIF data without uploading. Fast, local & secure.',
   },
   resize: {
     title: 'Resize Image Online | Image Utility',
