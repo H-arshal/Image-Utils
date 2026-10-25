@@ -8,18 +8,10 @@
       "url": "https://www.image-utils.site/agent-card.json",
       "description": "Agent Card declaring 13 private, in-browser image processing tools including resize, compress, crop, format conversion, and watermark.",
       "representativeQueries": [
-        "resize image online",
-        "compress image to target kb",
-        "convert png to jpg",
-        "crop image",
-        "circle crop avatar",
-        "round image corners",
-        "add border to image",
-        "photo filters and adjustment",
-        "generate favicon ico",
-        "add watermark to photo",
-        "convert picture to pdf",
-        "strip exif gps metadata"
+        "resize and compress image online",
+        "convert image format webp png jpg",
+        "crop photo and make round avatar",
+        "remove exif metadata from photo"
       ]
     },
     {
