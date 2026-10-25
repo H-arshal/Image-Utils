@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { X, ShieldCheck, Zap, Lock, ExternalLink, MessageSquare, CheckCircle2, Code2, Sparkles, Globe } from 'lucide-react';
-import logoIcon from '../assets/Orange Pixel Landscape Icon.png';
 
 export default function AboutModal({ isOpen, onClose }) {
   const [activeTab, setActiveTab] = useState('about'); // 'about' | 'privacy' | 'developer'
@@ -20,7 +19,10 @@ export default function AboutModal({ isOpen, onClose }) {
         <div className="modal-header">
           <div className="modal-title-group">
             <div className="modal-logo-icon-box">
-              <img src={logoIcon} alt="Image Utility Logo" className="modal-logo-img" />
+              <picture>
+                <source type="image/webp" srcSet="/logo-48.webp" />
+                <img src="/logo-48.png" alt="Image Utility Logo" className="modal-logo-img" width="48" height="48" />
+              </picture>
             </div>
             <div>
               <h3 id="about-modal-title" className="modal-title-text">Image Utility</h3>

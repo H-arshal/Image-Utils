@@ -1,5 +1,4 @@
 import React, { useRef, useState } from 'react';
-import logoIcon from '../assets/Orange Pixel Landscape Icon.png';
 
 export default function BottomDropzone({ onFileLoaded }) {
   const [isDragOver, setIsDragOver] = useState(false);
@@ -65,7 +64,10 @@ export default function BottomDropzone({ onFileLoaded }) {
       />
 
       <div className="bottom-dropzone-icon">
-        <img src={logoIcon} alt="Drop target" style={{ width: '38px', height: '38px', objectFit: 'contain' }} />
+        <picture>
+          <source type="image/webp" srcSet="/logo-48.webp" />
+          <img src="/logo-48.png" alt="Drop target" width="38" height="38" style={{ width: '38px', height: '38px', objectFit: 'contain' }} />
+        </picture>
       </div>
 
       <h4 className="bottom-dropzone-title">Drag & drop an image here</h4>

@@ -1,7 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Home, Compass } from 'lucide-react';
-import logoIcon from '../assets/Orange Pixel Landscape Icon.png';
 
 export default function NotFound() {
   const navigate = useNavigate();
@@ -27,7 +26,10 @@ export default function NotFound() {
         justifyContent: 'center',
         margin: '0 auto 20px auto'
       }}>
-        <img src={logoIcon} alt="Image Utility Logo" style={{ width: '36px', height: '36px', objectFit: 'contain' }} />
+        <picture>
+          <source type="image/webp" srcSet="/logo-48.webp" />
+          <img src="/logo-48.png" alt="Image Utility Logo" width="36" height="36" style={{ width: '36px', height: '36px', objectFit: 'contain' }} />
+        </picture>
       </div>
 
       <span className="mono" style={{

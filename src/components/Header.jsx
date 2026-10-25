@@ -1,6 +1,5 @@
 import React from 'react';
 import { Lock, Info } from 'lucide-react';
-import logoIcon from '../assets/Orange Pixel Landscape Icon.png';
 
 export default function Header({ onReset, onOpenAbout }) {
   return (
@@ -20,7 +19,10 @@ export default function Header({ onReset, onOpenAbout }) {
         }}
       >
         <div className="logo-icon-box">
-          <img src={logoIcon} alt="Image Utility Logo" className="logo-icon-img" width="28" height="28" />
+          <picture>
+            <source type="image/webp" srcSet="/logo-48.webp" />
+            <img src="/logo-48.png" alt="Image Utility Logo" className="logo-icon-img" width="28" height="28" />
+          </picture>
         </div>
         <span className="logo-text">
           Image <span className="logo-accent">Utility</span>
