@@ -1,79 +1,165 @@
 {
-  "$schema": "https://agenticresourcediscovery.org/schema/v1/ai-catalog.json",
-  "name": "Image Utility",
-  "version": "1.0.0",
-  "description": "Free, 100% private client-side in-browser image editing tools. Resize, compress, crop, convert formats, add borders, round corners, and scrub metadata with zero server uploads.",
-  "homepage": "https://www.image-utils.site",
-  "documentation": "https://www.image-utils.site/llms.txt",
-  "provider": {
-    "name": "Image Utility",
+  "specVersion": "1.0",
+  "host": {
+    "displayName": "Image Utility",
     "url": "https://www.image-utils.site"
   },
-  "capabilities": [
+  "entries": [
     {
-      "name": "resize",
-      "description": "Resize image dimensions with aspect ratio lock or custom dimensions.",
-      "url": "https://www.image-utils.site/resize"
+      "identifier": "urn:air:image-utils.site:tools:resize",
+      "displayName": "Resize Image Online",
+      "type": "text/html",
+      "url": "https://www.image-utils.site/resize",
+      "description": "Resize image width and height dimensions with aspect ratio lock or custom dimensions client-side.",
+      "representativeQueries": [
+        "resize image online",
+        "change photo dimensions",
+        "scale image width and height"
+      ]
     },
     {
-      "name": "compress",
-      "description": "Compress image to target file size in KB or custom quality slider.",
-      "url": "https://www.image-utils.site/compress"
+      "identifier": "urn:air:image-utils.site:tools:compress",
+      "displayName": "Compress Image Online",
+      "type": "text/html",
+      "url": "https://www.image-utils.site/compress",
+      "description": "Compress image file size to a target KB or with a custom quality slider in-browser.",
+      "representativeQueries": [
+        "compress image",
+        "reduce image size in kb",
+        "shrink photo file size"
+      ]
     },
     {
-      "name": "convert",
-      "description": "Convert image between PNG, JPEG, WebP, AVIF, TIFF, BMP, and ICO.",
-      "url": "https://www.image-utils.site/convert"
+      "identifier": "urn:air:image-utils.site:tools:convert",
+      "displayName": "Convert Image Format",
+      "type": "text/html",
+      "url": "https://www.image-utils.site/convert",
+      "description": "Convert seamlessly between PNG, JPEG, WebP, AVIF, TIFF, BMP, and ICO formats.",
+      "representativeQueries": [
+        "convert png to jpg",
+        "convert to webp",
+        "convert image format online"
+      ]
     },
     {
-      "name": "crop",
-      "description": "Crop image with 1:1, 16:9, 4:3, or custom freeform crop presets.",
-      "url": "https://www.image-utils.site/crop"
+      "identifier": "urn:air:image-utils.site:tools:crop",
+      "displayName": "Crop Image Online",
+      "type": "text/html",
+      "url": "https://www.image-utils.site/crop",
+      "description": "Crop rectangular image regions with 1:1, 16:9, 4:3, or custom freeform crop presets.",
+      "representativeQueries": [
+        "crop image",
+        "photo cropper online",
+        "cut photo rectangle"
+      ]
     },
     {
-      "name": "circle",
-      "description": "Circle crop image to create rounded avatars with transparent PNG.",
-      "url": "https://www.image-utils.site/circle"
+      "identifier": "urn:air:image-utils.site:tools:circle",
+      "displayName": "Circle Crop Image",
+      "type": "text/html",
+      "url": "https://www.image-utils.site/circle",
+      "description": "Create circular profile pictures and avatars with transparent PNG outer clipping.",
+      "representativeQueries": [
+        "round profile picture",
+        "circle crop photo",
+        "make circular avatar"
+      ]
     },
     {
-      "name": "radius",
-      "description": "Round image corners with transparent outer border clipping.",
-      "url": "https://www.image-utils.site/radius"
+      "identifier": "urn:air:image-utils.site:tools:radius",
+      "displayName": "Round Image Corners",
+      "type": "text/html",
+      "url": "https://www.image-utils.site/radius",
+      "description": "Add rounded corners to photos with transparent outer clipping or custom background fill.",
+      "representativeQueries": [
+        "round image corners",
+        "corner radius tool",
+        "smooth photo borders"
+      ]
     },
     {
-      "name": "border",
-      "description": "Add customizable border frame and padding to image.",
-      "url": "https://www.image-utils.site/border"
+      "identifier": "urn:air:image-utils.site:tools:border",
+      "displayName": "Add Border to Image",
+      "type": "text/html",
+      "url": "https://www.image-utils.site/border",
+      "description": "Add custom border frames with adjustable colors, widths, and corner radius.",
+      "representativeQueries": [
+        "add border to image",
+        "photo frame maker",
+        "image border online"
+      ]
     },
     {
-      "name": "adjust",
-      "description": "Photo adjustments (brightness, contrast, saturation, filters).",
-      "url": "https://www.image-utils.site/adjust"
+      "identifier": "urn:air:image-utils.site:tools:adjust",
+      "displayName": "Photo Adjustments and Filters",
+      "type": "text/html",
+      "url": "https://www.image-utils.site/adjust",
+      "description": "Fine-tune exposure, contrast, saturation, warmth, vignette, and 9 creative filters.",
+      "representativeQueries": [
+        "photo filter online",
+        "adjust brightness and contrast",
+        "photo color correction"
+      ]
     },
     {
-      "name": "rotate",
-      "description": "Rotate 90, 180, 270 degrees or flip horizontally and vertically.",
-      "url": "https://www.image-utils.site/rotate"
+      "identifier": "urn:air:image-utils.site:tools:rotate",
+      "displayName": "Rotate and Flip Image",
+      "type": "text/html",
+      "url": "https://www.image-utils.site/rotate",
+      "description": "Rotate photos 90, 180, 270 degrees or mirror flip horizontally and vertically.",
+      "representativeQueries": [
+        "rotate photo",
+        "flip image horizontally",
+        "mirror image online"
+      ]
     },
     {
-      "name": "favicon",
-      "description": "Generate multi-resolution ICO, Apple Touch icon, and PWA icons.",
-      "url": "https://www.image-utils.site/favicon"
+      "identifier": "urn:air:image-utils.site:tools:favicon",
+      "displayName": "Favicon Generator",
+      "type": "text/html",
+      "url": "https://www.image-utils.site/favicon",
+      "description": "Generate multi-resolution .ico favicons, Apple Touch icons, and Android PWA icon packages.",
+      "representativeQueries": [
+        "generate favicon ico",
+        "create website icon",
+        "apple touch icon generator"
+      ]
     },
     {
-      "name": "watermark",
-      "description": "Add customizable text watermarks with opacity and positioning.",
-      "url": "https://www.image-utils.site/watermark"
+      "identifier": "urn:air:image-utils.site:tools:watermark",
+      "displayName": "Add Watermark to Photo",
+      "type": "text/html",
+      "url": "https://www.image-utils.site/watermark",
+      "description": "Protect photos with customizable text watermarks, custom opacity, and positions.",
+      "representativeQueries": [
+        "add watermark to photo",
+        "copyright watermark online",
+        "protect image with watermark"
+      ]
     },
     {
-      "name": "pdf",
-      "description": "Convert image to single-page A4, Letter, or fit printable PDF.",
-      "url": "https://www.image-utils.site/pdf"
+      "identifier": "urn:air:image-utils.site:tools:pdf",
+      "displayName": "Convert Image to PDF",
+      "type": "text/html",
+      "url": "https://www.image-utils.site/pdf",
+      "description": "Convert single photos into A4, Letter, or fit-to-image printable PDF documents locally.",
+      "representativeQueries": [
+        "image to pdf",
+        "jpg to pdf converter",
+        "convert picture to pdf"
+      ]
     },
     {
-      "name": "metadata",
-      "description": "Scrub EXIF tags, GPS location coordinates, and camera serial metadata.",
-      "url": "https://www.image-utils.site/metadata"
+      "identifier": "urn:air:image-utils.site:tools:metadata",
+      "displayName": "EXIF Metadata Stripper",
+      "type": "text/html",
+      "url": "https://www.image-utils.site/metadata",
+      "description": "Inspect and remove EXIF tags, GPS location coordinates, and camera device serial numbers.",
+      "representativeQueries": [
+        "remove exif metadata",
+        "scrub photo gps coordinates",
+        "strip photo camera data"
+      ]
     }
   ]
 }

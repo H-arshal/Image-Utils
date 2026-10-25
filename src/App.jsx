@@ -6,6 +6,8 @@ import ToolGrid from './components/ToolGrid';
 import FAQSection from './components/FAQSection';
 import { CheckCircle2 } from 'lucide-react';
 import { createSampleLandscape } from './utils/sampleImages';
+import heroBadgeWebp from './assets/hero-badge.webp';
+import heroBadgeWebp2x from './assets/hero-badge@2x.webp';
 import logoIcon from './assets/Orange Pixel Landscape Icon.png';
 
 const Workspace = lazy(() => import('./components/Workspace'));
@@ -172,7 +174,10 @@ function HomeRoute({ imageData, setImageData }) {
     <div>
       <div className="hero-section">
         <div className="hero-badge-wrap">
-          <img src={logoIcon} alt="Image Utility" className="hero-badge-icon" width="95" height="95" />
+          <picture>
+            <source type="image/webp" srcSet={`${heroBadgeWebp} 1x, ${heroBadgeWebp2x} 2x`} />
+            <img src={logoIcon} alt="Image Utility" className="hero-badge-icon" width="95" height="95" fetchpriority="high" />
+          </picture>
         </div>
         <h1 className="hero-title">Everyday image tools. Simple, private, in-browser.</h1>
         <p className="hero-subtitle">

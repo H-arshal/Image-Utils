@@ -150,13 +150,35 @@
       <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     </noscript>
 
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-HYJJE3JSPJ"></script>
+    <!-- Agentic Resource Discovery (ARD) Manifest -->
+    <link rel="ai-catalog" href="/.well-known/ai-catalog.json" type="application/json">
+
+    <!-- Google Analytics (Deferred to avoid blocking initial render and LCP) -->
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', 'G-HYJJE3JSPJ');
+      gtag('config', 'G-HYJJE3JSPJ', { send_page_view: false });
+
+      function loadAnalytics() {
+        if (window.__analyticsLoaded) return;
+        window.__analyticsLoaded = true;
+        var s = document.createElement('script');
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-HYJJE3JSPJ';
+        s.async = true;
+        document.head.appendChild(s);
+        gtag('event', 'page_view');
+      }
+
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(function() {
+          setTimeout(loadAnalytics, 1200);
+        });
+      } else {
+        window.addEventListener('load', function() {
+          setTimeout(loadAnalytics, 1200);
+        });
+      }
     </script>
   </head>
   <body>
