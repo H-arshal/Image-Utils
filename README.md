@@ -1,20 +1,23 @@
 <div align="center">
 
-# 🖼️ Image Utility
+# 🖼️ Image Utils (Image Utility)
 
 ### A lightning-fast, privacy-first image editing & conversion suite running 100% in your browser.
 
 **Zero server uploads · Zero tracking · Zero latency · 100% Client-Side Sandbox**
 
+[![Live App: image-utils.site](https://img.shields.io/badge/Live_App-image--utils.site-f97316?style=for-the-badge&logo=googlechrome&logoColor=white)](https://www.image-utils.site/)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-f4c430?style=flat-square)](LICENSE)
+[![Website](https://img.shields.io/badge/Website-image--utils.site-c65d21?style=flat-square&logo=googlechrome&logoColor=white)](https://www.image-utils.site/)
 [![React 19](https://img.shields.io/badge/React-19.2-61DAFB?style=flat-square&logo=react&logoColor=black)](https://react.dev/)
 [![Vite](https://img.shields.io/badge/Vite-8.3-646CFF?style=flat-square&logo=vite&logoColor=white)](https://vitejs.dev/)
 [![Privacy: 100% Client-Side](https://img.shields.io/badge/Privacy-100%25_Local_Sandbox-10b981?style=flat-square&logo=shield&logoColor=white)](#privacy--security-guarantee)
 [![Linter: Oxlint](https://img.shields.io/badge/linter-oxlint-c65d21?style=flat-square)](https://oxc.rs/)
-[![Deploy: Vercel](https://img.shields.io/badge/deploy-Vercel-000000?style=flat-square&logo=vercel&logoColor=white)](https://vercel.com/)
+[![Deploy: Vercel](https://img.shields.io/badge/deploy-Vercel-000000?style=flat-square&logo=vercel&logoColor=white)](https://www.image-utils.site/)
 [![GitHub stars](https://img.shields.io/github/stars/h-arshal/Image-Utils?style=flat-square&color=c65d21)](https://github.com/h-arshal/Image-Utils/stargazers)
 
-**[Portfolio](https://h-arshal.github.io/Portfolio/) · [GitHub](https://github.com/h-arshal) · [LinkedIn](https://www.linkedin.com/in/harshal-moon-064956174/) · [LeetCode](https://leetcode.com/u/harshal_jaipal/) · [Instagram](https://www.instagram.com/harshal.moon)**
+**[🚀 Try Image Utils Online](https://www.image-utils.site/) · [Portfolio](https://h-arshal.github.io/Portfolio/) · [GitHub](https://github.com/h-arshal) · [LinkedIn](https://www.linkedin.com/in/harshal-moon-064956174/) · [LeetCode](https://leetcode.com/u/harshal_jaipal/) · [Instagram](https://www.instagram.com/harshal.moon)**
 
 [Quick start](#quick-start) · [13 Everyday Utilities](#13-everyday-utilities) · [How It Works](#how-it-works) · [Privacy & Security](#privacy--security-guarantee) · [Supported Formats](#supported-formats) · [FAQ](#faq) · [License](#license)
 
@@ -124,6 +127,8 @@ As a project engineered by a cybersecurity researcher, Image Utility implements 
 ---
 
 ## 🚀 Quick Start
+
+> **Prefer not to run code locally?** Use the live, production-grade web application directly at **[https://www.image-utils.site/](https://www.image-utils.site/)** — zero installation required.
 
 ### Prerequisites
 - [Node.js](https://nodejs.org/) (version 18+ or 20+ recommended)
