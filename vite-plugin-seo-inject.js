@@ -307,6 +307,18 @@ export default function seoInjectPlugin() {
         count++;
       }
 
+      // Auto-sync sitemap.xml lastmod date to current build date
+      const publicSitemapPath = resolve(process.cwd(), 'public', 'sitemap.xml');
+      const distSitemapPath = resolve(distDir, 'sitemap.xml');
+      if (existsSync(publicSitemapPath)) {
+        const todayStr = new Date().toISOString().split('T')[0];
+        let sitemapContent = readFileSync(publicSitemapPath, 'utf-8');
+        sitemapContent = sitemapContent.replace(/<lastmod>[^<]*<\/lastmod>/g, `<lastmod>${todayStr}</lastmod>`);
+        writeFileSync(publicSitemapPath, sitemapContent, 'utf-8');
+        writeFileSync(distSitemapPath, sitemapContent, 'utf-8');
+        console.log(`🗺️ [vite-plugin-seo-inject] Synced sitemap.xml <lastmod> to ${todayStr}`);
+      }
+
       console.log(
         `\n🚀 [vite-plugin-seo-inject] Generated ${count} comprehensive, rich HTML pages with HowTo, FAQPage, Breadcrumb schemas, and unique content!\n`
       );
