@@ -1,4 +1,4 @@
-# Image Utility — Complete System & Architectural Documentation
+# Image Utility - Complete System & Architectural Documentation
 
 ## Executive Overview
 Image Utility is a comprehensive, client-side web application providing 13 essential image manipulation and conversion tools. The application runs entirely within modern web browsers using HTML5 Canvas, the JavaScript Canvas 2D API, WebAssembly decoders, and jsPDF. Zero image data is ever uploaded, cached, or logged on remote servers.

@@ -55,7 +55,7 @@ export default function PrivacyPolicy() {
           <p>
             When you select or drop a file into Image Utility, your browser creates an ephemeral in-memory representation
             using standard Web APIs (such as <code>FileReader</code>, <code>HTMLCanvasElement</code>, and <code>OffscreenCanvas</code>).
-            All calculations—downscaling, compression quantization, format encoding, and watermark rendering—occur directly
+            All calculations-downscaling, compression quantization, format encoding, and watermark rendering-occur directly
             via your computer or phone's CPU/GPU. Once you close the browser tab, the temporary memory is instantly reclaimed.
           </p>
         </section>
@@ -81,7 +81,7 @@ export default function PrivacyPolicy() {
           <h2>5. Your Rights and Control</h2>
           <p>
             Because we do not collect or store your personal data on any server, there is no personal database from which to
-            request data deletion or copies—you are always in total control of your media files on your local drive.
+            request data deletion or copies-you are always in total control of your media files on your local drive.
           </p>
         </section>
 

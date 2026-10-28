@@ -4,7 +4,7 @@ import { HelpCircle, ChevronDown } from 'lucide-react';
 export const FAQ_ITEMS = [
   {
     q: 'How does 100% client-side image editing protect my privacy?',
-    a: 'Every image operation—including resizing, compression, format conversion, and watermark rendering—is computed strictly in your web browser using HTML5 Canvas and JavaScript. Your image bytes are never uploaded to any server or cloud storage, meaning your sensitive media never leaves your personal device.'
+    a: 'Every image operation-including resizing, compression, format conversion, and watermark rendering-is computed strictly in your web browser using HTML5 Canvas and JavaScript. Your image bytes are never uploaded to any server or cloud storage, meaning your sensitive media never leaves your personal device.'
   },
   {
     q: 'Can I resize or compress images without noticeable quality loss?',

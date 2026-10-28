@@ -79,7 +79,7 @@ export const TOOLS_SEO_DATA = {
       'Dual compression modes: visual quality slider (1-100%) and binary search target KB mode.',
       'Reduces file sizes by up to 80% while preserving perceptual visual fidelity.',
       'Real-time file size and savings percentage preview before downloading.',
-      'Zero server queues or upload limits—process high-resolution photos instantly.'
+      'Zero server queues or upload limits-process high-resolution photos instantly.'
     ],
     faqs: [
       {

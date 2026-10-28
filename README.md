@@ -128,7 +128,7 @@ As a project engineered by a cybersecurity researcher, Image Utility implements 
 
 ## 🚀 Quick Start
 
-> **Prefer not to run code locally?** Use the live, production-grade web application directly at **[https://www.image-utils.site/](https://www.image-utils.site/)** — zero installation required.
+> **Prefer not to run code locally?** Use the live, production-grade web application directly at **[https://www.image-utils.site/](https://www.image-utils.site/)** - zero installation required.
 
 ### Prerequisites
 - [Node.js](https://nodejs.org/) (version 18+ or 20+ recommended)
