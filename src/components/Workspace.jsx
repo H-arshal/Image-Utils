@@ -54,6 +54,7 @@ import InteractiveCircleCrop from './InteractiveCircleCrop';
 import InteractiveRectCrop from './InteractiveRectCrop';
 import CornerRadiusControls from './tools/CornerRadiusControls';
 import FaviconControls from './tools/FaviconControls';
+import ToolGuideSection from './ToolGuideSection';
 
 const WORKSPACE_TOOLS = [
   { id: 'resize', name: 'Resize', desc: 'Change image dimensions', icon: Maximize2 },
@@ -857,6 +858,9 @@ export default function Workspace({
           </button>
         </aside>
       </div>
+
+      {/* SEO & User Helpful Content: How-To Steps, Features, FAQs & Related Tools */}
+      <ToolGuideSection toolId={activeTool} />
     </div>
   );
 }

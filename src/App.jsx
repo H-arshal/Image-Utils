@@ -322,39 +322,37 @@ export default function App() {
       )}
 
       {/* SEO Footer - crawlable internal links to all tool pages & legal pages */}
-      {(location.pathname === '/' || location.pathname === '/privacy' || location.pathname === '/terms') && (
-        <footer className="site-footer" role="contentinfo">
-          <div className="footer-inner">
-            <div className="footer-tools-section">
-              <h2 className="footer-heading">All Tools</h2>
-              <nav className="footer-tool-links" aria-label="Image tools">
-                {Object.entries(ROUTE_SEO)
-                  .filter(([key]) => key !== 'home' && key !== 'privacy' && key !== 'terms')
-                  .map(([id, meta]) => (
-                    <Link key={id} to={`/${id}`} className="footer-tool-link">
-                      {meta.title.split(' | ')[0]}
-                    </Link>
-                  ))}
-              </nav>
-            </div>
-            <div className="footer-bottom">
-              <p className="footer-copy">
-                © {new Date().getFullYear()} Image Utility by{' '}
-                <a href="https://h-arshal.github.io/Portfolio/" target="_blank" rel="noopener noreferrer">
-                  Harshal Moon
-                </a>. 100% client-side. Zero data uploaded.
-              </p>
-              <div className="footer-ext-links">
-                <a href="https://github.com/H-arshal/Image-Utils" target="_blank" rel="noopener noreferrer">GitHub</a>
-                <span className="footer-dot">·</span>
-                <Link to="/privacy">Privacy Policy</Link>
-                <span className="footer-dot">·</span>
-                <Link to="/terms">Terms</Link>
-              </div>
+      <footer className="site-footer" role="contentinfo">
+        <div className="footer-inner">
+          <div className="footer-tools-section">
+            <h2 className="footer-heading">All Tools</h2>
+            <nav className="footer-tool-links" aria-label="Image tools">
+              {Object.entries(ROUTE_SEO)
+                .filter(([key]) => key !== 'home' && key !== 'privacy' && key !== 'terms')
+                .map(([id, meta]) => (
+                  <Link key={id} to={`/${id}`} className="footer-tool-link">
+                    {meta.title.split(' | ')[0]}
+                  </Link>
+                ))}
+            </nav>
+          </div>
+          <div className="footer-bottom">
+            <p className="footer-copy">
+              © {new Date().getFullYear()} Image Utility by{' '}
+              <a href="https://h-arshal.github.io/Portfolio/" target="_blank" rel="noopener noreferrer">
+                Harshal Moon
+              </a>. 100% client-side. Zero data uploaded.
+            </p>
+            <div className="footer-ext-links">
+              <a href="https://github.com/H-arshal/Image-Utils" target="_blank" rel="noopener noreferrer">GitHub</a>
+              <span className="footer-dot">·</span>
+              <Link to="/privacy">Privacy Policy</Link>
+              <span className="footer-dot">·</span>
+              <Link to="/terms">Terms</Link>
             </div>
           </div>
-        </footer>
-      )}
+        </div>
+      </footer>
 
       {/* Toast Notification */}
       {toastMessage && (
