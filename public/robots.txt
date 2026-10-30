@@ -15,5 +15,9 @@ Allow: /
 User-agent: ClaudeBot
 Allow: /
 
+# Google AdSense Crawler
+User-agent: Mediapartners-Google
+Allow: /
+
 # Canonical XML Sitemap
 Sitemap: https://www.image-utils.site/sitemap.xml

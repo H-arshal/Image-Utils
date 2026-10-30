@@ -4,7 +4,7 @@
   <!-- Homepage -->
   <url>
     <loc>https://www.image-utils.site/</loc>
-    <lastmod>2026-10-28</lastmod>
+    <lastmod>2026-10-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     <image:image>
@@ -17,7 +17,7 @@
   <!-- 1. Resize Image -->
   <url>
     <loc>https://www.image-utils.site/resize</loc>
-    <lastmod>2026-10-28</lastmod>
+    <lastmod>2026-10-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <image:image>
@@ -30,7 +30,7 @@
   <!-- 2. Compress Image -->
   <url>
     <loc>https://www.image-utils.site/compress</loc>
-    <lastmod>2026-10-28</lastmod>
+    <lastmod>2026-10-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <image:image>
@@ -43,7 +43,7 @@
   <!-- 3. Crop Image -->
   <url>
     <loc>https://www.image-utils.site/crop</loc>
-    <lastmod>2026-10-28</lastmod>
+    <lastmod>2026-10-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -56,7 +56,7 @@
   <!-- 4. Circle Crop -->
   <url>
     <loc>https://www.image-utils.site/circle</loc>
-    <lastmod>2026-10-28</lastmod>
+    <lastmod>2026-10-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -69,7 +69,7 @@
   <!-- 5. Corner Radius -->
   <url>
     <loc>https://www.image-utils.site/radius</loc>
-    <lastmod>2026-10-28</lastmod>
+    <lastmod>2026-10-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -82,7 +82,7 @@
   <!-- 6. Add Border -->
   <url>
     <loc>https://www.image-utils.site/border</loc>
-    <lastmod>2026-10-28</lastmod>
+    <lastmod>2026-10-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -95,7 +95,7 @@
   <!-- 7. Adjust & Filters -->
   <url>
     <loc>https://www.image-utils.site/adjust</loc>
-    <lastmod>2026-10-28</lastmod>
+    <lastmod>2026-10-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -108,7 +108,7 @@
   <!-- 8. Rotate & Flip -->
   <url>
     <loc>https://www.image-utils.site/rotate</loc>
-    <lastmod>2026-10-28</lastmod>
+    <lastmod>2026-10-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -121,7 +121,7 @@
   <!-- 9. Convert Format -->
   <url>
     <loc>https://www.image-utils.site/convert</loc>
-    <lastmod>2026-10-28</lastmod>
+    <lastmod>2026-10-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <image:image>
@@ -134,7 +134,7 @@
   <!-- 10. Favicon Generator -->
   <url>
     <loc>https://www.image-utils.site/favicon</loc>
-    <lastmod>2026-10-28</lastmod>
+    <lastmod>2026-10-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <image:image>
@@ -147,7 +147,7 @@
   <!-- 11. Add Watermark -->
   <url>
     <loc>https://www.image-utils.site/watermark</loc>
-    <lastmod>2026-10-28</lastmod>
+    <lastmod>2026-10-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -160,7 +160,7 @@
   <!-- 12. Image to PDF -->
   <url>
     <loc>https://www.image-utils.site/pdf</loc>
-    <lastmod>2026-10-28</lastmod>
+    <lastmod>2026-10-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <image:image>
@@ -173,7 +173,7 @@
   <!-- 13. Remove Metadata -->
   <url>
     <loc>https://www.image-utils.site/metadata</loc>
-    <lastmod>2026-10-28</lastmod>
+    <lastmod>2026-10-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <image:image>
@@ -186,7 +186,7 @@
   <!-- Legal: Privacy Policy -->
   <url>
     <loc>https://www.image-utils.site/privacy</loc>
-    <lastmod>2026-10-28</lastmod>
+    <lastmod>2026-10-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -194,7 +194,7 @@
   <!-- Legal: Terms of Service -->
   <url>
     <loc>https://www.image-utils.site/terms</loc>
-    <lastmod>2026-10-28</lastmod>
+    <lastmod>2026-10-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
